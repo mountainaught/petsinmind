@@ -16,3 +16,4 @@ playground-temp
 temp
 TODOs.md
 .eslintcache
+backend/src/main/resources/petsinmindkey.json
