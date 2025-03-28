@@ -15,8 +15,8 @@ This file is not included in the repository. You need to:
    cd petsinmind/backend
 
 1. Build the project:
-   ./gradlew build        (Linux/macOS)
-   gradlew.bat build      (Windows)
+   ./gradlew build        
+ 
 
 2. Run the application:
    ./gradlew run
