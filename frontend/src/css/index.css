@@ -1,0 +1,17 @@
+body {
+    background-color: #FFE5E5;  /* Change this to your preferred color */
+}
+
+body {
+    font-family: 'Lilita One', cursive;
+}
+
+.bgImage {
+    width: 100%;
+    height: auto; /* Maintain aspect ratio */
+    max-width: 100%; /* Full width */
+    position: absolute; /* Position it absolutely */
+    left: 50%; /* Move it to the center horizontally */
+    transform: translateX(-50%); /* Adjust for its own width */
+    z-index: -1; /* Send it to the back */
+}

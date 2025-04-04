@@ -1,0 +1,48 @@
+/* Reset for commonly used elements */
+html, body, h1, h2, h3, h4, h5, h6, p, a, del, img, ol, ul, li, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, figure, figcaption, menu, nav
+ {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font-size: 100%;
+    font: inherit;
+    vertical-align: baseline;
+}
+
+
+/* Reset for block elements */
+article, aside, details, figcaption, figure,
+footer, header, hgroup, menu, nav, section {
+    display: block;
+}
+
+/* Reset for lists */
+ol, ul {
+    list-style: none;
+}
+
+
+
+/* Reset for tables */
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+
+/* Reset for buttons */
+button {
+    all: unset;
+    cursor: pointer;
+}
+
+/* Reset for links */
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+/* Reset for images */
+img {
+    max-width: 100%;
+    height: auto;
+}
