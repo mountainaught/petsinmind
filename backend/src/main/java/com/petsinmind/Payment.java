@@ -1,5 +1,5 @@
 package com.petsinmind;
 
 // Dimitris
-public class Appointment {
+public class Payment {
 }
