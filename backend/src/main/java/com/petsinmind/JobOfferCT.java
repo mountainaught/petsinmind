@@ -1,4 +1,4 @@
 package com.petsinmind;
 
-public class JobOfferCT {
+public interface JobOfferCT {
 }

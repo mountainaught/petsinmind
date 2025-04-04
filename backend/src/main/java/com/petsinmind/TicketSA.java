@@ -1,4 +1,4 @@
 package com.petsinmind;
 
-public class TicketSA {
+public interface TicketSA {
 }

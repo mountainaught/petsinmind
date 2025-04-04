@@ -1,5 +1,5 @@
 package com.petsinmind.users;
 
 // Tibet
-public class PetOwner {
+public class Caretaker {
 }

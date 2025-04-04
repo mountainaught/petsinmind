@@ -1,4 +1,4 @@
 package com.petsinmind;
 
-public class ApplicationSA {
+public interface ApplicationSA {
 }
