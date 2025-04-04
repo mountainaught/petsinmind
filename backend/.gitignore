@@ -40,3 +40,7 @@ bin/
 
 ### Mac OS ###
 .DS_Store
+
+##private key#
+
+backend/src/main/resources/petsinmindkey.json
