@@ -9,8 +9,8 @@ public class Payment {
     private Calendar PaymentDate;
     private float PaymentAmount;
     private String PaymentCurrency;
-    private int SenderID;
-    private int ReceiverID;
+    private String SenderID;
+    private String ReceiverID;
 
     // Initial constructor
     public Payment() {
@@ -19,14 +19,14 @@ public class Payment {
         this.PaymentDate = null;
         this.PaymentAmount = 0.0f;
         this.PaymentCurrency = null;
-        this.SenderID = 0;
-        this.ReceiverID = 0;
+        this.SenderID = null;
+        this.ReceiverID = null;
     }
 
     // Constructor with parameters
     public Payment(String PaymentID, String PaymentMethod, Calendar PaymentDate, float PaymentAmount,
-            String PaymentCurrency, int SenderID,
-            int ReceiverID) {
+            String PaymentCurrency, String SenderID,
+            String ReceiverID) {
         this.PaymentID = PaymentID;
         this.PaymentMethod = PaymentMethod;
         this.PaymentDate = PaymentDate;
@@ -76,19 +76,19 @@ public class Payment {
         this.PaymentCurrency = PaymentCurrency;
     }
 
-    public int getSenderID() {
+    public String getSenderID() {
         return SenderID;
     }
 
-    public void setSenderID(int SenderID) {
+    public void setSenderID(String SenderID) {
         this.SenderID = SenderID;
     }
 
-    public int getReceiverID() {
+    public String getReceiverID() {
         return ReceiverID;
     }
 
-    public void setReceiverID(int ReceiverID) {
+    public void setReceiverID(String ReceiverID) {
         this.ReceiverID = ReceiverID;
     }
     // End of getters and setters

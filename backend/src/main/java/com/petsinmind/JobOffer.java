@@ -7,7 +7,7 @@ import com.petsinmind.users.PetOwner;
 
 // Dimitris
 public class JobOffer {
-    private int JobOfferID;
+    private String JobOfferID;
     private PetOwner petOwner;
     private List<Pet> pets;
     private Calendar startDate;
@@ -18,7 +18,7 @@ public class JobOffer {
 
     // Initial constructor
     public JobOffer() {
-        this.JobOfferID = 0;
+        this.JobOfferID = null;
         this.petOwner = null;
         this.pets = null;
         this.startDate = null;
@@ -29,7 +29,7 @@ public class JobOffer {
     }
 
     // Constructor with parameters
-    public JobOffer(int JobOfferID, PetOwner petOwner, List<Pet> pets, Calendar startDate, Calendar endDate,
+    public JobOffer(String JobOfferID, PetOwner petOwner, List<Pet> pets, Calendar startDate, Calendar endDate,
             List<Caretaker> AcceptedCaretakers, List<Caretaker> RejectedCaretakers, String Type) {
         this.JobOfferID = JobOfferID;
         this.petOwner = petOwner;
@@ -42,11 +42,11 @@ public class JobOffer {
     }
 
     // Getters and Setters
-    public int getJobOfferID() {
+    public String getJobOfferID() {
         return JobOfferID;
     }
 
-    public void setJobOfferID(int JobOfferID) {
+    public void setJobOfferID(String JobOfferID) {
         this.JobOfferID = JobOfferID;
     }
 
