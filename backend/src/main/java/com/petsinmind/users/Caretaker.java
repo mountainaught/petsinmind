@@ -14,25 +14,31 @@ import java.util.List;
 // Tibet
 public class Caretaker extends Customer implements JobOfferCT {
 
-	private int Pay;
+	private float Pay;
 	private HashMap<Calendar, Boolean> schedule;
 	private List<Review> ListReviews;
 
-	public int GetPay() { return Pay; }
+	public float GetPay() {
+		return Pay;
+	}
 
 	/**
 	 * 
 	 * @param Pay
 	 */
-	public void SetPay(int Pay) { this.Pay = Pay; }
+	public void SetPay(float Pay) {
+		this.Pay = Pay;
+	}
 
 	/**
 	 * 
 	 * @param offer
 	 */
-	// TODO - Probably should add code to remove JO from DB and send Appointment messages
+	// TODO - Probably should add code to remove JO from DB and send Appointment
+	// messages
 	public Appointment AcceptJobOffer(JobOffer offer) {
-		Appointment appointment = new Appointment(offer.getJobOfferID(), this, offer.getPetOwner(), offer.getPets(), offer.getStartDate(), offer.getEndDate(), offer.getType());
+		Appointment appointment = new Appointment(offer.getJobOfferID(), this, offer.getPetOwner(), offer.getPets(),
+				offer.getStartDate(), offer.getEndDate(), offer.getType());
 
 		super.AddAppointment(appointment.getAppointmentId());
 		appointment.getPetOwner().AddAppointment(appointment.getAppointmentId());
@@ -44,7 +50,8 @@ public class Caretaker extends Customer implements JobOfferCT {
 	 * @param JobOffer
 	 */
 	public Void RejectJobOffer(JobOffer JobOffer) {
-		// TODO - implement Caretaker.RejectJobOffer - Do we remove Caretaker from availableCaretakers?
+		// TODO - implement Caretaker.RejectJobOffer - Do we remove Caretaker from
+		// availableCaretakers?
 		throw new UnsupportedOperationException();
 	}
 
@@ -52,7 +59,9 @@ public class Caretaker extends Customer implements JobOfferCT {
 	 * 
 	 * @param schedule
 	 */
-	public void editAvailability(HashMap<Calendar, Boolean> schedule) { this.schedule = schedule; }
+	public void editAvailability(HashMap<Calendar, Boolean> schedule) {
+		this.schedule = schedule;
+	}
 
 	public HashMap<Calendar, Boolean> getSchedule() {
 		return this.schedule;
@@ -62,18 +71,22 @@ public class Caretaker extends Customer implements JobOfferCT {
 	 * 
 	 * @param Review
 	 */
-	public void AddReview(Review Review) { ListReviews.add(Review); }
+	public void AddReview(Review Review) {
+		ListReviews.add(Review);
+	}
 
-	public List<Review> GetReviews() { return ListReviews; }
+	public List<Review> GetReviews() {
+		return ListReviews;
+	}
 
 	/**
 	 * 
 	 * @param Message
 	 */
-	public boolean SendMessageJO(JobOffer offer, JobOfferMessage Message) {
-		offer.addMessage(Message);
-		// TODO - PUSH UPDATED JO TO FIREBASE
-	}
+	// public boolean SendMessageJO(JobOffer offer, JobOfferMessage Message) {
+	// offer.addMessage(Message);
+	// // TODO - PUSH UPDATED JO TO FIREBASE
+	// }
 
 	/**
 	 * 

@@ -38,13 +38,13 @@ public class PetOwner extends Customer {
 	 * 
 	 * @param Location
 	 */
-	public void SetLocation(String Location) {
-		this.Location = Location;
-	}
+	// public void SetLocation(String Location) {
+	// this.Location = Location;
+	// }
 
-	public String GetLocation() {
-		return Location;
-	}
+	// public String GetLocation() {
+	// return Location;
+	// }
 
 	/**
 	 * 
@@ -54,19 +54,21 @@ public class PetOwner extends Customer {
 	 * @param type
 	 */
 	// TODO - FINISH IMPLEMENTING THIS! Need to push it to db
-	public boolean CreateJobOffer(List<Pet> petList, String location, Calendar startDate, Calendar endDate, String type) {
-		JobOffer jobOffer = new JobOffer();
+	// public boolean CreateJobOffer(List<Pet> petList, String location, Calendar
+	// startDate, Calendar endDate,
+	// String type) {
+	// JobOffer jobOffer = new JobOffer();
 
-		String jobOfferID = FirebaseWriter.pushJobOffer(this.getUserID(), petList, type, startDate, );
+	// String jobOfferID = FirebaseWriter.pushJobOffer(this.getUserID(), petList,
+	// type, startDate);
 
-
-		jobOffer.setPetOwner(this);
-		jobOffer.setPets(petList);
-		jobOffer.setLocation(location);
-		jobOffer.setStartDate(startDate);
-		jobOffer.setEndDate(endDate);
-		jobOffer.setType(type);
-	}
+	// jobOffer.setPetOwner(this);
+	// jobOffer.setPets(petList);
+	// jobOffer.setLocation(location);
+	// jobOffer.setStartDate(startDate);
+	// jobOffer.setEndDate(endDate);
+	// jobOffer.setType(type);
+	// }
 
 	/**
 	 * 

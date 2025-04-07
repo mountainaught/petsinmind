@@ -147,7 +147,7 @@ public class JobOffer {
         this.Type = Type;
     }
 
-    public List<Caretaker> findCaretakers() {
-        List<Caretaker> availableCaretakers = new ArrayList<>();
-    }
+    // public List<Caretaker> findCaretakers() {
+    // List<Caretaker> availableCaretakers = new ArrayList<>();
+    // }
 }

@@ -13,8 +13,6 @@ public class Main {
 
         // Read the test value from /test in Firebase
         FirebaseWriter.testRead();
-
-        // Delay to ensure async Firebase calls complete before program exits because program gooo vrooom and miss data exit 
         try {
             Thread.sleep(3000);
         } catch (InterruptedException e) {

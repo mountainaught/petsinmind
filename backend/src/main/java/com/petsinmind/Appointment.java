@@ -32,8 +32,9 @@ public class Appointment {
     }
 
     // Constructor with parameters
-    public Appointment(String appointmentId, Caretaker caretaker, PetOwner PetOwner, List<Pet> pets, Calendar startDate, Calendar endDate,
-                       String Type) {
+    public Appointment(String appointmentId, Caretaker caretaker, PetOwner PetOwner, List<Pet> pets, Calendar startDate,
+            Calendar endDate,
+            String Type) {
         this.appointmentId = appointmentId;
         this.caretaker = caretaker;
         this.PetOwner = PetOwner;
@@ -44,9 +45,13 @@ public class Appointment {
     }
 
     // Getters and Setters
-    public String getAppointmentId() { return appointmentId; }
+    public String getAppointmentId() {
+        return appointmentId;
+    }
 
-    public void setAppointmentId(String appointmentId) { this.appointmentId = appointmentId; }
+    public void setAppointmentId(String appointmentId) {
+        this.appointmentId = appointmentId;
+    }
 
     public Caretaker getCaretaker() {
         return caretaker;
@@ -104,19 +109,25 @@ public class Appointment {
         this.type = Type;
     }
 
-    public ArrayList<AppointmentMessage> getMessageList() { return messageList; }
+    public ArrayList<AppointmentMessage> getMessageList() {
+        return messageList;
+    }
 
-    public void addMessage(AppointmentMessage message) { this.messageList.add(message); }
+    public void addMessage(AppointmentMessage message) {
+        this.messageList.add(message);
+    }
 
     public Review Review(String Details, int Rating) {
         return new Review(Details, Rating, this, this.PetOwner, this.caretaker);
     }
 
-    public Payment MakePayment(List<String> SenderInfo, List<String> ReceiverInfo, PetOwner PetOwner,
-            Caretaker caretaker) {
-        return new Payment("123123123", "Credit Card", Calendar.getInstance(), 100.0, "USD",
-                PetOwner.getUserID(), caretaker.getUserID());
-    }
+    // public Payment MakePayment(List<String> SenderInfo, List<String>
+    // ReceiverInfo, PetOwner PetOwner,
+    // Caretaker caretaker) {
+    // return new Payment("123123123", "Credit Card", Calendar.getInstance(), 100.0,
+    // "USD",
+    // PetOwner.getUserID(), caretaker.getUserID());
+    // }
 
     // toString method
     public String toString() {

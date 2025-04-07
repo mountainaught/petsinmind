@@ -8,8 +8,10 @@ import java.util.UUID;
 
 // Tibet
 public abstract class Customer extends User {
-
+	private String Location;
 	private List<String> ListAppointmentIDs;
+	private List<String> ListTicketIDs;
+	private List<String> ListJobOfferIDs;
 
 	/**
 	 * 
@@ -25,13 +27,17 @@ public abstract class Customer extends User {
 	 * 
 	 * @param appointmentID
 	 */
-	public void AddAppointment(String appointmentID) { ListAppointmentIDs.add(appointmentID); }
+	public void AddAppointment(String appointmentID) {
+		ListAppointmentIDs.add(appointmentID);
+	}
 
 	/**
 	 * 
 	 * @param appointment
 	 */
-	public Boolean CancelAppointment(Appointment appointment) { return ListAppointmentIDs.remove(appointment.getAppointmentId()); }
+	public Boolean CancelAppointment(Appointment appointment) {
+		return ListAppointmentIDs.remove(appointment.getAppointmentId());
+	}
 
 	/**
 	 * 

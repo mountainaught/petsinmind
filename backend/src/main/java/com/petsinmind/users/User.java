@@ -16,7 +16,6 @@ public abstract class User {
 	private String PhoneNumber;
 	private String FirstName;
 	private String LastName;
-	private String Location;
 
 	/**
 	 * 
@@ -94,8 +93,8 @@ public abstract class User {
 	 * 
 	 * @param Message
 	 */
-	public boolean SendMessage(Message Message) {
+	// public boolean SendMessage(Message Message) {
 
-	}
+	// }
 
 }
