@@ -44,11 +44,6 @@ app.get('/', (req, res) => {
 });
 
 
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-  console.log(`🚀 Server is running on port ${PORT}`);
-});
-
 
 app.get('/test-db', (req, res) => {
   db.query('SELECT NOW()', (err, results) => {
@@ -59,3 +54,13 @@ app.get('/test-db', (req, res) => {
     res.send('✅ DB Time: ' + results[0]['NOW()']);
   });
 });
+
+
+
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+  console.log(`🚀 Server is running on port ${PORT}`);
+});
+
+
+
