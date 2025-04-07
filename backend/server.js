@@ -49,7 +49,7 @@ app.get('/test-db', (req, res) => {
   db.query('SELECT NOW()', (err, results) => {
     if (err) {
       console.error('❌ DB query failed:', err.message);
-      return res.status(500).send('DB error: ' + err.message);
+      return res.status(500).send('DB errord: ' + err.message);
     }
     res.send('✅ DB Time: ' + results[0]['NOW()']);
   });
