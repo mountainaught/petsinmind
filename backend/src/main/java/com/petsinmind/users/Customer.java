@@ -1,8 +1,10 @@
 package com.petsinmind.users;
 
 import com.petsinmind.Appointment;
+import com.petsinmind.Ticket;
 import com.petsinmind.messages.TicketMessage;
 
+import java.time.Instant;
 import java.util.List;
 
 // Tibet
@@ -16,8 +18,7 @@ public abstract class Customer extends User {
 	 * @param details
 	 */
 	public boolean CreateTicket(String Title, String details) {
-		// TODO - implement Customer.CreateTicket
-		throw new UnsupportedOperationException();
+		return new Ticket(Title, details, Instant.now().toString(), super.getUserID(), super.)
 	}
 
 	/**

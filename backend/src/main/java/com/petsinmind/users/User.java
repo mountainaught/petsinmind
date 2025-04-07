@@ -1,6 +1,7 @@
 package com.petsinmind.users;
 
 import com.petsinmind.messages.Message;
+import com.sun.jdi.ClassNotPreparedException;
 
 import java.util.*;
 
@@ -20,48 +21,26 @@ public abstract class User {
 	 * 
 	 * @param Password
 	 */
-	public void ChangePassword(String Password) {
-		// TODO - implement User.ChangePassword
-		throw new UnsupportedOperationException();
-	}
+	public void ChangePassword(String Password) { UserPassword = Password; }
 
-	public int getUserID() {
-		// TODO - implement User.getUserID
-		throw new UnsupportedOperationException();
-	}
+	public int getUserID() { return UserID; }
 
-	public String getUserName() {
-		// TODO - implement User.getUserName
-		throw new UnsupportedOperationException();
-	}
+	public String getUserName() { return UserName; }
 
-	public String getPhoneNumber() {
-		// TODO - implement User.getPhoneNumber
-		throw new UnsupportedOperationException();
-	}
+	public String getPhoneNumber() { return PhoneNumber; }
 
-	public String getFirstName() {
-		// TODO - implement User.getFirstName
-		throw new UnsupportedOperationException();
-	}
+	public String getFirstName() { return FirstName; }
 
-	public String getLastName() {
-		// TODO - implement User.getLastName
-		throw new UnsupportedOperationException();
-	}
+	public String getLastName() { return LastName; }
 
-	public String getUserEmail() {
-		// TODO - implement User.getUserEmail
-		throw new UnsupportedOperationException();
-	}
+	public String getUserEmail() { return UserEmail; }
 
 	/**
 	 * 
 	 * @param email
 	 */
 	public void setUserEmail(String email) {
-		// TODO - implement User.setUserEmail
-		throw new UnsupportedOperationException();
+		UserEmail = email;
 	}
 
 	/**
@@ -69,8 +48,7 @@ public abstract class User {
 	 * @param userName
 	 */
 	public void setUserName(String userName) {
-		// TODO - implement User.setUserName
-		throw new UnsupportedOperationException();
+		UserName = userName;
 	}
 
 	/**
@@ -78,8 +56,7 @@ public abstract class User {
 	 * @param Number
 	 */
 	public void setPhoneNumber(String Number) {
-		// TODO - implement User.setPhoneNumber
-		throw new UnsupportedOperationException();
+		PhoneNumber = Number;
 	}
 
 	/**
@@ -87,8 +64,7 @@ public abstract class User {
 	 * @param LastName
 	 */
 	public void setLastName(String LastName) {
-		// TODO - implement User.setLastName
-		throw new UnsupportedOperationException();
+		this.LastName = LastName;
 	}
 
 	/**
@@ -96,8 +72,7 @@ public abstract class User {
 	 * @param FirstName
 	 */
 	public void setFirstName(String FirstName) {
-		// TODO - implement User.setFirstName
-		throw new UnsupportedOperationException();
+		this.FirstName = FirstName;
 	}
 
 	/**
