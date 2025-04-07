@@ -15,7 +15,7 @@ const db = mysql.createPool({
   queueLimit: 0
 });
 
-console.log('✅ MySQL connection pool initialized.');
+console.log('✅ MySQL connection pool initializedr.');
 
 
 
