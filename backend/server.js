@@ -4,21 +4,18 @@ import cors from 'cors';
 
 import mysql from 'mysql2';
 
-const db = mysql.createConnection({
+const db = mysql.createPool({
   host: process.env.DB_HOST || 'mysql',
   user: process.env.MYSQL_USER,
   password: process.env.MYSQL_PASSWORD,
   database: process.env.MYSQL_DATABASE,
-  port: 3306
+  port: 3306,
+  waitForConnections: true,
+  connectionLimit: 10,
+  queueLimit: 0
 });
 
-db.connect((err) => {
-  if (err) {
-    console.error('❌ Failed to connect to DB:', err.message);
-  } else {
-    console.log('✅ Connected to MySQL!');
-  }
-});
+console.log('✅ MySQL connection pool initialized.');
 
 
 
