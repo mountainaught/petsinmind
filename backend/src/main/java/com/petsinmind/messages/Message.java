@@ -1,7 +1,7 @@
 package com.petsinmind.messages;
 
 // Falak
-public class Message {
+public abstract class Message {
     private String title;
     private String text;
     private String timeSent;

@@ -4,6 +4,7 @@ import com.petsinmind.JobOffer;
 import com.petsinmind.Pet;
 import com.petsinmind.messages.AppointmentMessage;
 import com.petsinmind.messages.JobOfferMessage;
+import com.petsinmind.firebase.FirebaseWriter;
 
 import java.util.Calendar;
 import java.util.HashSet;
@@ -49,13 +50,21 @@ public class PetOwner extends Customer {
 	/**
 	 * 
 	 * @param PetList
-	 * @param Location
-	 * @param Date
-	 * @param Type
+	 * @param location
+	 * @param date
+	 * @param type
 	 */
-	public boolean CreateJobOffer(List<Pet> PetList, String Location, Calendar Date, String Type) {
-		// TODO - implement PetOwner.CreateJobOffer
-		throw new UnsupportedOperationException();
+	// TODO - FINISH IMPLEMENTING THIS! Need to push it to db
+	public boolean CreateJobOffer(List<Pet> petList, String location, Calendar startDate, Calendar endDate, String type) {
+		JobOffer jobOffer = new JobOffer();
+		jobOffer.setPetOwner(this);
+		jobOffer.setPets(petList);
+		jobOffer.setLocation(location);
+		jobOffer.setStartDate(startDate);
+		jobOffer.setEndDate(endDate);
+		jobOffer.setType(type);
+
+		FirebaseWriter.pushJobOffer(jobOffer);
 	}
 
 	/**

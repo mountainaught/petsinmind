@@ -18,27 +18,24 @@ public class Caretaker extends Customer implements JobOfferCT {
 	private HashMap<Calendar, Boolean> schedule;
 	private List<Review> ListReviews;
 
-	public int GetPay() {
-		// TODO - implement Caretaker.GetPay
-		throw new UnsupportedOperationException();
-	}
+	public int GetPay() { return Pay; }
 
 	/**
 	 * 
 	 * @param Pay
 	 */
-	public void SetPay(int Pay) {
-		// TODO - implement Caretaker.SetPay
-		throw new UnsupportedOperationException();
-	}
+	public void SetPay(int Pay) { this.Pay = Pay; }
 
 	/**
 	 * 
-	 * @param JobOffer
+	 * @param offer
 	 */
-	public Appointment AcceptJobOffer(JobOffer JobOffer) {
-		// TODO - implement Caretaker.AcceptJobOffer
-		throw new UnsupportedOperationException();
+	// TODO - Probably should add code to remove JO from DB and send Appointment messages
+	public Appointment AcceptJobOffer(JobOffer offer) {
+		Appointment appointment = new Appointment(this, offer.getPetOwner(), offer.getPets(), offer.getStartDate(), offer.getEndDate(), offer.getType());
+		super.AddAppointment(appointment.getAppointmentId());
+		appointment.getPetOwner().AddAppointment(appointment.getAppointmentId());
+		return appointment;
 	}
 
 	/**
@@ -46,7 +43,7 @@ public class Caretaker extends Customer implements JobOfferCT {
 	 * @param JobOffer
 	 */
 	public Void RejectJobOffer(JobOffer JobOffer) {
-		// TODO - implement Caretaker.RejectJobOffer
+		// TODO - implement Caretaker.RejectJobOffer - Do we remove Caretaker from availableCaretakers?
 		throw new UnsupportedOperationException();
 	}
 
@@ -54,10 +51,7 @@ public class Caretaker extends Customer implements JobOfferCT {
 	 * 
 	 * @param schedule
 	 */
-	public void editAvailability(HashMap<Calendar, Boolean> schedule) {
-		// TODO - implement Caretaker.editAvailability
-		throw new UnsupportedOperationException();
-	}
+	public void editAvailability(HashMap<Calendar, Boolean> schedule) { this.schedule = schedule; }
 
 	public HashMap<Calendar, Boolean> getSchedule() {
 		return this.schedule;
@@ -67,15 +61,9 @@ public class Caretaker extends Customer implements JobOfferCT {
 	 * 
 	 * @param Review
 	 */
-	public void AddReview(Review Review) {
-		// TODO - implement Caretaker.AddReview
-		throw new UnsupportedOperationException();
-	}
+	public void AddReview(Review Review) { ListReviews.add(Review); }
 
-	public List<Review> GetReviews() {
-		// TODO - implement Caretaker.GetReviews
-		throw new UnsupportedOperationException();
-	}
+	public List<Review> GetReviews() { return ListReviews; }
 
 	/**
 	 * 

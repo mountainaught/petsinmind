@@ -10,6 +10,8 @@ public class JobOffer {
     private String JobOfferID;
     private PetOwner petOwner;
     private List<Pet> pets;
+
+    private String location;
     private Calendar startDate;
     private Calendar endDate;
     private List<Caretaker> AcceptedCaretakers;
@@ -21,6 +23,7 @@ public class JobOffer {
         this.JobOfferID = null;
         this.petOwner = null;
         this.pets = null;
+        this.location = null;
         this.startDate = null;
         this.endDate = null;
         this.AcceptedCaretakers = null;
@@ -29,11 +32,12 @@ public class JobOffer {
     }
 
     // Constructor with parameters
-    public JobOffer(String JobOfferID, PetOwner petOwner, List<Pet> pets, Calendar startDate, Calendar endDate,
+    public JobOffer(String JobOfferID, PetOwner petOwner, List<Pet> pets, String location, Calendar startDate, Calendar endDate,
             List<Caretaker> AcceptedCaretakers, List<Caretaker> RejectedCaretakers, String Type) {
         this.JobOfferID = JobOfferID;
         this.petOwner = petOwner;
         this.pets = pets;
+        this.location = location;
         this.startDate = startDate;
         this.endDate = endDate;
         this.AcceptedCaretakers = AcceptedCaretakers;
@@ -65,6 +69,10 @@ public class JobOffer {
     public void setPets(List<Pet> pets) {
         this.pets = pets;
     }
+
+    public String getLocation() { return location; }
+
+    public void setLocation(String location) { this.location = location; }
 
     public Calendar getStartDate() {
         return startDate;
@@ -124,6 +132,5 @@ public class JobOffer {
 
     public List<Caretaker> findCaretakers() {
         List<Caretaker> availableCaretakers = new ArrayList<>();
-
     }
 }
