@@ -9,6 +9,7 @@ import com.petsinmind.users.Caretaker;
 import com.petsinmind.users.PetOwner;
 
 public class Appointment {
+    private Integer AppointmentId;
     private Caretaker caretaker;
     private PetOwner PetOwner;
     private List<Pet> pets;
@@ -38,6 +39,10 @@ public class Appointment {
     }
 
     // Getters and Setters
+    public Integer getAppointmentId() { return AppointmentId; }
+
+    public void setAppointmentId(Integer appointmentId) { AppointmentId = appointmentId; }
+
     public Caretaker getCaretaker() {
         return caretaker;
     }
