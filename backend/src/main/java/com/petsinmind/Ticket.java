@@ -17,7 +17,7 @@ public class Ticket {
     public Ticket() {
         this.TicketID = 0;
         this.Title = null;
-        this.Details = null;q
+        this.Details = null;
         this.Date = null;
         this.CustomerID = 0;
         this.EmployeeIDs = null;
