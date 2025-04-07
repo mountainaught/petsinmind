@@ -6,6 +6,10 @@ body {
     font-family: 'Lilita One', cursive;
 }
 
+button {
+    transition: background-color 0.3s, color 0.3s;
+}
+
 .bgImage {
     width: 100%;
     height: auto; /* Maintain aspect ratio */
@@ -14,4 +18,18 @@ body {
     left: 50%; /* Move it to the center horizontally */
     transform: translateX(-50%); /* Adjust for its own width */
     z-index: -1; /* Send it to the back */
+}
+
+.chatIcon {
+    width: 5rem;
+    height: 5rem;
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    transition: transform 0.3s ease-in-out; /* Smooth transition for both scaling up and down depending on cursor position */
+}
+
+.chatIcon:hover {
+    cursor: pointer;
+    transform: scale(1.1); /* Slightly enlarge the icon on hover */
 }

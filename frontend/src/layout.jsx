@@ -7,43 +7,57 @@ import './css/index.css';
 import logo from './assets/Logo.png';
 
 export default function Layout() {
-  const location = useLocation();
-  const navigate = useNavigate();
+    const location = useLocation();
+    const navigate = useNavigate();
 
-  // So that we can show/hide nav buttons depending on page
-  const isLoginPage = location.pathname === '/login' || location.pathname === '/register' || location.pathname === '/details';
+    // So that we can show/hide nav buttons depending on page
+    const isLoginPage = location.pathname === '/login' || location.pathname === '/register' || location.pathname === '/details';
+    const notification = false; // Placeholder for notification logic
 
-  return (
-    <div>
-      <nav className='navbar'>
-        <div className='logoandtitle'>
-          <img src={logo} alt="Logo" />
-          <h1>Pets In Mind</h1>
-        </div>
+    const isChat = location.pathname === '/chat';
 
-        {!isLoginPage && (
-          <div className='navbar-buttons'>
-            <button onClick={() => navigate('/login')}>Login</button>
-            <p>|</p>
-            <button onClick={() => navigate('/')}>Home</button>
-            <p>|</p>
-            <button>Help</button>
-          </div>
-        )}
+    return (
+        <div>
+            <nav className='navbar'>
+                <div className='logoandtitle'>
+                    <img src={logo} alt="Logo" />
+                    <h1>Pets In Mind</h1>
+                </div>
 
-        {isLoginPage && (
+            {!isLoginPage && (
+                    <div className='navbar-buttons'>
+                        <button onClick={() => navigate('/login')}>Login</button>
+                        <p>|</p>
+                        <button onClick={() => navigate('/')}>Home</button>
+                        <p>|</p>
+                        <button>Help</button>
+                    </div>
+            )}
+
+            {isLoginPage && (
             <div className='navbar-buttons'>
-            <button onClick={() => navigate('/')}>Home</button>
-            <p>|</p>
-            <button>Help</button>
-          </div>
-        )}
-      </nav>
+                <button onClick={() => navigate('/')}>Home</button>
+                <p>|</p>
+                <button>Help</button>
+            </div>
+            )}
 
-      <img className="bgImage" src="/src/assets/paws.png" alt="Paws" />
-      
+            </nav>
 
-      <Outlet />
-    </div>
-  );
+            {!isChat && (
+                <button className="chatBtn" onClick={() => navigate('/chat')}>
+                    <img
+                        className="chatIcon"
+                        src={notification ? "./src/assets/Chat_Icon_Notification.png" : "./src/assets/Chat_Icon.png"}
+                        alt="Chat"
+                    />
+                </button>
+            )}
+
+        {/* Background image */}
+        <img className="bgImage" src="/src/assets/paws.png" alt="Paws" />
+
+        <Outlet />
+        </div>
+    );
 }
