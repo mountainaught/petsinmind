@@ -9,6 +9,8 @@ import Login from './login.jsx'
 import Register from './register.jsx'
 import Details from './details.jsx'
 import Chat from './chat.jsx'
+import BookApt from './bookApt.jsx';
+import PetOwnerHome from './petownerHome.jsx';
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
@@ -20,6 +22,8 @@ createRoot(document.getElementById('root')).render(
           <Route path="/register" element={<Register />}/>
           <Route path="/details" element={<Details />}/>
           <Route path="/chat" element={<Chat />}/>
+          <Route path="/bookapt" element={<BookApt />}/>
+          <Route path="/petownerhome" element={<PetOwnerHome />}/>
         </Route>
       </Routes>
     </BrowserRouter>

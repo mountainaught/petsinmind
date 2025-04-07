@@ -29,9 +29,6 @@ export default function Register() {
                 </ul>
                 <button className='option-btn align-options'>Register as Caretaker</button>
             </div>
-
- 
         </div>
-
     );
 }

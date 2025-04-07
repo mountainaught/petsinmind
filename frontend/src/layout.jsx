@@ -36,13 +36,14 @@ export default function Layout() {
 
             {isLoginPage && (
             <div className='navbar-buttons'>
-                <button onClick={() => navigate('/')}>Home</button>
-                <p>|</p>
-                <button>Help</button>
-            </div>
-            )}
+            <button onClick={() => navigate('/petownerhome')}>Home</button>
+            <p>|</p>
+            <button>Help</button>
+          </div>
+        )}
+      </nav>
 
-            </nav>
+           
 
             {!isChat && (
                 <button className="chatBtn" onClick={() => navigate('/chat')}>

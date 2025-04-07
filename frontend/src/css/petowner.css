@@ -1,0 +1,97 @@
+.petownerhome{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+
+.selectBox{
+    background-color: white;
+    border-radius: 15px;
+    border: 2px solid #5A0001;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+    width: 20%;
+    height: 70vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; /* Push content to top and buttons to bottom */
+    align-items: center;
+}
+
+.bookApt{
+    height: 41px;
+    width: 20%;
+    border-radius: 15px;
+    background: #E63946;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+    align-self: center;
+}
+
+.buttons{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center; /* Center buttons vertically */
+    width: 100%;
+    height: 50px; /* Fixed height for the button container */
+    padding: 0 10px; /* Add some padding on sides */
+    box-sizing: border-box; /* Include padding in width calculation */
+    margin-top: auto; /* Push to bottom */
+    margin-bottom: 5px;
+}
+
+.buttons button{
+    height: 100%;
+}
+
+
+
+.left, .right{
+    background: transparent;
+    width: 25%; /* Adjust width as needed */
+}
+
+.middleBtn{
+    background-color: #5A0001;
+    width: 50%;
+    color: white;
+    border-radius: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.left img, .right img {
+    max-height: 100%;
+    max-width: 100%;
+    object-fit: contain;
+    width: 100%;
+    height: 100%;
+}
+
+.selectBox h1 {
+    font-size: 2rem; /* Large font size */
+    text-align: center;
+    margin: 10px 0;
+    width: 100%;
+}
+
+/* Square centered image */
+.selectBox .icon {
+    width: 230px; /* Fixed square size */
+    height: 230px;
+    object-fit: cover; /* Ensures image fills square without distortion */
+    border-radius: 10px;
+    margin: 15px 0;
+}
+
+/* Smaller centered text */
+.selectBox p {
+    font-size: 1rem; /* Smaller than name */
+    text-align: center;
+    margin: 10px 0;
+    width: 100%;
+}
