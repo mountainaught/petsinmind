@@ -1,5 +1,9 @@
 package com.petsinmind;
 
+import com.petsinmind.messages.Message;
+import com.petsinmind.messages.TicketMessage;
+
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Calendar;
 
@@ -12,6 +16,8 @@ public class Ticket {
     private int CustomerID;
     private List<Integer> EmployeeIDs;
     private Boolean Status;
+
+    private ArrayList<TicketMessage> messageList;
 
     // Initial constructor
     public Ticket() {
@@ -92,4 +98,10 @@ public class Ticket {
     public void setStatus(Boolean Status) {
         this.Status = Status;
     }
+
+    public void addMessage(TicketMessage message) {
+        this.messageList.add(message);
+    }
+
+    public List<TicketMessage> getMessageList() {return messageList;}
 }

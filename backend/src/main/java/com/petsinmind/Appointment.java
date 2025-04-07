@@ -1,10 +1,12 @@
 package com.petsinmind;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 // Dimitris
 import com.petsinmind.Review;
 import com.petsinmind.Pet;
+import com.petsinmind.messages.AppointmentMessage;
 import com.petsinmind.users.Caretaker;
 import com.petsinmind.users.PetOwner;
 
@@ -16,6 +18,8 @@ public class Appointment {
     private Calendar startDate;
     private Calendar endDate;
     private String Type;
+
+    private ArrayList<AppointmentMessage> messageList;
 
     // Initial constructor
     public Appointment() {
@@ -98,6 +102,10 @@ public class Appointment {
     public void setType(String Type) {
         this.Type = Type;
     }
+
+    public ArrayList<AppointmentMessage> getMessageList() { return messageList; }
+
+    public void addMessage(AppointmentMessage message) { this.messageList.add(message); }
 
     public Review Review(String Details, int Rating) {
         return new Review(Details, Rating, this, this.PetOwner, this.caretaker);

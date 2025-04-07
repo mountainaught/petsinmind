@@ -1,7 +1,10 @@
 package com.petsinmind;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Calendar;
+
+import com.petsinmind.messages.JobOfferMessage;
 import com.petsinmind.users.Caretaker;
 import com.petsinmind.users.PetOwner;
 
@@ -17,6 +20,8 @@ public class JobOffer {
     private List<Caretaker> AcceptedCaretakers;
     private List<Caretaker> RejectedCaretakers;
     private String Type;
+
+    private ArrayList<JobOfferMessage> messageList;
 
     // Initial constructor
     public JobOffer() {
@@ -121,6 +126,10 @@ public class JobOffer {
     public void removeRejectedCaretaker(Caretaker caretaker) {
         this.RejectedCaretakers.remove(caretaker);
     }
+
+    public List<JobOfferMessage> getMessageList() { return messageList; }
+
+    public void addMessage(JobOfferMessage jobOfferMessage) { this.messageList.add(jobOfferMessage); }
 
     public String getType() {
         return Type;
