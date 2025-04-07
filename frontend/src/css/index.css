@@ -1,5 +1,7 @@
 body {
     background-color: #FFE5E5;  /* Change this to your preferred color */
+    height: 100vh;
+    overflow: hidden; /* Prevent scrolling */
 }
 
 body {

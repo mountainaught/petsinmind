@@ -11,6 +11,7 @@
     gap: 20%; /* Add spacing between elements */
 }
 
+
 .option-container{
     display: flex;
     flex-direction: column;
@@ -27,6 +28,7 @@
     background: #FFF;
 
     gap: 20px; /* Add spacing between elements */
+    max-height: 481px;
 }
 
 .option-heading {

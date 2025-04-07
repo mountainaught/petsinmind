@@ -1,0 +1,155 @@
+.bookapt-container {
+    width: 70%;
+    height: 45%;
+    display: flex;
+    justify-content: space-between; 
+    align-items: center; 
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+
+.left-container, .right-container {
+    width: 50%;
+    height: 100%;
+    display: flex;
+    justify-content: center; 
+    align-items: center; 
+    flex-direction: column; 
+    gap: 20px; /* Add spacing between elements */
+    
+}
+
+.right-container {
+    border-radius: 15px;
+    border: 2px solid #5A0001;
+    background: #FFF;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+    display: flex;
+    justify-content: space-between;
+}
+
+.service-selection{
+    display: flex;
+    justify-content: space-evenly;
+    width: 100%;
+
+}
+
+.service-button {
+    width: 45%;
+    margin-top: 15%;
+    height: 41.211px;
+    flex-shrink: 0;
+    border-radius: 15px;
+    background: #E63946;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+}
+
+
+/* .service-button:hover {
+    background-color: #5A0001;
+    color: white;
+} */
+
+.service-button:active {
+    background-color: #5A0001;
+    color: white;
+}
+.service-button.active {
+    background-color: #5A0001;
+    color: white;
+  }
+
+.date-picker{
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+.date-select-container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px; /* Optional: Add spacing between items */
+    width: 45%;
+}
+
+.date-select-container input{
+    width: 100%;
+}
+
+.left-container{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    max-height: 100%;
+}
+
+
+
+
+
+
+
+.left-container input{
+    width: 80%;
+    height: 20%;
+    border-radius: 15px;
+    border: 2px solid #5A0001;
+    background: #FFF;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+    padding: 0;
+ 
+}
+
+.img-loc{
+    justify-content: flex-start;
+    align-items: flex-start;
+}
+
+.img-loc{
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+}
+
+
+
+.petselect{
+    width: 80%;
+    height: 100%;
+    border-radius: 15px;
+    border: 2px solid #5A0001;
+    background: #FFF;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+    
+}
+
+.findCt{
+    width: 30%;
+    margin-top: 35%;
+    height: 41.211px;
+    flex-shrink: 0;
+    border-radius: 15px;
+    background: #E63946;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+    align-self: center;
+}
+
+.container{
+    display: flex;
+    flex-direction: column;
+
+}

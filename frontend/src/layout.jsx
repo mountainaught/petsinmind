@@ -33,7 +33,7 @@ export default function Layout() {
 
         {isLoginPage && (
             <div className='navbar-buttons'>
-            <button onClick={() => navigate('/')}>Home</button>
+            <button onClick={() => navigate('/petownerhome')}>Home</button>
             <p>|</p>
             <button>Help</button>
           </div>
