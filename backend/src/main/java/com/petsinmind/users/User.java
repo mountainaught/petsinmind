@@ -16,24 +16,39 @@ public abstract class User {
 	private String PhoneNumber;
 	private String FirstName;
 	private String LastName;
+	private String Location;
 
 	/**
 	 * 
 	 * @param Password
 	 */
-	public void ChangePassword(String Password) { UserPassword = Password; }
+	public void ChangePassword(String Password) {
+		UserPassword = Password;
+	}
 
-	public int getUserID() { return UserID; }
+	public int getUserID() {
+		return UserID;
+	}
 
-	public String getUserName() { return UserName; }
+	public String getUserName() {
+		return UserName;
+	}
 
-	public String getPhoneNumber() { return PhoneNumber; }
+	public String getPhoneNumber() {
+		return PhoneNumber;
+	}
 
-	public String getFirstName() { return FirstName; }
+	public String getFirstName() {
+		return FirstName;
+	}
 
-	public String getLastName() { return LastName; }
+	public String getLastName() {
+		return LastName;
+	}
 
-	public String getUserEmail() { return UserEmail; }
+	public String getUserEmail() {
+		return UserEmail;
+	}
 
 	/**
 	 * 

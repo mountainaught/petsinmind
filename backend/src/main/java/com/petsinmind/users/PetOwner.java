@@ -14,7 +14,6 @@ import java.util.List;
 public class PetOwner extends Customer {
 
 	private List<Pet> PetList;
-	private String Location;
 
 	/**
 	 * 
@@ -74,7 +73,8 @@ public class PetOwner extends Customer {
 	 * @param Pets
 	 */
 	public List<Pet> SelectPets(List<Pet> Pets) {
-		// TODO - Is this class right? It's only returning whether all pets exist or not right now.
+		// TODO - Is this class right? It's only returning whether all pets exist or not
+		// right now.
 		return new HashSet<>(PetList).containsAll(Pets) ? PetList : null;
 	}
 
