@@ -18,34 +18,27 @@ public abstract class Customer extends User {
 	 * @param details
 	 */
 	public boolean CreateTicket(String Title, String details) {
-		return new Ticket(Title, details, Instant.now().toString(), super.getUserID(), super.)
+		return new Ticket(Title, details, Instant.now().toString(), super.getUserID(), );
 	}
 
 	/**
 	 * 
 	 * @param AppointmentID
 	 */
-	public void AddAppointment(int AppointmentID) {
-		// TODO - implement Customer.AddAppointment
-		throw new UnsupportedOperationException();
-	}
+	public void AddAppointment(Appointment appointment) { ListAppointmentIDs.add(appointment); }
 
 	/**
 	 * 
 	 * @param Appointment
 	 */
-	public Boolean CancelAppointment(Appointment Appointment) {
-		// TODO - implement Customer.CancelAppointment
-		throw new UnsupportedOperationException();
-	}
+	public Boolean CancelAppointment(Appointment appointment) { return ListAppointmentIDs.remove(appointment); }
 
 	/**
 	 * 
 	 * @param Message
 	 */
 	public boolean SendMessage(TicketMessage Message) {
-		// TODO - implement Customer.SendMessage
-		throw new UnsupportedOperationException();
+
 	}
 
 }
