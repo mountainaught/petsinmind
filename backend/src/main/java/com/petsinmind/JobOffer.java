@@ -3,6 +3,8 @@ package com.petsinmind;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Calendar;
+import java.util.UUID;
+
 
 import com.petsinmind.messages.JobOfferMessage;
 import com.petsinmind.users.Caretaker;
@@ -13,6 +15,7 @@ public class JobOffer {
     private String JobOfferID;
     private PetOwner petOwner;
     private List<Pet> pets;
+
     private String location;
     private Calendar startDate;
     private Calendar endDate;
@@ -36,10 +39,9 @@ public class JobOffer {
     }
 
     // Constructor with parameters
-    public JobOffer(String JobOfferID, PetOwner petOwner, List<Pet> pets, String location, Calendar startDate,
-            Calendar endDate,
+    public JobOffer(PetOwner petOwner, List<Pet> pets, String location, Calendar startDate, Calendar endDate,
             List<Caretaker> AcceptedCaretakers, List<Caretaker> RejectedCaretakers, String Type) {
-        this.JobOfferID = JobOfferID;
+        this.JobOfferID = UUID.randomUUID();
         this.petOwner = petOwner;
         this.pets = pets;
         this.location = location;
@@ -51,11 +53,11 @@ public class JobOffer {
     }
 
     // Getters and Setters
-    public String getJobOfferID() {
+    public UUID getJobOfferID() {
         return JobOfferID;
     }
 
-    public void setJobOfferID(String JobOfferID) {
+    public void setJobOfferID(UUID JobOfferID) {
         this.JobOfferID = JobOfferID;
     }
 
@@ -147,7 +149,13 @@ public class JobOffer {
         this.Type = Type;
     }
 
-    // public List<Caretaker> findCaretakers() {
-    // List<Caretaker> availableCaretakers = new ArrayList<>();
-    // }
+    public List<Caretaker> findCaretakers() {
+        List<Caretaker> availableCaretakers = new ArrayList<>();
+        List<Caretaker> allCaretakers = FirebaseReader.getAllCaretakers();
+        for (Caretaker caretaker : allCaretakers) {
+            if (caretaker.getSchedule().get(startDate) && caretaker.getSchedule().get(endDate)) {
+                availableCaretakers.add(caretaker);
+            }
+        }
+    }
 }
