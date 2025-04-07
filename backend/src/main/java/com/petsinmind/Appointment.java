@@ -10,7 +10,7 @@ import com.petsinmind.users.Caretaker;
 import com.petsinmind.users.PetOwner;
 
 public class Appointment {
-    private UUID appointmentId;
+    private String appointmentId;
     private Caretaker caretaker;
     private PetOwner PetOwner;
     private List<Pet> pets;
@@ -32,7 +32,7 @@ public class Appointment {
     }
 
     // Constructor with parameters
-    public Appointment(UUID appointmentId, Caretaker caretaker, PetOwner PetOwner, List<Pet> pets, Calendar startDate, Calendar endDate,
+    public Appointment(String appointmentId, Caretaker caretaker, PetOwner PetOwner, List<Pet> pets, Calendar startDate, Calendar endDate,
                        String Type) {
         this.appointmentId = appointmentId;
         this.caretaker = caretaker;
@@ -44,9 +44,9 @@ public class Appointment {
     }
 
     // Getters and Setters
-    public UUID getAppointmentId() { return appointmentId; }
+    public String getAppointmentId() { return appointmentId; }
 
-    public void setAppointmentId(UUID appointmentId) { this.appointmentId = appointmentId; }
+    public void setAppointmentId(String appointmentId) { this.appointmentId = appointmentId; }
 
     public Caretaker getCaretaker() {
         return caretaker;

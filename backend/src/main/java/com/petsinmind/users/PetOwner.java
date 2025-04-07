@@ -57,14 +57,16 @@ public class PetOwner extends Customer {
 	// TODO - FINISH IMPLEMENTING THIS! Need to push it to db
 	public boolean CreateJobOffer(List<Pet> petList, String location, Calendar startDate, Calendar endDate, String type) {
 		JobOffer jobOffer = new JobOffer();
+
+		String jobOfferID = FirebaseWriter.pushJobOffer(this.getUserID(), petList, type, startDate, );
+
+
 		jobOffer.setPetOwner(this);
 		jobOffer.setPets(petList);
 		jobOffer.setLocation(location);
 		jobOffer.setStartDate(startDate);
 		jobOffer.setEndDate(endDate);
 		jobOffer.setType(type);
-
-		FirebaseWriter.pushJobOffer(jobOffer);
 	}
 
 	/**

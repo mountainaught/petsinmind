@@ -9,7 +9,7 @@ import java.util.UUID;
 // Tibet
 public abstract class Customer extends User {
 
-	private List<UUID> ListAppointmentIDs;
+	private List<String> ListAppointmentIDs;
 
 	/**
 	 * 
@@ -25,7 +25,7 @@ public abstract class Customer extends User {
 	 * 
 	 * @param appointmentID
 	 */
-	public void AddAppointment(UUID appointmentID) { ListAppointmentIDs.add(appointmentID); }
+	public void AddAppointment(String appointmentID) { ListAppointmentIDs.add(appointmentID); }
 
 	/**
 	 * 

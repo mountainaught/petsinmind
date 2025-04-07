@@ -3,7 +3,6 @@ package com.petsinmind;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Calendar;
-import java.util.UUID;
 
 import com.petsinmind.messages.JobOfferMessage;
 import com.petsinmind.users.Caretaker;
@@ -11,7 +10,7 @@ import com.petsinmind.users.PetOwner;
 
 // Dimitris
 public class JobOffer {
-    private UUID JobOfferID;
+    private String JobOfferID;
     private PetOwner petOwner;
     private List<Pet> pets;
 
@@ -38,9 +37,9 @@ public class JobOffer {
     }
 
     // Constructor with parameters
-    public JobOffer(PetOwner petOwner, List<Pet> pets, String location, Calendar startDate, Calendar endDate,
+    public JobOffer(String JobOfferID, PetOwner petOwner, List<Pet> pets, String location, Calendar startDate, Calendar endDate,
             List<Caretaker> AcceptedCaretakers, List<Caretaker> RejectedCaretakers, String Type) {
-        this.JobOfferID = UUID.randomUUID();
+        this.JobOfferID = JobOfferID;
         this.petOwner = petOwner;
         this.pets = pets;
         this.location = location;
@@ -52,11 +51,11 @@ public class JobOffer {
     }
 
     // Getters and Setters
-    public UUID getJobOfferID() {
+    public String getJobOfferID() {
         return JobOfferID;
     }
 
-    public void setJobOfferID(UUID JobOfferID) {
+    public void setJobOfferID(String JobOfferID) {
         this.JobOfferID = JobOfferID;
     }
 

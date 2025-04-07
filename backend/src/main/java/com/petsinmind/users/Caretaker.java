@@ -70,9 +70,9 @@ public class Caretaker extends Customer implements JobOfferCT {
 	 * 
 	 * @param Message
 	 */
-	public boolean SendMessageJO(JobOfferMessage Message) {
-		// TODO - implement Caretaker.SendMessageJO
-		throw new UnsupportedOperationException();
+	public boolean SendMessageJO(JobOffer offer, JobOfferMessage Message) {
+		offer.addMessage(Message);
+		// TODO - PUSH UPDATED JO TO FIREBASE
 	}
 
 	/**
