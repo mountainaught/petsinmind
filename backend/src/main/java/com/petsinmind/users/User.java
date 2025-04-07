@@ -2,14 +2,13 @@ package com.petsinmind.users;
 
 import com.petsinmind.messages.Message;
 
-
 import java.util.*;
 
 // Tibet
 public abstract class User {
 
 	Collection<Message> Sends;
-	private int UserID;
+	private String UserID;
 	private String UserName;
 	private String UserPassword;
 	private String UserEmail;
@@ -25,7 +24,7 @@ public abstract class User {
 		UserPassword = Password;
 	}
 
-	public int getUserID() {
+	public String getUserID() {
 		return UserID;
 	}
 
