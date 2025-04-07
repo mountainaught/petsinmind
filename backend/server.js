@@ -23,9 +23,6 @@ console.log('✅ MySQL connection pool initializedr.');
 
 
 
-
-
-
 const app = express();
 app.use(cors());
 app.use(express.json());
@@ -38,6 +35,19 @@ app.get('/api/health', (req, res) => {
 
 app.get('/', (req, res) => {
   res.send('Backend is aldsdive 🚀');
+});
+
+app.get('/api/db-check', async (req, res) => {
+  db.query('SHOW TABLES', (err, results) => {
+    if (err) {
+      console.error('❌ DB check failed:', err.message);
+      return res.status(500).send('❌ DB error: ' + err.message);
+    }
+    res.json({
+      message: '✅ DB Connected',
+      tables: results,
+    });
+  });
 });
 
 
