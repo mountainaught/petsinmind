@@ -56,4 +56,9 @@ public class FirebaseReader {
         return read("appointments/" + appointmentId).thenApply(snapshot -> (Map<String, Object>) snapshot.getValue());
     }
 
+    public static CompletableFuture<String> getStoredApiKey() {
+        return read("apikey").thenApply(snapshot -> snapshot.getValue(String.class));
+    }
+    
+
 }
