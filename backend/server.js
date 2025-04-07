@@ -24,7 +24,7 @@ app.get('/', (req, res) => {
 });
 
 app.get('/api/health', (req, res) => {
-  res.send('✅ Health check – ' + new Date().toLocaleString());
+  res.send('✅ Healath check – ' + new Date().toLocaleString());
 });
 
 app.get('/api/db-check', (req, res) => {
