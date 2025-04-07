@@ -40,7 +40,7 @@ app.get('/api/health', (req, res) => {
 });
 
 app.get('/', (req, res) => {
-  res.send('Backend is alive 🚀');
+  res.send('Backend is aldsdive 🚀');
 });
 
 
