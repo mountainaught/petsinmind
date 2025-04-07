@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Calendar;
 import java.util.UUID;
 
+import com.petsinmind.firebase.FirebaseReader;
 import com.petsinmind.messages.JobOfferMessage;
 import com.petsinmind.users.Caretaker;
 import com.petsinmind.users.PetOwner;
@@ -76,9 +77,13 @@ public class JobOffer {
         this.pets = pets;
     }
 
-    public String getLocation() { return location; }
+    public String getLocation() {
+        return location;
+    }
 
-    public void setLocation(String location) { this.location = location; }
+    public void setLocation(String location) {
+        this.location = location;
+    }
 
     public Calendar getStartDate() {
         return startDate;
@@ -128,9 +133,13 @@ public class JobOffer {
         this.RejectedCaretakers.remove(caretaker);
     }
 
-    public List<JobOfferMessage> getMessageList() { return messageList; }
+    public List<JobOfferMessage> getMessageList() {
+        return messageList;
+    }
 
-    public void addMessage(JobOfferMessage jobOfferMessage) { this.messageList.add(jobOfferMessage); }
+    public void addMessage(JobOfferMessage jobOfferMessage) {
+        this.messageList.add(jobOfferMessage);
+    }
 
     public String getType() {
         return Type;
@@ -142,5 +151,11 @@ public class JobOffer {
 
     public List<Caretaker> findCaretakers() {
         List<Caretaker> availableCaretakers = new ArrayList<>();
+        List<Caretaker> allCaretakers = FirebaseReader.getAllCaretakers();
+        for (Caretaker caretaker : allCaretakers) {
+            if (caretaker.getSchedule().get(startDate) && caretaker.getSchedule().get(endDate)) {
+                availableCaretakers.add(caretaker);
+            }
+        }
     }
 }
