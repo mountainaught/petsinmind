@@ -7,7 +7,8 @@ app.use(express.json());
 
 // Test endpoint
 app.get('/api/health', (req, res) => {
-  res.send('✅ Backend is running!');
+  res.send('✅ Backend is still running – updated at ' + new Date().toLocaleString());
+
 });
 
 app.get('/', (req, res) => {
