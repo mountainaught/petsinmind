@@ -3,49 +3,50 @@ package com.petsinmind;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.UUID;
 // Dimitris
-import com.petsinmind.Review;
-import com.petsinmind.Pet;
 import com.petsinmind.messages.AppointmentMessage;
 import com.petsinmind.users.Caretaker;
 import com.petsinmind.users.PetOwner;
 
 public class Appointment {
-    private Integer AppointmentId;
+    private UUID appointmentId;
     private Caretaker caretaker;
     private PetOwner PetOwner;
     private List<Pet> pets;
     private Calendar startDate;
     private Calendar endDate;
-    private String Type;
+    private String type;
 
     private ArrayList<AppointmentMessage> messageList;
 
     // Initial constructor
     public Appointment() {
+        this.appointmentId = null;
         this.caretaker = null;
         this.PetOwner = null;
         this.pets = null;
         this.startDate = null;
         this.endDate = null;
-        this.Type = null;
+        this.type = null;
     }
 
     // Constructor with parameters
-    public Appointment(Caretaker caretaker, PetOwner PetOwner, List<Pet> pets, Calendar startDate, Calendar endDate,
-            String Type) {
+    public Appointment(UUID appointmentId, Caretaker caretaker, PetOwner PetOwner, List<Pet> pets, Calendar startDate, Calendar endDate,
+                       String Type) {
+        this.appointmentId = appointmentId;
         this.caretaker = caretaker;
         this.PetOwner = PetOwner;
         this.pets = pets;
         this.startDate = startDate;
         this.endDate = endDate;
-        this.Type = Type;
+        this.type = Type;
     }
 
     // Getters and Setters
-    public Integer getAppointmentId() { return AppointmentId; }
+    public UUID getAppointmentId() { return appointmentId; }
 
-    public void setAppointmentId(Integer appointmentId) { AppointmentId = appointmentId; }
+    public void setAppointmentId(UUID appointmentId) { this.appointmentId = appointmentId; }
 
     public Caretaker getCaretaker() {
         return caretaker;
@@ -96,11 +97,11 @@ public class Appointment {
     }
 
     public String getType() {
-        return Type;
+        return type;
     }
 
     public void setType(String Type) {
-        this.Type = Type;
+        this.type = Type;
     }
 
     public ArrayList<AppointmentMessage> getMessageList() { return messageList; }
@@ -125,7 +126,7 @@ public class Appointment {
                 ", pets=" + pets +
                 ", startDate=" + startDate +
                 ", endDate=" + endDate +
-                ", Type='" + Type + '\'' +
+                ", Type='" + type + '\'' +
                 '}';
     }
 }

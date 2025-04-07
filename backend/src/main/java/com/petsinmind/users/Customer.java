@@ -4,11 +4,12 @@ import com.petsinmind.Appointment;
 import com.petsinmind.messages.TicketMessage;
 
 import java.util.List;
+import java.util.UUID;
 
 // Tibet
 public abstract class Customer extends User {
 
-	private List<Integer> ListAppointmentIDs;
+	private List<UUID> ListAppointmentIDs;
 
 	/**
 	 * 
@@ -24,7 +25,7 @@ public abstract class Customer extends User {
 	 * 
 	 * @param appointmentID
 	 */
-	public void AddAppointment(Integer appointmentID) { ListAppointmentIDs.add(appointmentID); }
+	public void AddAppointment(UUID appointmentID) { ListAppointmentIDs.add(appointmentID); }
 
 	/**
 	 * 

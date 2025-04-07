@@ -32,7 +32,8 @@ public class Caretaker extends Customer implements JobOfferCT {
 	 */
 	// TODO - Probably should add code to remove JO from DB and send Appointment messages
 	public Appointment AcceptJobOffer(JobOffer offer) {
-		Appointment appointment = new Appointment(this, offer.getPetOwner(), offer.getPets(), offer.getStartDate(), offer.getEndDate(), offer.getType());
+		Appointment appointment = new Appointment(offer.getJobOfferID(), this, offer.getPetOwner(), offer.getPets(), offer.getStartDate(), offer.getEndDate(), offer.getType());
+
 		super.AddAppointment(appointment.getAppointmentId());
 		appointment.getPetOwner().AddAppointment(appointment.getAppointmentId());
 		return appointment;

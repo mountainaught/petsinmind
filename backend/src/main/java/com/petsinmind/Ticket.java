@@ -6,10 +6,11 @@ import com.petsinmind.messages.TicketMessage;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Calendar;
+import java.util.UUID;
 
 // Dimitris
 public class Ticket {
-    private int TicketID;
+    private UUID TicketID;
     private String Title;
     private String Details;
     private Calendar Date;
@@ -21,7 +22,7 @@ public class Ticket {
 
     // Initial constructor
     public Ticket() {
-        this.TicketID = 0;
+        this.TicketID = null;
         this.Title = null;
         this.Details = null;
         this.Date = null;
@@ -31,9 +32,9 @@ public class Ticket {
     }
 
     // Constructor with parameters
-    public Ticket(int TicketID, String Title, String Details, Calendar Date, int CustomerID,
+    public Ticket(String Title, String Details, Calendar Date, int CustomerID,
             List<Integer> EmployeeIDs, Boolean Status) {
-        this.TicketID = TicketID;
+        this.TicketID = UUID.randomUUID();
         this.Title = Title;
         this.Details = Details;
         this.Date = Date;
@@ -43,11 +44,11 @@ public class Ticket {
     }
 
     // Getters and Setters
-    public int getTicketID() {
+    public UUID getTicketID() {
         return TicketID;
     }
 
-    public void setTicketID(int TicketID) {
+    public void setTicketID(UUID TicketID) {
         this.TicketID = TicketID;
     }
 
