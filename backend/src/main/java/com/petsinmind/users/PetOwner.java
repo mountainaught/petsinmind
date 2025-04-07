@@ -4,7 +4,7 @@ import com.petsinmind.JobOffer;
 import com.petsinmind.Pet;
 import com.petsinmind.messages.AppointmentMessage;
 import com.petsinmind.messages.JobOfferMessage;
-import com.petsinmind.firebase.FirebaseWriter;
+
 
 import java.util.Calendar;
 import java.util.HashSet;
