@@ -1,10 +1,8 @@
 package com.petsinmind.users;
 
 import com.petsinmind.Appointment;
-import com.petsinmind.Ticket;
 import com.petsinmind.messages.TicketMessage;
 
-import java.time.Instant;
 import java.util.List;
 
 // Tibet
@@ -18,27 +16,28 @@ public abstract class Customer extends User {
 	 * @param details
 	 */
 	public boolean CreateTicket(String Title, String details) {
-		return new Ticket(Title, details, Instant.now().toString(), super.getUserID(), );
+		// TODO - Implement once TicketSA and Firebase is figured out
+		throw new UnsupportedOperationException();
 	}
 
 	/**
 	 * 
-	 * @param AppointmentID
+	 * @param appointmentID
 	 */
-	public void AddAppointment(Appointment appointment) { ListAppointmentIDs.add(appointment); }
+	public void AddAppointment(Integer appointmentID) { ListAppointmentIDs.add(appointmentID); }
 
 	/**
 	 * 
-	 * @param Appointment
+	 * @param appointment
 	 */
-	public Boolean CancelAppointment(Appointment appointment) { return ListAppointmentIDs.remove(appointment); }
+	public Boolean CancelAppointment(Appointment appointment) { return ListAppointmentIDs.remove(appointment.getAppointmentId()); }
 
 	/**
 	 * 
 	 * @param Message
 	 */
-	public boolean SendMessage(TicketMessage Message) {
-
+	public boolean SendMessage(TicketMessage message) {
+		throw new UnsupportedOperationException();
 	}
 
 }

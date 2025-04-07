@@ -6,6 +6,7 @@ import com.petsinmind.messages.AppointmentMessage;
 import com.petsinmind.messages.JobOfferMessage;
 
 import java.util.Calendar;
+import java.util.HashSet;
 import java.util.List;
 
 // Tibet
@@ -21,9 +22,8 @@ public class PetOwner extends Customer {
 	 * @param PetSize
 	 * @param PetAge
 	 */
-	public void AddPet(String PetName, String PetType, int PetSize, int PetAge) {
-		// TODO - implement PetOwner.AddPet
-		throw new UnsupportedOperationException();
+	public void AddPet(String PetName, String PetType, String PetSize, Integer PetAge) {
+		PetList.add(new Pet(PetName, PetType, PetSize, PetAge));
 	}
 
 	/**
@@ -31,8 +31,7 @@ public class PetOwner extends Customer {
 	 * @param pet
 	 */
 	public void RemovePet(Pet pet) {
-		// TODO - implement PetOwner.RemovePet
-		throw new UnsupportedOperationException();
+		PetList.remove(pet);
 	}
 
 	/**
@@ -40,13 +39,11 @@ public class PetOwner extends Customer {
 	 * @param Location
 	 */
 	public void SetLocation(String Location) {
-		// TODO - implement PetOwner.SetLocation
-		throw new UnsupportedOperationException();
+		this.Location = Location;
 	}
 
 	public String GetLocation() {
-		// TODO - implement PetOwner.GetLocation
-		throw new UnsupportedOperationException();
+		return Location;
 	}
 
 	/**
@@ -66,8 +63,8 @@ public class PetOwner extends Customer {
 	 * @param Pets
 	 */
 	public List<Pet> SelectPets(List<Pet> Pets) {
-		// TODO - implement PetOwner.SelectPets
-		throw new UnsupportedOperationException();
+		// TODO - Is this class right? It's only returning whether all pets exist or not right now.
+		return new HashSet<>(PetList).containsAll(Pets) ? PetList : null;
 	}
 
 	/**

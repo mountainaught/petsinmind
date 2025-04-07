@@ -5,7 +5,7 @@ public class Pet {
     private String name;
     private String type;
     private String size;
-    private String age;
+    private Integer age;
 
     // Initial constructor
     public Pet() {
@@ -16,7 +16,7 @@ public class Pet {
     }
 
     // Constructor with parameters
-    public Pet(String name, String type, String size, String age) {
+    public Pet(String name, String type, String size, Integer age) {
         this.name = name;
         this.type = type;
         this.size = size;
@@ -48,11 +48,11 @@ public class Pet {
         this.size = size;
     }
 
-    public String getAge() {
+    public Integer getAge() {
         return age;
     }
 
-    public void setAge(String age) {
+    public void setAge(Integer age) {
         this.age = age;
     }
     // End of getters and setters

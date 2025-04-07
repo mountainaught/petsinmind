@@ -1,7 +1,7 @@
 package com.petsinmind.users;
 
 import com.petsinmind.messages.Message;
-import com.sun.jdi.ClassNotPreparedException;
+import com.petsinmind.firebase.FirebaseWriter;
 
 import java.util.*;
 
@@ -80,8 +80,7 @@ public abstract class User {
 	 * @param Message
 	 */
 	public boolean SendMessage(Message Message) {
-		// TODO - implement User.SendMessage
-		throw new UnsupportedOperationException();
+
 	}
 
 }
