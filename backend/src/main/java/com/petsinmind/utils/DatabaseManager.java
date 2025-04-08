@@ -21,6 +21,11 @@ public class DatabaseManager {
         );
     }
 
+    public Connection getConnection() {
+        return connection;
+    }
+    
+
     // Close the connection
     public void closeConnection() {
         if (connection != null) {
@@ -34,25 +39,30 @@ public class DatabaseManager {
         }
     }
 
+
     public User findByID(User user) throws SQLException {
         PreparedStatement ps = null;
         ResultSet rs = null;
-
+    
         if (user.getClass() == Caretaker.class) {
             ps = connection.prepareStatement("SELECT * FROM caretaker WHERE UserID = ?");
             ps.setString(1, user.getUserID().toString());
             rs = ps.executeQuery();
-
-            Caretaker ct = new Caretaker();
-            ct = (Caretaker) parseUser(rs, ct);
-            ct = getCaretaker(rs, ct);
-
-            user = ct;
-            return user;
+    
+            if (rs.next()) {
+                Caretaker ct = new Caretaker();
+                ct = (Caretaker) parseUser(rs, ct);
+                ct = getCaretaker(rs, ct);
+                return ct;
+            } else {
+                System.out.println("❌ No caretaker found with ID: " + user.getUserID());
+                return null;
+            }
         }
-
+    
         return user;
     }
+    
 
     private User parseUser(ResultSet rs, User user) throws SQLException {
         user.setUserID(UUID.fromString(rs.getString("UserID")));
@@ -82,7 +92,7 @@ public class DatabaseManager {
             ps.setString(1, ct.getUserID().toString());
             ps.setString(2, ct.getUserEmail());
             ps.setString(3, ct.getUserPassword());
-            ps.setString(4, ct.getUserEmail());
+            ps.setString(4, ct.getUserName());
             ps.setString(5, ct.getPhoneNumber());
             ps.setString(6, ct.getFirstName());
             ps.setString(7, ct.getLastName());
@@ -96,5 +106,6 @@ public class DatabaseManager {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        
     }
 }

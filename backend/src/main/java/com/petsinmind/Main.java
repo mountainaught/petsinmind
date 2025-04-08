@@ -1,35 +1,35 @@
 package com.petsinmind;
-import java.util.UUID;
 
 import com.petsinmind.users.Caretaker;
 import com.petsinmind.utils.DatabaseManager;
 
+import java.util.UUID;
+
 public class Main {
     public static void main(String[] args) {
         System.out.println("DB URL: " + Config.get("db.url"));
+
         try {
-
-            Caretaker newCT = new Caretaker();
-            newCT.setUserID(UUID.randomUUID());
-
             DatabaseManager db = new DatabaseManager();
-            db.findByID(newCT);
 
-            // 🔸 Create new caretaker object
+            // 🆔 Replace with the UUID of the user you want to fetch
+            UUID id = UUID.fromString("077921c7-e55e-4f9b-87cb-9cdb546b5111");
+
+            // 🔍 Set up a Caretaker object with that ID
             Caretaker ct = new Caretaker();
-            ct.setUserID(UUID.randomUUID());
-            ct.setUserName("laila");
-            ct.setUserPassword("password123");
-            ct.setUserEmail("laila@example.com");
-            ct.setPhoneNumber("66667777");
-            ct.setFirstName("Laila");
-            ct.setLastName("Kuwaiti");
-            ct.setLocation("Kuwait City");
-            
-            ct.setPay(400.0f);
+            ct.setUserID(id);
 
+            // 📥 Fetch from DB
+            Caretaker found = (Caretaker) db.findByID(ct);
+
+            // 🖨️ Print their name
+            System.out.println("Found caretaker:");
+            System.out.println("Name: " + found.getFirstName() + " " + found.getLastName());
+            System.out.println("Username: " + found.getUserName());
+
+            db.closeConnection();
         } catch (Exception e) {
-            System.out.println("❌ Failed to connect to MySQL");
+            System.out.println("❌ Failed to fetch caretaker");
             e.printStackTrace();
         }
     }
