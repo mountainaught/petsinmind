@@ -41,7 +41,7 @@ public class JobOffer {
     // Constructor with parameters
     public JobOffer(PetOwner petOwner, List<Pet> pets, String location, Calendar startDate, Calendar endDate,
             List<Caretaker> AcceptedCaretakers, List<Caretaker> RejectedCaretakers, String Type) {
-        this.JobOfferID = UUID.randomUUID();
+        // this.JobOfferID = UUID.randomUUID();
         this.petOwner = petOwner;
         this.pets = pets;
         this.location = location;
@@ -52,14 +52,14 @@ public class JobOffer {
         this.Type = Type;
     }
 
-    // Getters and Setters
-    public UUID getJobOfferID() {
-        return JobOfferID;
-    }
+    // // Getters and Setters
+    // public UUID getJobOfferID() {
+    //     return JobOfferID;
+    // }
 
-    public void setJobOfferID(UUID JobOfferID) {
-        this.JobOfferID = JobOfferID;
-    }
+    // public void setJobOfferID(UUID JobOfferID) {
+    //     this.JobOfferID = JobOfferID;
+    // }
 
     public PetOwner getPetOwner() {
         return petOwner;
@@ -149,13 +149,13 @@ public class JobOffer {
         this.Type = Type;
     }
 
-    public List<Caretaker> findCaretakers() {
-        List<Caretaker> availableCaretakers = new ArrayList<>();
-        List<Caretaker> allCaretakers = FirebaseReader.getAllCaretakers();
-        for (Caretaker caretaker : allCaretakers) {
-            if (caretaker.getSchedule().get(startDate) && caretaker.getSchedule().get(endDate)) {
-                availableCaretakers.add(caretaker);
-            }
-        }
-    }
+    // public List<Caretaker> findCaretakers() {
+    //     List<Caretaker> availableCaretakers = new ArrayList<>();
+    //     List<Caretaker> allCaretakers = FirebaseReader.getAllCaretakers();
+    //     for (Caretaker caretaker : allCaretakers) {
+    //         if (caretaker.getSchedule().get(startDate) && caretaker.getSchedule().get(endDate)) {
+    //             availableCaretakers.add(caretaker);
+    //         }
+    //     }
+    // }
 }

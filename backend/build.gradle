@@ -1,5 +1,6 @@
 plugins {
     id 'java'
+    id 'application'
 }
 
 group = 'com.petsinmind'
@@ -10,12 +11,11 @@ repositories {
 }
 
 dependencies {
-    testImplementation platform('org.junit:junit-bom:5.10.0')
-    testImplementation 'org.junit.jupiter:junit-jupiter'
-
-    implementation 'com.google.firebase:firebase-admin:9.2.0'
+    implementation 'mysql:mysql-connector-java:8.0.32'
 }
 
-test {
-    useJUnitPlatform()
+application {
+    mainClass = 'com.petsinmind.Main'
+
+    applicationDefaultJvmArgs = ["-Djava.net.preferIPv4Stack=true"]
 }
