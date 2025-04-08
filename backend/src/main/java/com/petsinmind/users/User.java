@@ -8,7 +8,7 @@ import java.util.*;
 public abstract class User {
 
 	Collection<Message> Sends;
-	private String UserID;
+	private UUID UserID;
 	private String UserName;
 	private String UserPassword;
 	private String UserEmail;
@@ -24,7 +24,7 @@ public abstract class User {
 		UserPassword = Password;
 	}
 
-	public String getUserID() {
+	public UUID getUserID() {
 		return UserID;
 	}
 

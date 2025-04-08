@@ -4,9 +4,10 @@ import com.petsinmind.Appointment;
 import com.petsinmind.messages.TicketMessage;
 
 import java.util.List;
+import java.util.UUID;
 
 public abstract class Customer extends User {
-    protected String userID;
+    protected UUID userID;
     protected String userName;
     protected String userPassword;
     protected String userEmail;
@@ -20,7 +21,7 @@ public abstract class Customer extends User {
     private List<String> ListJobOfferIDs;
 
 
-	public void setUserID(String userID) { this.userID = userID; }
+	public void setUserID(UUID userID) { this.userID = userID; }
 	public void setUserName(String userName) { this.userName = userName; }
 	public void setUserPassword(String userPassword) { this.userPassword = userPassword; }
 	public void setUserEmail(String userEmail) { this.userEmail = userEmail; }
