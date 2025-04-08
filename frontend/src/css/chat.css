@@ -1,19 +1,40 @@
+@media only screen and (min-width: 768px) {
+ .chat-window{
+    margin-right: 5rem;
+ }
+ .sidebar{
+    width: 20%;
+    padding: 2rem;
+ }
+
+ .chat-container {
+    gap: 5rem;
+
+ }
+
+ .chat-header {
+    width: 50%;
+ }
+}
+
+
 .chat-container {
     display: flex;
     height:90vh;
-    gap: 5rem;
-    margin-top: 2rem;
+    
+    
 }
 
 .sidebar {
-    width: 20%;
+    margin-top: 2rem;
+
     background-color: #FFF;
     margin-bottom: 2rem;
-    border-radius: 2rem;
+    border-radius: 1rem;
     border: 2px solid #5A0001;
     display: flex;
     flex-direction: column;
-    padding: 2rem;
+    
 }
 
 .search-bar {
@@ -71,10 +92,11 @@ li + li {
     flex: 1;
     display: flex;
     flex-direction: column;
-    border-radius: 2rem;
-    border: 2px solid #5A0001;
+    height: 100%;
+    border-left: 2px solid #5A0001;
+    border-right: 2px solid #5A0001;
     background-color: #FFF;
-    margin-right: 5rem;
+    
 }
 
 .chat-header {
@@ -84,7 +106,7 @@ li + li {
     text-align: center;
     align-self: center;
     font-size: 0.9rem;
-    width: 50%;
+
     height: 8%;
     margin-top: 2rem;
     display: flex;

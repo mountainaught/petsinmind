@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import './css/reset.css';
 import './css/navbar.css';
 import './css/index.css';
+import './css/mobile.css';
 
 import logo from './assets/Logo.png';
 
@@ -28,25 +29,25 @@ export default function Layout() {
                     <h1>Pets In Mind</h1>
                 </div>
 
-            {!isLoginPage && (
+                {!isLoginPage && (
+                        <div className='navbar-buttons'>
+                            <button onClick={() => navigate('/login')}>Login</button>
+                            <p>|</p>
+                            <button onClick={() => navigate('/petownerhome')}>Home</button>
+                            <p>|</p>
+                            <button>Help</button>
+                        </div>
+                )}
+
+                {isLoginPage && (
                     <div className='navbar-buttons'>
-                        <button onClick={() => navigate('/login')}>Login</button>
-                        <p>|</p>
                         <button onClick={() => navigate('/petownerhome')}>Home</button>
                         <p>|</p>
                         <button>Help</button>
+                        <button onClick={() => navigate('/caretakerHome')}>TempCT</button>
                     </div>
-            )}
-
-            {isLoginPage && (
-            <div className='navbar-buttons'>
-            <button onClick={() => navigate('/petownerhome')}>Home</button>
-            <p>|</p>
-            <button>Help</button>
-            <button onClick={() => navigate('/caretakerHome')}>TempCaretakerHome</button>
-          </div>
-        )}
-      </nav>
+                )}
+            </nav>
 
            
 
@@ -60,8 +61,7 @@ export default function Layout() {
                 </button>
             )}
 
-        {/* Background image */}
-        <img className="bgImage" src="/src/assets/paws.png" alt="Paws" />
+
 
         <Outlet />
         </div>

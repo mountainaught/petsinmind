@@ -1,5 +1,6 @@
 import "./css/reset.css";
 import "./css/chat.css";
+import "./css/mobile.css";
 import React, { useState } from 'react';
 
 export default function Chat() {
