@@ -1,7 +1,4 @@
 package com.petsinmind;
-
-import java.sql.Connection;
-import java.sql.DriverManager;
 import java.util.UUID;
 
 import com.petsinmind.users.Caretaker;
@@ -11,13 +8,12 @@ public class Main {
     public static void main(String[] args) {
         System.out.println("DB URL: " + Config.get("db.url"));
         try {
-            Connection conn = DriverManager.getConnection(
-                Config.get("db.url"),
-                Config.get("db.user"),
-                Config.get("db.password")
-            );
 
-            System.out.println("✅ Connected to MySQL");
+            Caretaker newCT = new Caretaker();
+            newCT.setUserID(UUID.randomUUID());
+
+            DatabaseManager db = new DatabaseManager();
+            db.findByID(newCT);
 
             // 🔸 Create new caretaker object
             Caretaker ct = new Caretaker();
@@ -32,13 +28,6 @@ public class Main {
             
             ct.setPay(400.0f);
 
-            // 🔸 Insert
-            DatabaseManager.insertCaretaker(conn, ct);
-
-            // 🔸 Show updated list
-            DatabaseManager.readCaretakers(conn);
-
-            conn.close();
         } catch (Exception e) {
             System.out.println("❌ Failed to connect to MySQL");
             e.printStackTrace();

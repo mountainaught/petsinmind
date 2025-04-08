@@ -9,33 +9,16 @@ import java.sql.*;
 import java.util.UUID;
 
 public class DatabaseManager {
-    // Singleton instance
-    private static DatabaseManager instance;
-
     // The database connection
     private Connection connection;
 
     // Private constructor to prevent instantiation
-    private DatabaseManager() {}
-
-    // Get the singleton instance
-    public static synchronized DatabaseManager getInstance() {
-        if (instance == null) {
-            instance = new DatabaseManager();
-        }
-        return instance;
-    }
-
-    // Connect to the database
-    public Connection getConnection() throws SQLException {
-        if (connection == null || connection.isClosed()) {
-            connection = DriverManager.getConnection(
-                    Config.get("db.url"),
-                    Config.get("db.user"),
-                    Config.get("db.password")
-            );
-        }
-        return connection;
+    public DatabaseManager() throws SQLException {
+        connection = DriverManager.getConnection(
+                Config.get("db.url"),
+                Config.get("db.user"),
+                Config.get("db.password")
+        );
     }
 
     // Close the connection
@@ -65,6 +48,7 @@ public class DatabaseManager {
             ct = getCaretaker(rs, ct);
 
             user = ct;
+            return user;
         }
 
         return user;
