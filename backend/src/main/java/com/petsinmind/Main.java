@@ -20,7 +20,7 @@ public class Main {
             ct.setUserID(id);
 
             // 📥 Fetch from DB
-            Caretaker found = (Caretaker) db.findByID(ct);
+            Caretaker found = (Caretaker) db.findUser(ct);
 
             // 🖨️ Print their name
             System.out.println("Found caretaker:");
