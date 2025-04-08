@@ -6,6 +6,7 @@ import './css/reset.css';
 import './css/navbar.css';
 import './css/index.css';
 import './css/petowner.css';
+import './css/mobile.css'
 import left from './assets/LeftArrow.png';
 import right from './assets/RightArrow.png'; 
 import human from './assets/humanIcon.png';

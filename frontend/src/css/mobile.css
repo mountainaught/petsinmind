@@ -1,0 +1,147 @@
+@media only screen and (max-width: 768px) {
+    *,
+    *::before,
+    *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+       
+        /* overflow-x: hidden; */
+    }
+
+    /*NAVBAR DONE*/
+    .navbar{
+        font-size: 150%;
+        width: 100%;
+    }
+
+    .navbar-buttons p {
+        display: none;
+    }
+
+    .navbar-buttons button {
+        font-size: 60%;
+        width: 5%;
+        padding: 0;
+        height: 33%;
+    }
+
+    .navbar-buttons {
+        display: flex;
+        flex-direction: column;
+        width: 15%;
+        height: 100%;
+    }
+
+    .navbar h1{
+        font-size: 90%;
+    }
+
+    .logoandtitle {
+        width: 85%;
+        height: 100%;
+        padding-left: 5%;
+        gap: 10px;
+    }
+
+
+
+
+    /*PETOWNER HOMEPAGE DONE*/
+
+    .petownerhome{
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+
+        align-items: center;
+    }
+
+    .selectBox{
+        width: 60%;
+        margin-bottom: 10px;
+    }
+
+    .bookApt{
+        width: 60%;
+    }
+
+    /*home / about DONE*/
+    .box-container{
+        display: flex;
+        flex-direction: column;
+    }
+
+    .infobox h1{
+        font-size: 110%;
+    }
+    .infobox p{
+        font-size: 100%;
+        overflow: scroll;
+    }
+
+    .arrow-container .arrow{
+        height: 5vh;
+        width: 5vh;
+    }
+
+    /*LOGIN DONE KIND OF*/
+
+    .loginBtn{
+        width: 200%;
+        height: 100px;
+        font-size: 200%;
+    }
+
+    /*REGISTER*/
+
+    .options-grid{
+        flex-direction: column;
+        width: 100%;
+        height: 100%;
+    }
+
+    .option-container{
+        width: 60%
+    }
+
+    .option-heading{
+        margin-top: 20px;
+        font-size: 150%;
+    }
+
+    .option-text{
+        font-size: 80%;
+  
+    }
+
+    /*PETOWNER HOMEPAGE */
+    .petownerhome{
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+        align-items: center;
+    }
+
+    .selectBox{
+        width: 60%;
+        margin-bottom: 10px;
+        height: 60vh;
+    }
+
+    .bookApt{
+        width: 60%;
+    }
+
+    /*LOGIN DETAILS*/
+
+    .details-container{
+        width: 75%;
+    }
+
+    .form-container input{
+        width: 100%;
+        
+    }
+
+}

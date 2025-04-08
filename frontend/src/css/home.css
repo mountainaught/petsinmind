@@ -1,3 +1,21 @@
+@media only screen and (min-width: 768px) {
+    .box-container{   
+        display: flex;
+        flex-direction: row;
+        justify-content: space-around;
+    }
+    .infobox h1{
+        font-size: 150%;
+        margin: 0;
+        padding: 0;
+    }
+
+    .arrow-container img{
+        height: 7vh;
+        width: 7vh;
+    }
+    
+}
 .home-container{
     display: flex;
     align-items: center;
@@ -13,11 +31,7 @@
 }
 
 
-.box-container{
-    display: flex;
-    flex-direction: row;
 
-}
 
 .infobox{
     display: flex;
@@ -34,11 +48,7 @@
     justify-content: space-between;
 }
 
-.infobox h1{
-    font-size: 150%;
-    margin: 0;
-    padding: 0;
-}
+
 
 .arrow-container{
     display: flex;
@@ -46,9 +56,10 @@
     justify-content: space-between;
 }
 
-.arrow-container img{
-    height: 10vh;
-    width: 10vh;
+.infobox img{
+    height: 20vh;
     
+    object-fit: contain;
 }
+
 

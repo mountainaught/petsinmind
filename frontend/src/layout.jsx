@@ -4,9 +4,13 @@ import { useNavigate } from 'react-router-dom';
 import './css/reset.css';
 import './css/navbar.css';
 import './css/index.css';
+
 import logo from './assets/Logo.png';
 
 export default function Layout() {
+
+    
+
     const location = useLocation();
     const navigate = useNavigate();
 

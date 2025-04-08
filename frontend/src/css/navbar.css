@@ -9,7 +9,8 @@
     color: #F8F9FA;
     font-size: 300%;
     display: flex;
-    justify-content: space-between;
+    flex-direction: row;
+    justify-content: space-around;
 }
 
 /* Left hand side */

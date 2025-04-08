@@ -1,3 +1,9 @@
+@media only screen and (min-width: 768px) {
+    .details-container {
+        width: 30%;
+    }
+}
+
 .details-container {
     display: flex;
     flex-direction: column;
@@ -5,7 +11,7 @@
     justify-content: center;
     justify-self: center;
     margin-top: 10%;
-    width: 30%;
+    
     height: 50%;
 
     flex-shrink: 0;
