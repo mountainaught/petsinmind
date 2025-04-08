@@ -123,8 +123,25 @@ public class Registry {
         return ct;
     }
 
-    public Pet getPet(Pet pet) {
+    public Pet getPet(Pet pet) throws SQLException {
+        PreparedStatement ps = null;
+        ResultSet rs = null;
 
+        ps = connection.prepareStatement("SELECT * FROM caretaker WHERE PetID = ?");
+        ps.setString(1, pet.getPetID().toString());
+        rs = ps.executeQuery();
+
+        if (rs.next()) {
+            pet.setPetID(UUID.fromString(rs.getString("PetID")));
+            pet.setName(rs.getString("Name"));
+            pet.setType(rs.getString("Type"));
+            pet.setSize(rs.getString("Size"));
+            pet.setAge(Integer.valueOf(rs.getString("Age")));
+            pet.setOwnerID(UUID.fromString(rs.getString("PetownerID")));
+            return pet;
+        }
+
+        return null;
     }
 
     public Appointment getAppointment(Appointment appointment) {
