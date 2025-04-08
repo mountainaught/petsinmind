@@ -32,6 +32,8 @@ public abstract class User {
 		return UserName;
 	}
 
+	public String getUserPassword() { return UserPassword; }
+
 	public String getPhoneNumber() {
 		return PhoneNumber;
 	}
@@ -47,6 +49,15 @@ public abstract class User {
 	public String getUserEmail() {
 		return UserEmail;
 	}
+
+
+	/**
+	 *
+	 * @param userID
+	 */
+	public void setUserID(UUID userID) { UserID = userID; }
+
+	public void setUserPassword(String password) { UserPassword = password; }
 
 	/**
 	 * 

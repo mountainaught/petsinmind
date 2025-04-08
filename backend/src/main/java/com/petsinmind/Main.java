@@ -5,6 +5,7 @@ import java.sql.DriverManager;
 import java.util.UUID;
 
 import com.petsinmind.users.Caretaker;
+import com.petsinmind.utils.DatabaseManager;
 
 public class Main {
     public static void main(String[] args) {
@@ -29,13 +30,13 @@ public class Main {
             ct.setLastName("Kuwaiti");
             ct.setLocation("Kuwait City");
             
-            ct.SetPay(400.0f);
+            ct.setPay(400.0f);
 
             // 🔸 Insert
-            Caretaker.insertCaretaker(conn, ct);
+            DatabaseManager.insertCaretaker(conn, ct);
 
             // 🔸 Show updated list
-            Caretaker.readCaretakers(conn);
+            DatabaseManager.readCaretakers(conn);
 
             conn.close();
         } catch (Exception e) {
