@@ -14,6 +14,8 @@ import marker from './assets/Marker.png';
 export default function BookApt() {
     const [walkingIsClicked, setWalkingClicked] = useState(false); // move it here
     const [mindingIsClicked, setMindingClicked] = useState(false); // move it here
+
+    const navigate = useNavigate();
     return (
         <div className='container'>
             <div className='bookapt-container'>
@@ -51,7 +53,7 @@ export default function BookApt() {
                 </div>
 
             </div>
-            <button className='findCt'>Find Caretaker</button>
+            <button onClick={() => navigate('/findCaretaker')} className='findCt'>Find Caretaker</button>
         </div>
     );
 }

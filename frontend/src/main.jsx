@@ -11,6 +11,8 @@ import Details from './details.jsx'
 import Chat from './chat.jsx'
 import BookApt from './bookApt.jsx';
 import PetOwnerHome from './petownerHome.jsx';
+import FindCaretaker from './findCaretaker.jsx';
+import CaretakerHome from './caretakerHome.jsx';
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
@@ -24,6 +26,8 @@ createRoot(document.getElementById('root')).render(
           <Route path="/chat" element={<Chat />}/>
           <Route path="/bookapt" element={<BookApt />}/>
           <Route path="/petownerhome" element={<PetOwnerHome />}/>
+          <Route path="/findcaretaker" element={<FindCaretaker />}/>
+          <Route path="/caretakerHome" element={<CaretakerHome />}/>
         </Route>
       </Routes>
     </BrowserRouter>
