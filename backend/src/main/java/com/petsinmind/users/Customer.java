@@ -7,29 +7,14 @@ import java.util.List;
 import java.util.UUID;
 
 public abstract class Customer extends User {
-    protected UUID userID;
-    protected String userName;
-    protected String userPassword;
-    protected String userEmail;
-    protected String phoneNumber;
-    protected String firstName;
-    protected String lastName;
-    protected String location;
+    private String location;
 
     private List<String> ListAppointmentIDs;
     private List<String> ListTicketIDs;
     private List<String> ListJobOfferIDs;
 
-
-	public void setUserID(UUID userID) { this.userID = userID; }
-	public void setUserName(String userName) { this.userName = userName; }
-	public void setUserPassword(String userPassword) { this.userPassword = userPassword; }
-	public void setUserEmail(String userEmail) { this.userEmail = userEmail; }
-	public void setPhoneNumber(String phoneNumber) { this.phoneNumber = phoneNumber; }
-	public void setFirstName(String firstName) { this.firstName = firstName; }
-	public void setLastName(String lastName) { this.lastName = lastName; }
-	public void setLocation(String location) { this.location = location; }
-
+    public String getLocation() { return location; }
+    public void setLocation(String location) { this.location = location; }
 
     public void AddAppointment(String appointmentID) {
         ListAppointmentIDs.add(appointmentID);

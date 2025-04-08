@@ -1,45 +1,35 @@
 package com.petsinmind;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.util.UUID;
-
 import com.petsinmind.users.Caretaker;
+import com.petsinmind.utils.DatabaseManager;
+
+import java.util.UUID;
 
 public class Main {
     public static void main(String[] args) {
         System.out.println("DB URL: " + Config.get("db.url"));
+
         try {
-            Connection conn = DriverManager.getConnection(
-                Config.get("db.url"),
-                Config.get("db.user"),
-                Config.get("db.password")
-            );
+            DatabaseManager db = new DatabaseManager();
 
-            System.out.println("✅ Connected to MySQL");
+            // 🆔 Replace with the UUID of the user you want to fetch
+            UUID id = UUID.fromString("077921c7-e55e-4f9b-87cb-9cdb546b5111");
 
-            // 🔸 Create new caretaker object
+            // 🔍 Set up a Caretaker object with that ID
             Caretaker ct = new Caretaker();
-            ct.setUserID(UUID.randomUUID());
-            ct.setUserName("laila");
-            ct.setUserPassword("password123");
-            ct.setUserEmail("laila@example.com");
-            ct.setPhoneNumber("66667777");
-            ct.setFirstName("Laila");
-            ct.setLastName("Kuwaiti");
-            ct.setLocation("Kuwait City");
-            
-            ct.SetPay(400.0f);
+            ct.setUserID(id);
 
-            // 🔸 Insert
-            Caretaker.insertCaretaker(conn, ct);
+            // 📥 Fetch from DB
+            Caretaker found = (Caretaker) db.findByID(ct);
 
-            // 🔸 Show updated list
-            Caretaker.readCaretakers(conn);
+            // 🖨️ Print their name
+            System.out.println("Found caretaker:");
+            System.out.println("Name: " + found.getFirstName() + " " + found.getLastName());
+            System.out.println("Username: " + found.getUserName());
 
-            conn.close();
+            db.closeConnection();
         } catch (Exception e) {
-            System.out.println("❌ Failed to connect to MySQL");
+            System.out.println("❌ Failed to fetch caretaker");
             e.printStackTrace();
         }
     }
