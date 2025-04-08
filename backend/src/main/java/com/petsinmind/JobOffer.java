@@ -5,11 +5,6 @@ import java.util.List;
 import java.util.Calendar;
 import java.util.UUID;
 
-<<<<<<< HEAD
-import com.petsinmind.firebase.FirebaseReader;
-=======
-
->>>>>>> main
 import com.petsinmind.messages.JobOfferMessage;
 import com.petsinmind.users.Caretaker;
 import com.petsinmind.users.PetOwner;
@@ -58,11 +53,11 @@ public class JobOffer {
 
     // // Getters and Setters
     // public UUID getJobOfferID() {
-    //     return JobOfferID;
+    // return JobOfferID;
     // }
 
     // public void setJobOfferID(UUID JobOfferID) {
-    //     this.JobOfferID = JobOfferID;
+    // this.JobOfferID = JobOfferID;
     // }
 
     public PetOwner getPetOwner() {
@@ -153,25 +148,14 @@ public class JobOffer {
         this.Type = Type;
     }
 
-<<<<<<< HEAD
-    public List<Caretaker> findCaretakers() {
-        List<Caretaker> availableCaretakers = new ArrayList<>();
-        List<Caretaker> allCaretakers = FirebaseReader.getAllCaretakers();
-        for (Caretaker caretaker : allCaretakers) {
-            if (caretaker.getSchedule().get(startDate) && caretaker.getSchedule().get(endDate)) {
-                availableCaretakers.add(caretaker);
-            }
-        }
-    }
-=======
     // public List<Caretaker> findCaretakers() {
-    //     List<Caretaker> availableCaretakers = new ArrayList<>();
-    //     List<Caretaker> allCaretakers = FirebaseReader.getAllCaretakers();
-    //     for (Caretaker caretaker : allCaretakers) {
-    //         if (caretaker.getSchedule().get(startDate) && caretaker.getSchedule().get(endDate)) {
-    //             availableCaretakers.add(caretaker);
-    //         }
-    //     }
+    // List<Caretaker> availableCaretakers = new ArrayList<>();
+    // List<Caretaker> allCaretakers = FirebaseReader.getAllCaretakers();
+    // for (Caretaker caretaker : allCaretakers) {
+    // if (caretaker.getSchedule().get(startDate) &&
+    // caretaker.getSchedule().get(endDate)) {
+    // availableCaretakers.add(caretaker);
     // }
->>>>>>> main
+    // }
+    // }
 }
