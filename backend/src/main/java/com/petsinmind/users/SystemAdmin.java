@@ -87,4 +87,10 @@ public class SystemAdmin extends User implements TicketSA, ApplicationSA {
 		throw new UnsupportedOperationException();
 	}
 
+	// Falak - Khaled said something about viewing all applications:
+	public void viewAllApplications() {
+		// TODO - implement SystemAdmin.viewAllApplications
+		throw new UnsupportedOperationException();
+	}
+
 }
