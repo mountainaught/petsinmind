@@ -20,7 +20,7 @@ export default function Layout() {
         <div>
             <nav className='navbar'>
                 <div className='logoandtitle'>
-                    <img src={logo} alt="Logo" />
+                    <img onClick={() => navigate('/home')} src={logo} alt="Logo" />
                     <h1>Pets In Mind</h1>
                 </div>
 
