@@ -1,5 +1,10 @@
 body {
+    background-image: url('/src/assets/paws.png');
+    background-repeat: repeat-y;
     background-color: #FFE5E5;  /* Change this to your preferred color */
+    height: 100vh;
+    background-size: 100% auto;
+    
 }
 
 body {

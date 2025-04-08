@@ -1,7 +1,6 @@
 package com.petsinmind.users;
 
 import com.petsinmind.messages.Message;
-import com.petsinmind.firebase.FirebaseWriter;
 
 import java.util.*;
 
@@ -9,7 +8,7 @@ import java.util.*;
 public abstract class User {
 
 	Collection<Message> Sends;
-	private int UserID;
+	private UUID UserID;
 	private String UserName;
 	private String UserPassword;
 	private String UserEmail;
@@ -21,19 +20,33 @@ public abstract class User {
 	 * 
 	 * @param Password
 	 */
-	public void ChangePassword(String Password) { UserPassword = Password; }
+	public void ChangePassword(String Password) {
+		UserPassword = Password;
+	}
 
-	public int getUserID() { return UserID; }
+	public UUID getUserID() {
+		return UserID;
+	}
 
-	public String getUserName() { return UserName; }
+	public String getUserName() {
+		return UserName;
+	}
 
-	public String getPhoneNumber() { return PhoneNumber; }
+	public String getPhoneNumber() {
+		return PhoneNumber;
+	}
 
-	public String getFirstName() { return FirstName; }
+	public String getFirstName() {
+		return FirstName;
+	}
 
-	public String getLastName() { return LastName; }
+	public String getLastName() {
+		return LastName;
+	}
 
-	public String getUserEmail() { return UserEmail; }
+	public String getUserEmail() {
+		return UserEmail;
+	}
 
 	/**
 	 * 
@@ -79,8 +92,8 @@ public abstract class User {
 	 * 
 	 * @param Message
 	 */
-	public boolean SendMessage(Message Message) {
+	// public boolean SendMessage(Message Message) {
 
-	}
+	// }
 
 }

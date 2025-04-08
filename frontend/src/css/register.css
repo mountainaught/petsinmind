@@ -1,15 +1,37 @@
+@media only screen and (min-width: 768px) {
+    .options-grid {
+        flex-direction: row;
+        width: 30%;
+        height: 50%;
+    }
+
+    .option-container{
+        width: 70%;
+    }
+
+    .option-heading {
+        font-size: 300%;
+        white-space: nowrap;
+        margin-top: 5%;
+    }
+
+    .option-text {
+        font-size: 100%;
+    }
+}
+
+
 .options-grid {
     display: flex;
-    flex-direction: row;
-    align-items: stretch;
+    align-items: center;
     justify-content: center;
     justify-self: center;
     margin-top: 3%;
-    width: 30%;
-    height: 50%;
+
 
     gap: 20%; /* Add spacing between elements */
 }
+
 
 .option-container{
     display: flex;
@@ -18,7 +40,7 @@
     justify-content: center;
     justify-self: center;
     margin-top: 10%;
-    width: 70%;
+    
     height: 120%;
 
     flex-shrink: 0;
@@ -27,13 +49,10 @@
     background: #FFF;
 
     gap: 20px; /* Add spacing between elements */
+    max-height: 481px;
 }
 
-.option-heading {
-    font-size: 300%;
-    white-space: nowrap;
-    margin-top: 5%;
-}
+
 
 .option-img {
     width: 75%;
@@ -41,7 +60,6 @@
 }
 
 .option-text {
-    font-size: 100%;
     text-align: left;
     margin-left: 12%;
     margin-right: 12%;

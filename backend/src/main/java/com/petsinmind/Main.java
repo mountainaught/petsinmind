@@ -1,23 +1,45 @@
 package com.petsinmind;
 
-import com.petsinmind.firebase.FirebaseInitializer;
-import com.petsinmind.firebase.FirebaseWriter;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.util.UUID;
+
+import com.petsinmind.users.Caretaker;
 
 public class Main {
     public static void main(String[] args) {
-        // Initialize Firebase Admin SDK
-        FirebaseInitializer.init();
-
-        // Write a test value to /test in Firebase
-        FirebaseWriter.testWrite();
-
-        // Read the test value from /test in Firebase
-        FirebaseWriter.testRead();
-
-        // Delay to ensure async Firebase calls complete before program exits because program gooo vrooom and miss data exit 
+        System.out.println("DB URL: " + Config.get("db.url"));
         try {
-            Thread.sleep(3000);
-        } catch (InterruptedException e) {
+            Connection conn = DriverManager.getConnection(
+                Config.get("db.url"),
+                Config.get("db.user"),
+                Config.get("db.password")
+            );
+
+            System.out.println("✅ Connected to MySQL");
+
+            // 🔸 Create new caretaker object
+            Caretaker ct = new Caretaker();
+            ct.setUserID(UUID.randomUUID());
+            ct.setUserName("laila");
+            ct.setUserPassword("password123");
+            ct.setUserEmail("laila@example.com");
+            ct.setPhoneNumber("66667777");
+            ct.setFirstName("Laila");
+            ct.setLastName("Kuwaiti");
+            ct.setLocation("Kuwait City");
+            
+            ct.SetPay(400.0f);
+
+            // 🔸 Insert
+            Caretaker.insertCaretaker(conn, ct);
+
+            // 🔸 Show updated list
+            Caretaker.readCaretakers(conn);
+
+            conn.close();
+        } catch (Exception e) {
+            System.out.println("❌ Failed to connect to MySQL");
             e.printStackTrace();
         }
     }

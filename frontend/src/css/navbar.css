@@ -9,7 +9,8 @@
     color: #F8F9FA;
     font-size: 300%;
     display: flex;
-    justify-content: space-between;
+    flex-direction: row;
+    justify-content: space-around;
 }
 
 /* Left hand side */
@@ -42,10 +43,9 @@ img{
 .navbar-buttons button {
     background-color: #5A0001;
     color: #F8F9FA;
-    
     border: none;
     padding: 10px 20px;
-    font-size: 100%;
+    font-size: 60%;
     cursor: pointer;
     border-radius: 5px;
 }
@@ -55,7 +55,7 @@ img{
 .navbar-buttons p {
     margin: 0;
     color: #F8F9FA;
-    font-size: 120%;
+    font-size: 80%;
 }
 
 .navbar-buttons button:hover {

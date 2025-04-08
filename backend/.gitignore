@@ -44,3 +44,6 @@ bin/
 ##private key#
 
 backend/src/main/resources/petsinmindkey.json
+
+# Ignore config file with sensitive credentials
+config.properties

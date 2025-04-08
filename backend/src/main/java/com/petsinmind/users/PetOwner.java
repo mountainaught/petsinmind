@@ -4,17 +4,17 @@ import com.petsinmind.JobOffer;
 import com.petsinmind.Pet;
 import com.petsinmind.messages.AppointmentMessage;
 import com.petsinmind.messages.JobOfferMessage;
-import com.petsinmind.firebase.FirebaseWriter;
+
 
 import java.util.Calendar;
 import java.util.HashSet;
 import java.util.List;
+import java.util.UUID;
 
 // Tibet
 public class PetOwner extends Customer {
 
 	private List<Pet> PetList;
-	private String Location;
 
 	/**
 	 * 
@@ -39,13 +39,13 @@ public class PetOwner extends Customer {
 	 * 
 	 * @param Location
 	 */
-	public void SetLocation(String Location) {
-		this.Location = Location;
-	}
+	// public void SetLocation(String Location) {
+	// this.Location = Location;
+	// }
 
-	public String GetLocation() {
-		return Location;
-	}
+	// public String GetLocation() {
+	// return Location;
+	// }
 
 	/**
 	 * 
@@ -55,24 +55,29 @@ public class PetOwner extends Customer {
 	 * @param type
 	 */
 	// TODO - FINISH IMPLEMENTING THIS! Need to push it to db
-	public boolean CreateJobOffer(List<Pet> petList, String location, Calendar startDate, Calendar endDate, String type) {
-		JobOffer jobOffer = new JobOffer();
-		jobOffer.setPetOwner(this);
-		jobOffer.setPets(petList);
-		jobOffer.setLocation(location);
-		jobOffer.setStartDate(startDate);
-		jobOffer.setEndDate(endDate);
-		jobOffer.setType(type);
+	// public boolean CreateJobOffer(List<Pet> petList, String location, Calendar
+	// startDate, Calendar endDate,
+	// String type) {
+	// JobOffer jobOffer = new JobOffer();
 
-		FirebaseWriter.pushJobOffer(jobOffer);
-	}
+	// String jobOfferID = FirebaseWriter.pushJobOffer(this.getUserID(), petList,
+	// type, startDate);
+
+	// jobOffer.setPetOwner(this);
+	// jobOffer.setPets(petList);
+	// jobOffer.setLocation(location);
+	// jobOffer.setStartDate(startDate);
+	// jobOffer.setEndDate(endDate);
+	// jobOffer.setType(type);
+	// }
 
 	/**
 	 * 
 	 * @param Pets
 	 */
 	public List<Pet> SelectPets(List<Pet> Pets) {
-		// TODO - Is this class right? It's only returning whether all pets exist or not right now.
+		// TODO - Is this class right? It's only returning whether all pets exist or not
+		// right now.
 		return new HashSet<>(PetList).containsAll(Pets) ? PetList : null;
 	}
 
@@ -90,7 +95,7 @@ public class PetOwner extends Customer {
 	 * @param JobOffer
 	 * @param CaretakerID
 	 */
-	public boolean AcceptCaretaker(JobOffer JobOffer, int CaretakerID) {
+	public boolean AcceptCaretaker(JobOffer JobOffer, UUID CaretakerID) {
 		// TODO - implement PetOwner.AcceptCaretaker
 		throw new UnsupportedOperationException();
 	}
@@ -100,7 +105,7 @@ public class PetOwner extends Customer {
 	 * @param JobOffer
 	 * @param CaretakerID
 	 */
-	public boolean RejectCaretaker(JobOffer JobOffer, int CaretakerID) {
+	public boolean RejectCaretaker(JobOffer JobOffer, UUID CaretakerID) {
 		// TODO - implement PetOwner.RejectCaretaker
 		throw new UnsupportedOperationException();
 	}

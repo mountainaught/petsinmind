@@ -1,6 +1,7 @@
 import React from 'react';
 import "./css/reset.css";
 import "./css/register.css";
+import "./css/mobile.css";
 
 export default function Register() {
     return (
@@ -29,9 +30,6 @@ export default function Register() {
                 </ul>
                 <button className='option-btn align-options'>Register as Caretaker</button>
             </div>
-
- 
         </div>
-
     );
 }

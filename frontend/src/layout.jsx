@@ -4,9 +4,14 @@ import { useNavigate } from 'react-router-dom';
 import './css/reset.css';
 import './css/navbar.css';
 import './css/index.css';
+import './css/mobile.css';
+
 import logo from './assets/Logo.png';
 
 export default function Layout() {
+
+    
+
     const location = useLocation();
     const navigate = useNavigate();
 
@@ -20,29 +25,31 @@ export default function Layout() {
         <div>
             <nav className='navbar'>
                 <div className='logoandtitle'>
-                    <img src={logo} alt="Logo" />
+                    <img onClick={() => navigate('/home')} src={logo} alt="Logo" />
                     <h1>Pets In Mind</h1>
                 </div>
 
-            {!isLoginPage && (
+                {!isLoginPage && (
+                        <div className='navbar-buttons'>
+                            <button onClick={() => navigate('/login')}>Login</button>
+                            <p>|</p>
+                            <button onClick={() => navigate('/petownerhome')}>Home</button>
+                            <p>|</p>
+                            <button>Help</button>
+                        </div>
+                )}
+
+                {isLoginPage && (
                     <div className='navbar-buttons'>
-                        <button onClick={() => navigate('/login')}>Login</button>
-                        <p>|</p>
-                        <button onClick={() => navigate('/')}>Home</button>
+                        <button onClick={() => navigate('/petownerhome')}>Home</button>
                         <p>|</p>
                         <button>Help</button>
+                        <button onClick={() => navigate('/caretakerHome')}>TempCT</button>
                     </div>
-            )}
-
-            {isLoginPage && (
-            <div className='navbar-buttons'>
-                <button onClick={() => navigate('/')}>Home</button>
-                <p>|</p>
-                <button>Help</button>
-            </div>
-            )}
-
+                )}
             </nav>
+
+           
 
             {!isChat && (
                 <button className="chatBtn" onClick={() => navigate('/chat')}>
@@ -54,8 +61,7 @@ export default function Layout() {
                 </button>
             )}
 
-        {/* Background image */}
-        <img className="bgImage" src="/src/assets/paws.png" alt="Paws" />
+
 
         <Outlet />
         </div>
