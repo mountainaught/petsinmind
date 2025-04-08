@@ -28,7 +28,7 @@ export default function Layout() {
                     <div className='navbar-buttons'>
                         <button onClick={() => navigate('/login')}>Login</button>
                         <p>|</p>
-                        <button onClick={() => navigate('/')}>Home</button>
+                        <button onClick={() => navigate('/petownerhome')}>Home</button>
                         <p>|</p>
                         <button>Help</button>
                     </div>
@@ -39,6 +39,7 @@ export default function Layout() {
             <button onClick={() => navigate('/petownerhome')}>Home</button>
             <p>|</p>
             <button>Help</button>
+            <button onClick={() => navigate('/caretakerHome')}>TempCaretakerHome</button>
           </div>
         )}
       </nav>
