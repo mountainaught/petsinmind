@@ -17,20 +17,14 @@ import java.sql.PreparedStatement;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
+import java.util.UUID;
 
 // Tibet
-
-
-
-
-
 public class Caretaker extends Customer implements JobOfferCT {
 
 	private float Pay;
 	private HashMap<Calendar, Boolean> schedule;
 	private List<Review> ListReviews;
-
-
 
 	public static void readCaretakers(Connection conn) {
     try {
@@ -42,7 +36,7 @@ public class Caretaker extends Customer implements JobOfferCT {
             Caretaker ct = new Caretaker();
 
             // From Customer
-            ct.userID = rs.getString("UserID");
+            ct.userID = UUID.fromString(rs.getString("UserID"));
             ct.userName = rs.getString("UserName");
             ct.userPassword = rs.getString("UserPassword");
             ct.userEmail = rs.getString("UserEmail");
@@ -70,7 +64,7 @@ public class Caretaker extends Customer implements JobOfferCT {
                      "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         PreparedStatement ps = conn.prepareStatement(sql);
-        ps.setString(1, ct.userID);
+        ps.setString(1, ct.userID.toString());
         ps.setString(2, ct.userName);
         ps.setString(3, ct.userPassword);
         ps.setString(4, ct.userEmail);

@@ -2,6 +2,8 @@ package com.petsinmind;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.util.UUID;
+
 import com.petsinmind.users.Caretaker;
 
 public class Main {
@@ -18,7 +20,7 @@ public class Main {
 
             // 🔸 Create new caretaker object
             Caretaker ct = new Caretaker();
-            ct.setUserID("CT-" + System.currentTimeMillis());
+            ct.setUserID(UUID.randomUUID());
             ct.setUserName("laila");
             ct.setUserPassword("password123");
             ct.setUserEmail("laila@example.com");
