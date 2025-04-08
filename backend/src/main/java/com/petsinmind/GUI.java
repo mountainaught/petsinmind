@@ -1,5 +1,7 @@
 package com.petsinmind;
 
+import com.petsinmind.users.User;
+
 public class GUI {
 
     private Registry registry;
@@ -21,6 +23,7 @@ public class GUI {
 
     // Method for user registration
     public boolean register(String username, String password, String email, String phoneNumber, String firstName, String lastName) {
-        return registry.addUser(firstName, lastName, username, password, email, phoneNumber);
+        User newUser = new User(username, password, email, phoneNumber, firstName, lastName);
+        return registry.createUser(firstName, lastName, username, password, email, phoneNumber);
     }
 }
