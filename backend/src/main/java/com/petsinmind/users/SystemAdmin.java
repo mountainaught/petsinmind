@@ -7,6 +7,7 @@ import com.petsinmind.TicketSA;
 import com.petsinmind.messages.TicketMessage;
 
 import java.util.List;
+import java.util.UUID;
 
 // Tibet
 public class SystemAdmin extends User implements TicketSA, ApplicationSA {
@@ -17,7 +18,7 @@ public class SystemAdmin extends User implements TicketSA, ApplicationSA {
 	 * 
 	 * @param TicketID
 	 */
-	public void SelectTicket(int TicketID) {
+	public void SelectTicket(UUID TicketID) {
 		// TODO - implement SystemAdmin.SelectTicket
 		throw new UnsupportedOperationException();
 	}
@@ -27,7 +28,7 @@ public class SystemAdmin extends User implements TicketSA, ApplicationSA {
 	 * @param TicketID
 	 * @param SystemAdminID
 	 */
-	public void ShareTicket(int TicketID, int SystemAdminID) {
+	public void ShareTicket(UUID TicketID, UUID SystemAdminID) {
 		// TODO - implement SystemAdmin.ShareTicket
 		throw new UnsupportedOperationException();
 	}
@@ -36,7 +37,7 @@ public class SystemAdmin extends User implements TicketSA, ApplicationSA {
 	 * 
 	 * @param TicketID
 	 */
-	public void CloseTicket(int TicketID) {
+	public void CloseTicket(UUID TicketID) {
 		// TODO - implement SystemAdmin.CloseTicket
 		throw new UnsupportedOperationException();
 	}
@@ -45,7 +46,7 @@ public class SystemAdmin extends User implements TicketSA, ApplicationSA {
 	 * 
 	 * @param userID
 	 */
-	public User FindUserByID(int userID) {
+	public User FindUserByID(UUID userID) {
 		// TODO - implement SystemAdmin.FindUserByID
 		throw new UnsupportedOperationException();
 	}

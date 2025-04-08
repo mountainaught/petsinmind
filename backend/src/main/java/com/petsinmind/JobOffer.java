@@ -12,7 +12,7 @@ import com.petsinmind.users.PetOwner;
 
 // Dimitris
 public class JobOffer {
-    private String JobOfferID;
+    private UUID JobOfferID;
     private PetOwner petOwner;
     private List<Pet> pets;
 

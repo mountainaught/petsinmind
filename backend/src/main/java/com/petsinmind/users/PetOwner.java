@@ -9,6 +9,7 @@ import com.petsinmind.messages.JobOfferMessage;
 import java.util.Calendar;
 import java.util.HashSet;
 import java.util.List;
+import java.util.UUID;
 
 // Tibet
 public class PetOwner extends Customer {
@@ -94,7 +95,7 @@ public class PetOwner extends Customer {
 	 * @param JobOffer
 	 * @param CaretakerID
 	 */
-	public boolean AcceptCaretaker(JobOffer JobOffer, int CaretakerID) {
+	public boolean AcceptCaretaker(JobOffer JobOffer, UUID CaretakerID) {
 		// TODO - implement PetOwner.AcceptCaretaker
 		throw new UnsupportedOperationException();
 	}
@@ -104,7 +105,7 @@ public class PetOwner extends Customer {
 	 * @param JobOffer
 	 * @param CaretakerID
 	 */
-	public boolean RejectCaretaker(JobOffer JobOffer, int CaretakerID) {
+	public boolean RejectCaretaker(JobOffer JobOffer, UUID CaretakerID) {
 		// TODO - implement PetOwner.RejectCaretaker
 		throw new UnsupportedOperationException();
 	}
