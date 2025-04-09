@@ -31,6 +31,10 @@ public class Appointment {
         this.type = null;
     }
 
+    public Appointment(UUID appID) {
+        this.appointmentId = appID;
+    }
+
     // Constructor with parameters
     public Appointment(UUID appointmentId, Caretaker caretaker, PetOwner PetOwner, List<Pet> pets, Calendar startDate,
             Calendar endDate,
