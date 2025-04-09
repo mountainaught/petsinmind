@@ -4,7 +4,11 @@ import com.petsinmind.messages.Message;
 import com.petsinmind.users.Caretaker;
 import com.petsinmind.users.PetOwner;
 import com.petsinmind.users.User;
+// import com.petsinmind.users.Application;
 
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.InputStream;
 import java.sql.*;
 import java.util.HashMap;
 import java.util.List;
@@ -157,7 +161,35 @@ public class Registry {
 
     public Application getApplication(Application app) {
 
+    public Application getApplication(Application app, String outputPath) {
+        String sql = "SELECT * FROM application WHERE UserName = ?";
+    
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setString(1, app.getUserName());
+            ResultSet rs = stmt.executeQuery();
+    
+            if (rs.next()) {
+                app.setFirstName(rs.getString("FirstName"));
+                app.setLastName(rs.getString("LastName"));
+                app.setUserEmail(rs.getString("UserEmail"));
+                app.setUserPassword(rs.getString("UserPassword"));
+                app.setPhoneNumber(rs.getString("PhoneNumber"));
+    
+                // ✅ Download the PDF using your existing method
+                downloadApplicationCV(app.getUserName(), outputPath);
+    
+                return app;
+            } else {
+                System.out.println("❌ Application not found for: " + app.getUserName());
+            }
+    
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    
+        return null;
     }
+    
 
     //******************************************//
     //           SQL Write Functions            //
@@ -213,7 +245,35 @@ public class Registry {
 
     public boolean createApplication(Application app) {
 
+    public boolean createApplication(Application app, String pdfPath) {
+        String sql = "INSERT INTO application (FirstName, LastName, UserName, UserPassword, UserEmail, PhoneNumber) " +
+                     "VALUES (?, ?, ?, ?, ?, ?)";
+    
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+    
+            stmt.setString(1, app.getFirstName());
+            stmt.setString(2, app.getLastName());
+            stmt.setString(3, app.getUserName());
+            stmt.setString(4, app.getUserPassword());
+            stmt.setString(5, app.getUserEmail());
+            stmt.setString(6, app.getPhoneNumber());
+    
+            int rows = stmt.executeUpdate();
+    
+            if (rows > 0) {
+                System.out.println("✅ Application inserted.");
+                return uploadApplicationCV(app.getUserName(), pdfPath);
+            } else {
+                System.out.println("❌ Failed to insert application.");
+                return false;
+            }
+    
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
     }
+    
 
     public static void insertCaretaker(Connection conn, Caretaker ct) {
         try {
@@ -247,6 +307,71 @@ public class Registry {
 
     public List<Caretaker> findAvailableCaretakers(JobOffer jobOffer) {
 
+
+
+
+
+
+
+
+
+    public boolean uploadApplicationCV(String userName, String filePath) {
+        String sql = "UPDATE application SET UserCV = ? WHERE UserName = ?";
+
+        try (PreparedStatement stmt = connection.prepareStatement(sql);
+            FileInputStream fis = new FileInputStream(filePath)) {
+
+            stmt.setBinaryStream(1, fis, fis.available());
+            stmt.setString(2, userName);
+
+            int rows = stmt.executeUpdate();
+            System.out.println(rows > 0 ? "✅ CV uploaded." : "❌ Failed to upload CV.");
+            return rows > 0;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
     }
+
+    public boolean downloadApplicationCV(String userName, String outputPath) {
+        String sql = "SELECT UserCV FROM application WHERE UserName = ?";
+
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setString(1, userName);
+            ResultSet rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                InputStream input = rs.getBinaryStream("UserCV");
+
+                if (input == null) {
+                    System.out.println("⚠️ No CV found for caretaker.");
+                    return false;
+                }
+
+                FileOutputStream output = new FileOutputStream(outputPath);
+                byte[] buffer = new byte[1024];
+                int bytesRead;
+
+                while ((bytesRead = input.read(buffer)) != -1) {
+                    output.write(buffer, 0, bytesRead);
+                }
+
+                input.close();
+                output.close();
+                System.out.println("✅ CV saved to: " + outputPath);
+                return true;
+            } else {
+                System.out.println("❌ Caretaker not found.");
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return false;
+    }
+
+
 
 }
