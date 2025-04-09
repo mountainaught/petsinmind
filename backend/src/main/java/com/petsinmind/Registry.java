@@ -493,8 +493,15 @@ public class Registry {
 
     }
 
-    public checkUserName(String userName) {
+    public boolean userNameExists(String userName) throws SQLException {
+        PreparedStatement ps = connection.prepareStatement("SELECT * FROM (caretaker OR petowner OR systemadmin) WHERE UserName");
+        ResultSet rs = ps.executeQuery();
 
+        if (rs.next()) {
+            return userName.equals(rs.getString("UserName"));
+        }
+
+        return false;
     }
 
     //******************************************//
