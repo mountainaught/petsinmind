@@ -2,8 +2,10 @@ import React from 'react';
 import "./css/reset.css";
 import "./css/register.css";
 import "./css/mobile.css";
+import { useNavigate } from 'react-router-dom';
 
 export default function Register() {
+    const navigate = useNavigate();
     return (
         <div className = "options-grid">
 
@@ -15,7 +17,7 @@ export default function Register() {
                     <li>Feel at ease while your fluffy friends are away with live tracking and updates</li>
                     <li>Message your caretaker to get updates or message us if you have any issues</li>
                 </ul>
-                <button className='option-btn'>Register as Pet-Owner</button>
+                <button className='option-btn' onClick={() => navigate('/newOwner')}>Register as Pet-Owner</button>
             </div>
 
             <div className="option-container">

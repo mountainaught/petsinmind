@@ -14,6 +14,7 @@ import PetOwnerHome from './petownerHome.jsx';
 import Home from './home.jsx';
 import FindCaretaker from './findCaretaker.jsx';
 import CaretakerHome from './caretakerHome.jsx';
+import NewOwner from './newOwner.jsx';
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
@@ -25,11 +26,12 @@ createRoot(document.getElementById('root')).render(
           <Route path="/register" element={<Register />}/>
           <Route path="/details" element={<Details />}/>
           <Route path="/chat" element={<Chat />}/>
-          <Route path="/bookapt" element={<BookApt />}/>
+          <Route path="/bookApt" element={<BookApt />}/>
           <Route path="/petownerhome" element={<PetOwnerHome />}/>
           <Route path="/home" element={<Home />}/>
           <Route path="/findcaretaker" element={<FindCaretaker />}/>
           <Route path="/caretakerHome" element={<CaretakerHome />}/>
+          <Route path="/newOwner" element={<NewOwner />}/>
         </Route>
       </Routes>
     </BrowserRouter>

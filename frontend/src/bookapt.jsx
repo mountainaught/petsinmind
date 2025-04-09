@@ -28,7 +28,7 @@ export default function BookApt() {
 
                     <div className='petselect'>this should contain a list of pets to be involved in the appointment</div>
 
-        
+
 
                 </div>
 
