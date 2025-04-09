@@ -1,6 +1,6 @@
 package com.petsinmind.users;
 
-import com.petsinmind.messages.Message;
+import com.petsinmind.Message;
 import com.petsinmind.Registry;
 
 import java.util.*;
@@ -30,7 +30,8 @@ public abstract class User {
 	 * @param firstName    First name of the user.
 	 * @param lastName     Last name of the user.
 	 */
-	public User(UUID userID, String userName, String userPassword, String userEmail, String phoneNumber, String firstName, String lastName) {
+	public User(UUID userID, String userName, String userPassword, String userEmail, String phoneNumber,
+			String firstName, String lastName) {
 		this.UserID = userID;
 		this.UserName = userName;
 		this.UserPassword = userPassword;

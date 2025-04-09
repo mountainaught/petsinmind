@@ -1,8 +1,5 @@
 package com.petsinmind;
 
-import com.petsinmind.messages.Message;
-import com.petsinmind.messages.TicketMessage;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Calendar;
@@ -18,7 +15,7 @@ public class Ticket {
     private List<UUID> EmployeeIDs;
     private Boolean Status;
     private Registry registry;
-    private ArrayList<TicketMessage> messageList;
+    private ArrayList<Message> messageList;
 
     // Initial constructor
     public Ticket() {
@@ -43,7 +40,7 @@ public class Ticket {
         this.Details = Details;
         this.Date = Calendar.getInstance();
         this.CustomerID = CustomerID;
-        this.EmployeeIDs = EmployeeIDs;
+        this.EmployeeIDs = new ArrayList<>();
         this.Status = false;
     }
 
@@ -139,11 +136,11 @@ public class Ticket {
         this.Status = Status;
     }
 
-    public void addMessage(TicketMessage message) {
+    public void addMessage(Message message) {
         this.messageList.add(message);
     }
 
-    public List<TicketMessage> getMessageList() {
+    public List<Message> getMessageList() {
         return messageList;
     }
 }

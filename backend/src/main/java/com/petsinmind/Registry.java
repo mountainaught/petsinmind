@@ -2,7 +2,6 @@ package com.petsinmind;
 
 import com.petsinmind.messages.AppointmentMessage;
 import com.petsinmind.messages.JobOfferMessage;
-import com.petsinmind.messages.Message;
 import com.petsinmind.messages.TicketMessage;
 import com.petsinmind.users.Caretaker;
 import com.petsinmind.users.PetOwner;
@@ -811,6 +810,31 @@ public class Registry {
             e.printStackTrace();
         }
         return false; // Delete failed
+    }
+
+    public boolean createMessage(Message message) throws SQLException {
+        PreparedStatement ps = null;
+        String sql = "INSERT INTO Message (Details, SenderID, ReferenceID, ReceiverID, type, Date) VALUES (?, ?, ?, ?, ?, ?);";
+        try {
+            ps = connection.prepareStatement(sql);
+            ps.setString(1, message.getDetails()); // Details
+            ps.setString(2, message.getSenderIDString()); // SenderID
+            ps.setString(3, message.getReferenceIDString()); // ReferenceID
+            ps.setString(4, message.getReceiverIDString()); // ReceiverID
+            ps.setString(5, message.getType()); // Type
+            ps.setDate(6, new Date(message.getDate().getTimeInMillis())); // Date
+
+            int rowsInserted = ps.executeUpdate();
+            if (rowsInserted > 0) {
+                System.out.println("Message inserted successfully!");
+                return true;
+            } else {
+                System.out.println("Insert failed.");
+                return false;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     public boolean createAppointment(Appointment appointment) throws SQLException {

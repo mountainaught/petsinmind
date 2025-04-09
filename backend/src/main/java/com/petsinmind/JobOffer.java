@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Calendar;
 import java.util.UUID;
 
-import com.petsinmind.messages.JobOfferMessage;
 import com.petsinmind.users.Caretaker;
 import com.petsinmind.users.PetOwner;
 
@@ -22,7 +21,7 @@ public class JobOffer {
     private List<Caretaker> RejectedCaretakers;
     private String Type;
 
-    private ArrayList<JobOfferMessage> messageList;
+    private ArrayList<Message> messageList;
 
     // Initial constructor
     public JobOffer() {
@@ -35,6 +34,10 @@ public class JobOffer {
         this.AcceptedCaretakers = null;
         this.RejectedCaretakers = null;
         this.Type = null;
+    }
+
+    public JobOffer(UUID jobOfferID) {
+        this.JobOfferID = jobOfferID;
     }
 
     // Constructor with parameters
@@ -122,7 +125,7 @@ public class JobOffer {
         return rejectedCaretakerIDs;
     }
 
-    public List<JobOfferMessage> getMessageList() {
+    public List<Message> getMessageList() {
         return messageList;
     }
 
@@ -180,7 +183,7 @@ public class JobOffer {
         this.RejectedCaretakers.remove(caretaker);
     }
 
-    public void addMessage(JobOfferMessage jobOfferMessage) {
-        this.messageList.add(jobOfferMessage);
+    public void addMessage(Message Message) {
+        this.messageList.add(Message);
     }
 }
