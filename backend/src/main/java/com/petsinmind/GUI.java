@@ -28,7 +28,8 @@ public class GUI {
     // Method for user login
     public boolean login(String username, String password) {
         // Check if the username and password are not empty
-        if (username == null || username.isEmpty() || password == null || password.isEmpty()) {
+        if (username == null || username.isEmpty() || password == null ||
+                password.isEmpty()) {
             return false;
         }
         // Call the registry to authenticate the user
@@ -37,17 +38,20 @@ public class GUI {
     }
 
     // Method for user registration
-    public boolean registerPetOwner(String username, String password, String email, String phoneNumber, String firstName, String lastName, String location) {
+    public boolean registerPetOwner(String username, String password, String email, String phoneNumber,
+            String firstName, String lastName, String location) {
         // Check if the username and password are not empty
         if (username == null || username.isEmpty() || password == null || password.isEmpty()) {
             return false;
         }
         // Call the registry to add a new user
-        PetOwner newUser = new PetOwner(UUID.randomUUID() ,username, password, email, phoneNumber, firstName, lastName, location, null, null, null, null);
+        PetOwner newUser = new PetOwner(UUID.randomUUID(), username, password, email, phoneNumber, firstName, lastName,
+                location, null, null, null, null);
         return registry.createUser(newUser);
     }
 
-    public boolean registerCaretaker(String firstName, String lastName, String username, String password, String email, String phoneNumber) {
+    public boolean registerCaretaker(String firstName, String lastName, String username, String password, String email,
+            String phoneNumber) {
         // Check if the username and password are not empty
         if (username == null || username.isEmpty() || password == null || password.isEmpty()) {
             return false;
