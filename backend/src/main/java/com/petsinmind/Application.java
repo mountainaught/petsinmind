@@ -8,13 +8,14 @@ public class Application {
     private String userEmail;
     private String cv;
     private String phoneNumber;
+    private String location;
 
     // Default constructor
     public Application() {}
 
     // All-args constructor (optional)
     public Application(String firstName, String lastName, String userName, String userPassword,
-                       String userEmail, String cv, String phoneNumber) {
+                       String userEmail, String cv, String phoneNumber, String location) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.userName = userName;
@@ -22,6 +23,7 @@ public class Application {
         this.userEmail = userEmail;
         this.cv = cv;
         this.phoneNumber = phoneNumber;
+        this.location = location;
     }
 
     //  Getters
@@ -32,6 +34,7 @@ public class Application {
     public String getUserEmail() { return userEmail; }
     public String getCv() { return cv; }
     public String getPhoneNumber() { return phoneNumber; }
+    public String getLocation() { return location; }
 
     //  Setters
     public void setFirstName(String firstName) { this.firstName = firstName; }
@@ -41,4 +44,5 @@ public class Application {
     public void setUserEmail(String userEmail) { this.userEmail = userEmail; }
     public void setCv(String cv) { this.cv = cv; }
     public void setPhoneNumber(String phoneNumber) { this.phoneNumber = phoneNumber; }
+    public void setLocation(String location) { this.location = location; }
 }

@@ -1,7 +1,9 @@
 package com.petsinmind.users;
 
+import com.petsinmind.Appointment;
 import com.petsinmind.JobOffer;
 import com.petsinmind.Pet;
+import com.petsinmind.Ticket;
 import com.petsinmind.messages.AppointmentMessage;
 import com.petsinmind.messages.JobOfferMessage;
 
@@ -16,9 +18,16 @@ public class PetOwner extends Customer {
 
 	private List<Pet> PetList;
 
+	public PetOwner() {
+	}
+
+	public PetOwner(UUID caretakerID) {
+		super(caretakerID);
+	}
+
 	public PetOwner(UUID userID, String userName, String userPassword, String userEmail, String phoneNumber,
 			String firstName, String lastName, String location,
-			List<String> listAppointmentIDs, List<String> listTicketIDs, List<String> listJobOfferIDs,
+			List<UUID> listAppointmentIDs, List<UUID> listTicketIDs, List<UUID> listJobOfferIDs,
 			List<Pet> petList) {
 		super(userID, userName, userPassword, userEmail, phoneNumber, firstName, lastName, location, listAppointmentIDs,
 				listTicketIDs, listJobOfferIDs);

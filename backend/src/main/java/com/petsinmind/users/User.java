@@ -1,8 +1,8 @@
 package com.petsinmind.users;
 
 import com.petsinmind.messages.Message;
+import com.petsinmind.Registry;
 
-import java.rmi.registry.Registry;
 import java.util.*;
 
 // Tibet
@@ -17,6 +17,13 @@ public abstract class User {
 	private String FirstName;
 	private String LastName;
 
+	private Registry registry;
+
+	public User() {}
+
+	public User(UUID caretakerID) {
+		this.UserID = caretakerID;
+	}
 
 	/**
 	 * Constructor for User class.
@@ -37,6 +44,11 @@ public abstract class User {
 		this.PhoneNumber = phoneNumber;
 		this.FirstName = firstName;
 		this.LastName = lastName;
+		try {
+			this.registry = Registry.getInstance(); // Singleton pattern
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	// getters
@@ -49,8 +61,8 @@ public abstract class User {
 		return UserName;
 	}
 
-	public String getUserPassword() { 
-		return UserPassword; 
+	public String getUserPassword() {
+		return UserPassword;
 	}
 
 	public String getPhoneNumber() {
@@ -75,12 +87,12 @@ public abstract class User {
 	 *
 	 * @param userID
 	 */
-	public void setUserID(UUID userID) { 
-		UserID = userID; 
+	public void setUserID(UUID userID) {
+		UserID = userID;
 	}
 
-	public void setUserPassword(String password) { 
-		UserPassword = password; 
+	public void setUserPassword(String password) {
+		UserPassword = password;
 	}
 
 	/**
@@ -133,36 +145,41 @@ public abstract class User {
 	// }
 
 	private boolean changeAttribute(String currentValue, String newValue, String attribute, Registry registry) {
-		if (newValue == null || newValue.isEmpty() || newValue.equals(currentValue)) {
+		try {
+			if (currentValue.equals(newValue)) {
+				System.out.println("No change detected for " + attribute + ".");
+				return false;
+			} else {
+				switch (attribute) {
+					case "FirstName":
+						this.FirstName = newValue;
+						break;
+					case "LastName":
+						this.LastName = newValue;
+						break;
+					case "UserPassword":
+						this.UserPassword = newValue;
+						break;
+					case "UserName":
+						this.UserName = newValue;
+						break;
+					case "UserEmail":
+						this.UserEmail = newValue;
+						break;
+					case "PhoneNumber":
+						this.PhoneNumber = newValue;
+						break;
+					default:
+						System.out.println("Invalid attribute: " + attribute);
+						return false;
+				}
+				registry.editUser(this);
+				return true;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
 			return false;
 		}
-
-		// Update the attribute value
-		switch (attribute) {
-			case "FirstName":
-				this.FirstName = newValue;
-				break;
-			case "LastName":
-				this.LastName = newValue;
-				break;
-			case "UserName":
-				this.UserName = newValue;
-				break;
-			case "UserPassword":
-				this.UserPassword = newValue;
-				break;
-			case "UserEmail":
-				this.UserEmail = newValue;
-				break;
-			case "PhoneNumber":
-				this.PhoneNumber = newValue;
-				break;
-			default:
-				return false; // Invalid attribute
-		}
-	
-		// Update the user in the registry
-		return registry.editUser(this);
 	}
 
 	// Refactored methods

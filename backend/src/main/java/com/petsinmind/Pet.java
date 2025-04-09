@@ -1,12 +1,16 @@
 package com.petsinmind;
 
+import java.util.UUID;
+
 // Dimitris
 public class Pet {
-    private String petID;
+    private UUID petID;
     private String name;
     private String type;
     private String size;
     private Integer age;
+
+    private UUID ownerID;
 
     // Initial constructor
     public Pet() {
@@ -17,54 +21,67 @@ public class Pet {
     }
 
     // Constructor with parameters
-    public Pet(String name, String type, String size, Integer age) {
-        this.name = name;
-        this.type = type;
-        this.size = size;
-        this.age = age;
-    }
-
-    // Getters and Setters
-    public String getPetID() {
-        return petID;
-    }
-
-    public void setPetID(String petID) {
+    public Pet(UUID petID) {
         this.petID = petID;
     }
 
-    public String getName() {
-        return name;
+    public Pet(String petName, String petType, String petSize, Integer petAge) {
+        this.petID = UUID.randomUUID();
+        this.name = petName;
+        this.type = petType;
+        this.size = petSize;
+        this.age = petAge;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    // Getters
+    public String getName() {
+        return name;
     }
 
     public String getType() {
         return type;
     }
 
-    public void setType(String type) {
-        this.type = type;
-    }
-
     public String getSize() {
         return size;
-    }
-
-    public void setSize(String size) {
-        this.size = size;
     }
 
     public Integer getAge() {
         return age;
     }
 
+    public UUID getPetID() {
+        return petID;
+    }
+
+    public UUID getOwnerID() {
+        return ownerID;
+    }
+
+    // Setters
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public void setSize(String size) {
+        this.size = size;
+    }
+
     public void setAge(Integer age) {
         this.age = age;
     }
-    // End of getters and setters
+
+    public void setPetID(UUID petID) {
+        this.petID = petID;
+    }
+
+    public void setOwnerID(UUID ownerID) {
+        this.ownerID = ownerID;
+    }
 
     // toString method
     public String toString() {
@@ -75,5 +92,4 @@ public class Pet {
                 ", age='" + age + '\'' +
                 '}';
     }
-
 }

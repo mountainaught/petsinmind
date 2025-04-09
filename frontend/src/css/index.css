@@ -38,3 +38,57 @@ button {
     cursor: pointer;
     transform: scale(1.1); /* Slightly enlarge the icon on hover */
 }
+
+
+.help {
+    position: fixed;
+    top: 50; /* Adjust as needed */
+    left: 50%; /* Center horizontally */
+    transform: translateX(-50%); /* Adjust for its own width */
+    z-index: 1000; /* Ensure it appears above other elements */
+    width: 40%;
+    height: 30%;
+
+    flex-shrink: 0;
+    border-radius: 15px;
+    border: 2px solid #5A0001;
+    background: #FFE5E5;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    flex-direction: column;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+    background-image: url('/src/assets/paws.png');
+    z-index: 9999; /* Adjust the z-axis to place it behind other elements */
+    position: absolute; /* Ensure it can be layered properly */
+    padding: 5px;
+
+}
+
+.help .tktReq, .help .closeBtn, .help .ticketRequest, div input, .help2 button{
+    border-radius: 15px;
+    border: 2px solid #5A0001;
+    width: 50%;
+    text-align: center;
+    height: 25%;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+    background-color: white;
+}
+
+.help .tktReq:hover, 
+.help .closeBtn:hover, 
+.help .ticketRequest:hover, 
+.help2 button:hover {
+    background-color: #5A0001;
+    color: white;
+}
+
+.help2{
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+}
+

@@ -1,16 +1,17 @@
 package com.petsinmind;
 
 import java.util.Calendar;
+import java.util.UUID;
 
 // Dimitris
 public class Payment {
-    private String PaymentID;
+    private UUID PaymentID;
     private String PaymentMethod;
     private Calendar PaymentDate;
     private float PaymentAmount;
     private String PaymentCurrency;
-    private String SenderID;
-    private String ReceiverID;
+    private UUID SenderID;
+    private UUID ReceiverID;
 
     // Initial constructor
     public Payment() {
@@ -23,10 +24,14 @@ public class Payment {
         this.ReceiverID = null;
     }
 
+    public Payment(UUID paymentID) {
+        this.PaymentID = paymentID;
+    }
+
     // Constructor with parameters
-    public Payment(String PaymentID, String PaymentMethod, Calendar PaymentDate, float PaymentAmount,
-            String PaymentCurrency, String SenderID,
-            String ReceiverID) {
+    public Payment(UUID PaymentID, String PaymentMethod, Calendar PaymentDate, float PaymentAmount,
+            String PaymentCurrency, UUID SenderID,
+            UUID ReceiverID) {
         this.PaymentID = PaymentID;
         this.PaymentMethod = PaymentMethod;
         this.PaymentDate = PaymentDate;
@@ -36,11 +41,11 @@ public class Payment {
     }
 
     // Getters and Setters
-    public String getPaymentID() {
+    public UUID getPaymentID() {
         return PaymentID;
     }
 
-    public void setPaymentID(String PaymentID) {
+    public void setPaymentID(UUID PaymentID) {
         this.PaymentID = PaymentID;
     }
 
@@ -76,19 +81,19 @@ public class Payment {
         this.PaymentCurrency = PaymentCurrency;
     }
 
-    public String getSenderID() {
+    public UUID getSenderID() {
         return SenderID;
     }
 
-    public void setSenderID(String SenderID) {
+    public void setSenderID(UUID SenderID) {
         this.SenderID = SenderID;
     }
 
-    public String getReceiverID() {
+    public UUID getReceiverID() {
         return ReceiverID;
     }
 
-    public void setReceiverID(String ReceiverID) {
+    public void setReceiverID(UUID ReceiverID) {
         this.ReceiverID = ReceiverID;
     }
     // End of getters and setters
