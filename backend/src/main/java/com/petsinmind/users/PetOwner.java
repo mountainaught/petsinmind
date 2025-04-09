@@ -27,7 +27,7 @@ public class PetOwner extends Customer {
 
 	public PetOwner(UUID userID, String userName, String userPassword, String userEmail, String phoneNumber,
 			String firstName, String lastName, String location,
-			List<String> listAppointmentIDs, List<String> listTicketIDs, List<String> listJobOfferIDs,
+			List<UUID> listAppointmentIDs, List<UUID> listTicketIDs, List<UUID> listJobOfferIDs,
 			List<Pet> petList) {
 		super(userID, userName, userPassword, userEmail, phoneNumber, firstName, lastName, location, listAppointmentIDs,
 				listTicketIDs, listJobOfferIDs);
