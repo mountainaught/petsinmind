@@ -1,5 +1,6 @@
 package com.petsinmind;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -17,8 +18,8 @@ public class Appointment {
     private Calendar startDate;
     private Calendar endDate;
     private String type;
-
-    private ArrayList<AppointmentMessage> messageList;
+    private Registry registry;
+    private ArrayList<Message> messageList;
 
     // Initial constructor
     public Appointment() {
@@ -29,10 +30,14 @@ public class Appointment {
         this.startDate = null;
         this.endDate = null;
         this.type = null;
+
+        try { this.registry = Registry.getInstance(); } catch (Exception e) { e.printStackTrace(); }
     }
 
     public Appointment(UUID appID) {
         this.appointmentId = appID;
+
+        try { this.registry = Registry.getInstance(); } catch (Exception e) { e.printStackTrace(); }
     }
 
     // Constructor with parameters
@@ -46,6 +51,8 @@ public class Appointment {
         this.startDate = startDate;
         this.endDate = endDate;
         this.type = Type;
+
+        try { this.registry = Registry.getInstance(); } catch (Exception e) { e.printStackTrace(); }
     }
 
     // Getters
@@ -120,16 +127,23 @@ public class Appointment {
         this.type = Type;
     }
 
-    public ArrayList<AppointmentMessage> getMessageList() {
+    public ArrayList<Message> getMessageList() {
         return messageList;
     }
 
-    public void addMessage(AppointmentMessage message) {
+    public void addMessage(Message message) throws SQLException {
         this.messageList.add(message);
+        registry.createMessage(message);
     }
 
-    public Review Review(String Details, int Rating) {
-        return new Review(Details, Rating, this, this.PetOwner, this.caretaker);
+    /**
+     *
+     * @param Details
+     * @param Rating
+     */
+    public boolean addReview(String Details, int Rating) {
+        Review review = new Review(Details, Rating, this, this.PetOwner, this.caretaker);
+        return registry.createReview(review);
     }
 
     // public Payment MakePayment(List<String> SenderInfo, List<String>

@@ -4,9 +4,7 @@ import com.petsinmind.Appointment;
 import com.petsinmind.JobOffer;
 import com.petsinmind.Pet;
 import com.petsinmind.Ticket;
-import com.petsinmind.messages.AppointmentMessage;
-import com.petsinmind.messages.JobOfferMessage;
-
+import java.sql.SQLException;
 import java.util.Calendar;
 import java.util.HashSet;
 import java.util.List;
@@ -60,101 +58,71 @@ public class PetOwner extends Customer {
 	 * @param PetSize
 	 * @param PetAge
 	 */
-	public void AddPet(String PetName, String PetType, String PetSize, Integer PetAge) {
-		PetList.add(new Pet(PetName, PetType, PetSize, PetAge));
+	public void addPet(String PetName, String PetType, String PetSize, Integer PetAge) throws SQLException {
+		Pet pet = new Pet(PetName, PetType, PetSize, PetAge);
+		PetList.add(pet);
+
+		registry.createPet(pet, this);
+		registry.editUser(this);
 	}
 
 	/**
 	 * 
 	 * @param pet
 	 */
-	public void RemovePet(Pet pet) {
+	public void removePet(Pet pet) throws SQLException {
 		PetList.remove(pet);
+		registry.deletePet(pet, this);
 	}
 
 	/**
 	 * 
-	 * @param Location
-	 */
-	// public void SetLocation(String Location) {
-	// this.Location = Location;
-	// }
-
-	// public String GetLocation() {
-	// return Location;
-	// }
-
-	/**
-	 * 
-	 * @param PetList
+	 * @param petList
 	 * @param location
-	 * @param date
 	 * @param type
 	 */
-	// TODO - FINISH IMPLEMENTING THIS! Need to push it to db
-	// public boolean CreateJobOffer(List<Pet> petList, String location, Calendar
-	// startDate, Calendar endDate,
-	// String type) {
-	// JobOffer jobOffer = new JobOffer();
-
-	// String jobOfferID = FirebaseWriter.pushJobOffer(this.getUserID(), petList,
-	// type, startDate);
-
-	// jobOffer.setPetOwner(this);
-	// jobOffer.setPets(petList);
-	// jobOffer.setLocation(location);
-	// jobOffer.setStartDate(startDate);
-	// jobOffer.setEndDate(endDate);
-	// jobOffer.setType(type);
-	// }
+	 public boolean createJobOffer(List<Pet> petList, String location, Calendar startDate, Calendar endDate, String type) throws SQLException {
+		 JobOffer jobOffer = new JobOffer(this, petList, startDate, endDate, type);
+		 return registry.createJobOffer(jobOffer);
+	 }
 
 	/**
 	 * 
 	 * @param Pets
 	 */
-	public List<Pet> SelectPets(List<Pet> Pets) {
+	public List<Pet> selectPets(List<Pet> Pets) {
 		// TODO - Is this class right? It's only returning whether all pets exist or not
-		// right now.
-		return new HashSet<>(PetList).containsAll(Pets) ? PetList : null;
+
 	}
 
 	/**
 	 * 
 	 * @param JobOfferID
 	 */
-	public boolean CancelJobOffer(String JobOfferID) {
-		// TODO - implement PetOwner.CancelJobOffer
-		throw new UnsupportedOperationException();
+	public boolean cancelJobOffer(UUID JobOfferID) throws SQLException {
+		registry.deleteJobOffer(new JobOffer(JobOfferID));
 	}
 
 	/**
 	 * 
-	 * @param JobOffer
-	 * @param CaretakerID
+	 * @param jobOffer
+	 * @param caretakerID
 	 */
-	public boolean AcceptCaretaker(JobOffer JobOffer, UUID CaretakerID) {
-		// TODO - implement PetOwner.AcceptCaretaker
-		throw new UnsupportedOperationException();
+	public boolean acceptCaretaker(JobOffer jobOffer, UUID caretakerID) throws SQLException {
+		Caretaker ct = (Caretaker) registry.findUser(new Caretaker(caretakerID));
+		jobOffer.addAcceptedCaretaker(ct);
+		return registry.editJobOffer(jobOffer);
 	}
 
 	/**
 	 * 
-	 * @param JobOffer
-	 * @param CaretakerID
+	 * @param jobOffer
+	 * @param caretakerID
 	 */
-	public boolean RejectCaretaker(JobOffer JobOffer, UUID CaretakerID) {
-		// TODO - implement PetOwner.RejectCaretaker
-		throw new UnsupportedOperationException();
-	}
-
-	/**
-	 * 
-	 * @param Details
-	 * @param Rating
-	 */
-	public boolean AddReview(String Details, int Rating) {
-		// TODO - implement PetOwner.AddReview
-		throw new UnsupportedOperationException();
+	public boolean rejectCaretaker(JobOffer jobOffer, UUID caretakerID) throws SQLException {
+		Caretaker ct = (Caretaker) registry.findUser(new Caretaker(caretakerID));
+		jobOffer.addRejectedCaretaker(ct);
+		return registry.editJobOffer(jobOffer);
 	}
 
 	/**
@@ -163,15 +131,6 @@ public class PetOwner extends Customer {
 	 */
 	public boolean SendMessageJO(JobOfferMessage Message) {
 		// TODO - implement PetOwner.SendMessageJO
-		throw new UnsupportedOperationException();
-	}
-
-	/**
-	 * 
-	 * @param Message
-	 */
-	public boolean SendMessageApp(AppointmentMessage Message) {
-		// TODO - implement PetOwner.SendMessageApp
 		throw new UnsupportedOperationException();
 	}
 

@@ -1,5 +1,6 @@
 package com.petsinmind.controllers;
 
+import com.petsinmind.Application;
 import com.petsinmind.GUI;
 import com.petsinmind.RegisterRequest;
 import com.petsinmind.Registry;
@@ -7,9 +8,11 @@ import com.petsinmind.Registry;
 import jakarta.validation.Valid;
 
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.http.ResponseEntity;
 
 import java.util.Map;
+import java.io.File;
 
 @RestController
 @RequestMapping("/api")
@@ -56,22 +59,39 @@ public class AuthController {
     }
 
     @PostMapping("/register-caretaker")
-    public ResponseEntity<String> registerCaretaker(@Valid @RequestBody RegisterRequest request) {
-        boolean result = gui.registerCaretaker(
-            request.getUsername(),
-            request.getPassword(),
-            request.getEmail(),
-            request.getPhoneNumber(),
-            request.getFirstName(),
-            request.getLastName(),
-            request.getImageFile()
-        );
+    public ResponseEntity<String> registerCaretaker(
+        @RequestParam("username") String username,
+        @RequestParam("password") String password,
+        @RequestParam("email") String email,
+        @RequestParam("phoneNumber") String phoneNumber,
+        @RequestParam("firstName") String firstName,
+        @RequestParam("lastName") String lastName,
+        @RequestParam("location") String location,
+        @RequestParam("CV") MultipartFile cvFile
+    ) {
+        try {
+            // Save the CV to disk (e.g., under uploads/ directory)
+            String uploadDir = "uploads";
+            File uploadFolder = new File(uploadDir);
+            if (!uploadFolder.exists()) uploadFolder.mkdirs();
 
-        if (result) {
-            return ResponseEntity.ok("Caretaker registration successful");
-        } else {
-            return ResponseEntity.badRequest().body("Caretaker already exists");
+            String savedPath = uploadDir + "/" + username + "_cv.pdf";
+            File dest = new File(savedPath);
+            cvFile.transferTo(dest); // Save uploaded file
+
+            boolean result = gui.registerCaretaker(firstName, lastName, username, password, email, phoneNumber, location, savedPath);
+
+            if (result) {
+                return ResponseEntity.ok("Caretaker registration successful");
+            } else {
+                return ResponseEntity.badRequest().body("Caretaker already exists or registration failed");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(500).body("An error occurred during registration");
         }
     }
+
+
 
 }

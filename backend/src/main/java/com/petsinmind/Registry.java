@@ -834,15 +834,14 @@ public class Registry {
 
     public boolean createMessage(Message message) throws SQLException {
         PreparedStatement ps = null;
-        String sql = "INSERT INTO Message (Details, SenderID, ReferenceID, ReceiverID, type, Date) VALUES (?, ?, ?, ?, ?, ?);";
+        String sql = "INSERT INTO Message (Details, SenderID, ReferenceID, ReceiverID, Date) VALUES (?, ?, ?, ?, ?);";
         try {
             ps = connection.prepareStatement(sql);
             ps.setString(1, message.getDetails()); // Details
             ps.setString(2, message.getSenderIDString()); // SenderID
             ps.setString(3, message.getReferenceIDString()); // ReferenceID
             ps.setString(4, message.getReceiverIDString()); // ReceiverID
-            ps.setString(5, message.getType()); // Type
-            ps.setDate(6, new Date(message.getDate().getTimeInMillis())); // Date
+            ps.setDate(5, new Date(message.getDate().getTimeInMillis())); // Date
 
             int rowsInserted = ps.executeUpdate();
             if (rowsInserted > 0) {

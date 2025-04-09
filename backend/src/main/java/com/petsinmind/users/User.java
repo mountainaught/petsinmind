@@ -151,11 +151,13 @@ public abstract class User {
 	/**
 	 * Generic method to change a user attribute and update the registry.
 	 *
-	 * @param Message
+	 *
 	 */
-	// public boolean SendMessage(Message Message) {
-
-	// }
+	public boolean sendMessage(String details, UUID senderID, UUID referenceID, UUID receiverID, Calendar date) throws SQLException {
+		Message msg = new Message(details, senderID, referenceID, receiverID, date);
+		registry.createMessage(msg);
+		return true;
+	}
 
 	private boolean changeAttribute(String currentValue, String newValue, String attribute, Registry registry) {
 		try {
