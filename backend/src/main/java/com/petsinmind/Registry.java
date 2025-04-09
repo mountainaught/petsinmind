@@ -3,6 +3,7 @@ package com.petsinmind;
 import com.petsinmind.messages.Message;
 import com.petsinmind.users.Caretaker;
 import com.petsinmind.users.PetOwner;
+import com.petsinmind.users.SystemAdmin;
 import com.petsinmind.users.User;
 
 import java.sql.*;
@@ -222,24 +223,110 @@ public class Registry {
         return null;
     }
 
-    public List<Payment> getPayments(User user) {
+    public List<Payment> getPayments(User user) throws SQLException {
+        PreparedStatement ps = null;
+        ResultSet rs = null;
 
+        List<Payment> payments = new ArrayList<>();
+
+        ps = connection.prepareStatement("SELECT * FROM payment WHERE (SenderID = ? OR ReceiverID = ?)");
+        ps.setString(1, user.getUserID().toString());
+        ps.setString(2, user.getUserID().toString());
+        rs = ps.executeQuery();
+
+        while (rs.next()) {
+            Payment pay = getPayment(new Payment(UUID.fromString(rs.getString("PaymentID"))));
+            payments.add(pay);
+        }
+
+        return payments;
     }
 
-    public List<Review> getReviews(Caretaker caretaker) {
+    public List<Review> getReviews(Caretaker caretaker) throws SQLException {
+        PreparedStatement ps = null;
+        ResultSet rs = null;
 
+        ps = connection.prepareStatement("SELECT * FROM review WHERE CaretakerID = ?");
+        ps.setString(1, caretaker.getUserID().toString());
+        rs = ps.executeQuery();
+
+        List<Review> reviews = new ArrayList<>();
+
+        while (rs.next()) {
+            Review review = new Review();
+
+            review.setDetails(rs.getString("Details"));
+            review.setRating(rs.getInt("Rating"));
+            review.setAppointment(getAppointment(new Appointment(UUID.fromString(rs.getString("AppointmentID")) )));
+            review.setCaretaker( (Caretaker) findUser(new Caretaker(UUID.fromString(rs.getString("CaretakerID")))));
+            review.setPetOwner( (PetOwner) findUser(new PetOwner(UUID.fromString(rs.getString("PetownerID")))));
+            reviews.add(review);
+        }
+
+        return reviews;
     }
 
-    public List<Ticket> getTickets(User user) {
+    public List<Ticket> getTickets(User user) throws SQLException {
+        PreparedStatement ps = null;
+        ResultSet rs = null;
 
+        ps = connection.prepareStatement("SELECT * FROM ticket WHERE CustomerID = ?");
+        ps.setString(1, user.getUserID().toString());
+        rs = ps.executeQuery();
+
+        List<Ticket> tickets = new ArrayList<>();
+
+        while (rs.next()) {
+            Ticket ticket = new Ticket();
+
+            ticket.setTicketID(UUID.fromString(rs.getString("TicketID")));
+            ticket.setTitle((rs.getString("Title")));
+            ticket.setDetails(rs.getString("Details"));
+            ticket.setDate(dateToCalendar(rs.getDate("Date")));
+            ticket.setCustomerID(UUID.fromString(rs.getString("CustomerID")));
+
+            List<UUID> sysList = new ArrayList<>();
+            Collections.addAll(sysList, idListParser(rs.getArray("SystemadminIDs")));
+            ticket.setEmployeeIDs(sysList);
+
+            ticket.setStatus(rs.getBoolean("Status"));
+        }
+
+        return tickets;
     }
 
-    public List<Message> getMessages(UUID ref) {
+    public List<Message> getMessages(User user) throws SQLException {
+        PreparedStatement ps = null;
+        ResultSet rs = null;
 
+        ps = connection.prepareStatement("SELECT * FROM Message WHERE (SenderID = ? OR ReceiverID = ?)");
+        ps.setString(1, user.getUserID().toString());
+        ps.setString(2, user.getUserID().toString());
+
+        rs = ps.executeQuery();
+
+        List<Message> messages = new ArrayList<>();
+
+        while (rs.next()) {
+            // TODO - We need a way to differentiate messages past the DB.
+        }
+        return null;
     }
 
-    public Application getApplication(Application app) {
+    public Application getApplication(Application app) throws SQLException {
+        PreparedStatement ps = null;
+        ResultSet rs = null;
 
+        ps = connection.prepareStatement("SELECT * FROM application WHERE UserEmail= ?");
+        ps.setString(1, app.getAppo().toString());
+        rs = ps.executeQuery();
+
+        if (rs.next()) {
+            return new Application(rs.getString("FirstName"), rs.getString("LastName"),
+                    rs.getString("UserName"), rs.getString("UserPassword"), rs.getString("UserEmail"),
+                    rs.getBlob("UserCV"), rs.getString("PhoneNumber"));
+        }
+        return null;
     }
 
     //******************************************//

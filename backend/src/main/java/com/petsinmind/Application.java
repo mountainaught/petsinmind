@@ -1,15 +1,17 @@
 package com.petsinmind;
 
+import java.sql.Blob;
+
 public class Application {
     private String firstname;
     private String lastname;
     private String username;
     private String password;
     private String email;
-    private String cv;
+    private Blob cv;
     private String phoneNumber;
 
-    public Application(String firstname, String lastname, String username, String password, String email, String cv, String phoneNumber) {
+    public Application(String firstname, String lastname, String username, String password, String email, Blob cv, String phoneNumber) {
         // Constructor
         this.firstname = firstname;
         this.lastname = lastname;
@@ -35,11 +37,12 @@ public class Application {
     public String getPassword() {
         return password;
     }
+
     public String getEmail() {
         return email;
     }
 
-    public String getCv() {
+    public Blob getCv() {
         return cv;
     }
 

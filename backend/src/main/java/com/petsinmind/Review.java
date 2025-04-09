@@ -19,6 +19,10 @@ public class Review {
         this.caretaker = caretaker;
     }
 
+    public Review() {
+
+    }
+
     public String getDetails() {
         return details;
     }

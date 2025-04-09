@@ -24,6 +24,10 @@ public class Payment {
         this.ReceiverID = null;
     }
 
+    public Payment(UUID paymentID) {
+        this.PaymentID = paymentID;
+    }
+
     // Constructor with parameters
     public Payment(UUID PaymentID, String PaymentMethod, Calendar PaymentDate, float PaymentAmount,
             String PaymentCurrency, String SenderID,

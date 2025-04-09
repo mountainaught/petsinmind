@@ -44,6 +44,10 @@ public class Appointment {
         this.type = Type;
     }
 
+    public Appointment(UUID appointmentID) {
+        this.appointmentId = appointmentID;
+    }
+
     // Getters and Setters
     public UUID getAppointmentId() {
         return appointmentId;
