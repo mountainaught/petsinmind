@@ -44,7 +44,7 @@ public class Ticket {
         this.Status = false;
         try {
             this.registry = Registry.getInstance();
-            this.registry.createTicket(this); // Assuming createTicket is a method in Registry to add the ticket
+            this.registry.createTicket(this);
         } catch (Exception e) {
             e.printStackTrace();
             this.registry = null; // Handle the exception by setting registry to null or another fallback
