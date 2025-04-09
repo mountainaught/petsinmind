@@ -36,12 +36,20 @@ public class JobOffer {
         this.AcceptedCaretakers = null;
         this.RejectedCaretakers = null;
         this.Type = null;
-        try { this.registry = Registry.getInstance(); } catch (Exception e) { e.printStackTrace(); }
+        try {
+            this.registry = Registry.getInstance();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public JobOffer(UUID jobOfferID) {
         this.JobOfferID = jobOfferID;
-        try { this.registry = Registry.getInstance(); } catch (Exception e) { e.printStackTrace(); }
+        try {
+            this.registry = Registry.getInstance();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         try {
             JobOffer fetchedJobOffer = registry.getJobOffer(this);
             if (fetchedJobOffer != null) {
@@ -101,9 +109,9 @@ public class JobOffer {
     }
 
     public void acceptCaretaker(Caretaker caretaker) {
-        this.AcceptedCaretakers.add(caretaker);
-        this.availableCaretakers.remove(caretaker);
         try {
+            this.AcceptedCaretakers.add(caretaker);
+            this.availableCaretakers.remove(caretaker);
             this.registry.editJobOffer(this);
         } catch (Exception e) {
             e.printStackTrace();
@@ -111,9 +119,9 @@ public class JobOffer {
     }
 
     public void rejectCaretaker(Caretaker caretaker) {
-        this.RejectedCaretakers.add(caretaker);
-        this.availableCaretakers.remove(caretaker);
         try {
+            this.RejectedCaretakers.add(caretaker);
+            this.availableCaretakers.remove(caretaker);
             this.registry.editJobOffer(this);
         } catch (Exception e) {
             e.printStackTrace();
