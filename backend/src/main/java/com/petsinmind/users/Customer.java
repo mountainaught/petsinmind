@@ -14,10 +14,8 @@ public abstract class Customer extends User {
     private List<UUID> ListAppointmentIDs;
     private List<UUID> ListTicketIDs;
     private List<UUID> ListJobOfferIDs;
-    private Registry registry;
 
-    public Customer() {
-    }
+    public Customer() { }
 
     public Customer(UUID userID, String userName, String userPassword, String userEmail, String phoneNumber,
             String firstName, String lastName, String location,

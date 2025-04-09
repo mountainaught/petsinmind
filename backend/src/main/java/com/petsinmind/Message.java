@@ -10,7 +10,6 @@ public class Message {
     private UUID receiverId;
     private UUID referenceID;
     private Calendar date;
-    private Registry registry;
 
     public Message(String details, UUID senderId, UUID receiverId, UUID referenceID, Calendar date) {
         this.details = details;
@@ -18,11 +17,6 @@ public class Message {
         this.receiverId = receiverId;
         this.referenceID = referenceID;
         this.date = date;
-        try {
-            this.registry = Registry.getInstance(); // Singleton pattern
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 
     public String getSenderIDString() {

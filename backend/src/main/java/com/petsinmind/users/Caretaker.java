@@ -1,8 +1,5 @@
 package com.petsinmind.users;
-
 import com.petsinmind.*;
-import com.petsinmind.messages.Message;
-
 import java.sql.SQLException;
 import java.util.List;
 import java.util.UUID;
@@ -87,13 +84,12 @@ public class Caretaker extends Customer implements JobOfferCT {
 		return false;
 	}
 
-
 	/**
 	 * 
 	 * @param offer
 	 */
 	//
-	public Appointment AcceptJobOffer(JobOffer offer) throws SQLException {
+	public Appointment acceptJobOffer(JobOffer offer) throws SQLException {
 		 Appointment appointment = new Appointment(offer.getJobOfferID(), this, offer.getPetOwner(), offer.getPets(),
 				offer.getStartDate(), offer.getEndDate(), offer.getType());
 
@@ -102,7 +98,6 @@ public class Caretaker extends Customer implements JobOfferCT {
 
 		 registry.createAppointment(appointment);
 		 registry.deleteJobOffer(offer);
-		// TODO - Send appointment message
 		 return appointment;
 	}
 
@@ -110,7 +105,7 @@ public class Caretaker extends Customer implements JobOfferCT {
 	 * 
 	 * @param jobOffer
 	 */
-	public void RejectJobOffer(JobOffer jobOffer) throws SQLException {
+	public void rejectJobOffer(JobOffer jobOffer) throws SQLException {
 		jobOffer.addRejectedCaretaker(this);
 		registry.editJobOffer(jobOffer);
 	}
@@ -120,18 +115,9 @@ public class Caretaker extends Customer implements JobOfferCT {
 	 * 
 	 * @param Review
 	 */
-	public void AddReview(Review Review) throws SQLException {
+	public void addReview(Review Review) throws SQLException {
 		ListReviews.add(Review);
 		registry.editUser(this);
 	}
-
-	/**
-	 *
-	 * @param Message
-	 */
-	 public boolean SendMessage(Message message) throws SQLException {
-		  registry.createMessage(message);
-		  return true;
-	 }
 
 }
