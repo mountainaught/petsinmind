@@ -2,8 +2,8 @@ package com.petsinmind.users;
 
 import com.petsinmind.Appointment;
 import com.petsinmind.Registry;
-import com.petsinmind.messages.TicketMessage;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -15,7 +15,7 @@ public abstract class Customer extends User {
     private List<UUID> ListTicketIDs;
     private List<UUID> ListJobOfferIDs;
 
-    public Customer() {}
+    public Customer() { }
 
     public Customer(UUID userID, String userName, String userPassword, String userEmail, String phoneNumber,
             String firstName, String lastName, String location,
@@ -76,9 +76,46 @@ public abstract class Customer extends User {
         return jobOfferIDsAsString;
     }
 
+    public void addTicketID(UUID ticketID) {
+        ListTicketIDs.add(ticketID);
+        try {
+            registry.editUser(this);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void removeTicketID(UUID ticketID) {
+        ListTicketIDs.remove(ticketID);
+        try {
+            registry.editUser(this);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void addJobOfferID(UUID jobOfferID) {
+        ListJobOfferIDs.add(jobOfferID);
+        try {
+            registry.editUser(this);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void removeJobOfferID(UUID jobOfferID) {
+        ListJobOfferIDs.remove(jobOfferID);
+        try {
+            registry.editUser(this);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
     // setters
-    public void setLocation(String location) {
+    public void setLocation(String location) throws SQLException {
         this.location = location;
+        registry.editUser(this);
     }
 
     public void setAppointmentIDs(List<UUID> listAppointmentIDs) {
@@ -96,17 +133,23 @@ public abstract class Customer extends User {
     // Methods to manage appointments
     public void AddAppointment(UUID appointmentID) {
         ListAppointmentIDs.add(appointmentID);
+        try {
+            registry.editUser(this);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
-    public Boolean CancelAppointment(Appointment appointment) {
-        return ListAppointmentIDs.remove(appointment.getAppointmentId());
+    public void CancelAppointment(Appointment appointment) {
+        ListAppointmentIDs.remove(appointment.getAppointmentId());
+        try {
+            registry.editUser(this);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     public boolean CreateTicket(String Title, String details) {
-        throw new UnsupportedOperationException();
-    }
-
-    public boolean SendMessage(TicketMessage message) {
         throw new UnsupportedOperationException();
     }
 }

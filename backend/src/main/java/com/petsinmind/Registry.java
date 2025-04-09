@@ -1,8 +1,5 @@
 package com.petsinmind;
 
-import com.petsinmind.messages.AppointmentMessage;
-import com.petsinmind.messages.JobOfferMessage;
-import com.petsinmind.messages.TicketMessage;
 import com.petsinmind.users.Caretaker;
 import com.petsinmind.users.PetOwner;
 import com.petsinmind.users.SystemAdmin;
@@ -390,25 +387,34 @@ public class Registry {
         List<Message> messages = new ArrayList<>();
 
         while (rs.next()) {
-            String messageType = rs.getString("type");
-            Message msg = switch (messageType) {
-                case "AppointmentMessage" -> new AppointmentMessage(rs.getString("Details"),
-                        UUID.fromString(rs.getString("SenderID")),
-                        UUID.fromString(rs.getString("ReferenceID")),
-                        UUID.fromString(rs.getString("ReceiverID")),
-                        dateToCalendar(rs.getDate("Date")));
-                case "JobOfferMessage" -> new JobOfferMessage(rs.getString("Details"),
-                        UUID.fromString(rs.getString("SenderID")),
-                        UUID.fromString(rs.getString("ReferenceID")),
-                        UUID.fromString(rs.getString("ReceiverID")),
-                        dateToCalendar(rs.getDate("Date")));
-                case "TicketMessage" -> new TicketMessage(rs.getString("Details"),
-                        UUID.fromString(rs.getString("SenderID")),
-                        UUID.fromString(rs.getString("ReferenceID")),
-                        UUID.fromString(rs.getString("ReceiverID")),
-                        dateToCalendar(rs.getDate("Date")));
-                default -> null;
-            };
+            Message msg = new Message(rs.getString("Details"),
+                    UUID.fromString(rs.getString("SenderID")),
+                    UUID.fromString(rs.getString("ReceiverID")),
+                    UUID.fromString(rs.getString("ReferenceID")),
+                    rs.getDate("Date") != null ? Calendar.getInstance() : null);
+
+            messages.add(msg);
+        }
+        return messages;
+    }
+
+    public List<Message> getMessages(String ID) throws SQLException {
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+
+        ps = connection.prepareStatement("SELECT * FROM Message WHERE ReferenceID =?");
+        ps.setString(1, ID);
+
+        rs = ps.executeQuery();
+
+        List<Message> messages = new ArrayList<>();
+
+        while (rs.next()) {
+            Message msg = new Message(rs.getString("Details"),
+                    UUID.fromString(rs.getString("SenderID")),
+                    UUID.fromString(rs.getString("ReceiverID")),
+                    UUID.fromString(rs.getString("ReferenceID")),
+                    rs.getDate("Date") != null ? Calendar.getInstance() : null);
 
             messages.add(msg);
         }
@@ -832,17 +838,41 @@ public class Registry {
         return false; // Delete failed
     }
 
+    public boolean createReview(Review review) throws SQLException {
+        PreparedStatement ps = null;
+        String sql = "INSERT INTO review (Details, Rating, AppointmentID, CaretakerID, PetownerID) VALUES (?, ?, ?, ?, ?);";
+        try {
+            ps = connection.prepareStatement(sql);
+            ps.setString(1, review.getDetails()); // Details
+            ps.setInt(2, review.getRating()); // Rating
+            ps.setString(3, review.getAppointment().getAppointmentId().toString()); // AppointmentID
+            ps.setString(4, review.getCaretaker().getUserID().toString()); // CaretakerID
+            ps.setString(5, review.getPetOwner().getUserID().toString()); // PetOwnerID
+
+            int rowsInserted = ps.executeUpdate();
+            if (rowsInserted > 0) {
+                System.out.println("Review inserted successfully!");
+                return true;
+            } else {
+                System.out.println("Insert failed.");
+                return false;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false; // Insert failed
+    }
+
     public boolean createMessage(Message message) throws SQLException {
         PreparedStatement ps = null;
-        String sql = "INSERT INTO Message (Details, SenderID, ReferenceID, ReceiverID, type, Date) VALUES (?, ?, ?, ?, ?, ?);";
+        String sql = "INSERT INTO Message (Details, SenderID, ReferenceID, ReceiverID, Date) VALUES (?, ?, ?, ?, ?);";
         try {
             ps = connection.prepareStatement(sql);
             ps.setString(1, message.getDetails()); // Details
             ps.setString(2, message.getSenderIDString()); // SenderID
             ps.setString(3, message.getReferenceIDString()); // ReferenceID
             ps.setString(4, message.getReceiverIDString()); // ReceiverID
-            ps.setString(5, message.getType()); // Type
-            ps.setDate(6, new Date(message.getDate().getTimeInMillis())); // Date
+            ps.setDate(5, new Date(message.getDate().getTimeInMillis())); // Date
 
             int rowsInserted = ps.executeUpdate();
             if (rowsInserted > 0) {
@@ -1239,6 +1269,22 @@ public class Registry {
                 System.out.println("❌ Failed to insert application.");
                 return false;
             }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public boolean deleteApplication(Application app) {
+        String sql = "DELETE FROM application WHERE UserName = ?";
+
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setString(1, app.getUserName());
+
+            int rows = stmt.executeUpdate();
+            System.out.println(rows > 0 ? "✅ Application deleted." : "❌ Failed to delete application.");
+            return rows > 0;
 
         } catch (Exception e) {
             e.printStackTrace();

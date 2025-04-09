@@ -21,7 +21,9 @@ public class JobOffer {
     private List<Caretaker> RejectedCaretakers;
     private String Type;
 
+    private List<Caretaker> availableCaretakers;
     private ArrayList<Message> messageList;
+    private Registry registry;
 
     // Initial constructor
     public JobOffer() {
@@ -34,10 +36,96 @@ public class JobOffer {
         this.AcceptedCaretakers = null;
         this.RejectedCaretakers = null;
         this.Type = null;
+        try {
+            this.registry = Registry.getInstance();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public JobOffer(UUID jobOfferID) {
         this.JobOfferID = jobOfferID;
+        try {
+            this.registry = Registry.getInstance();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        try {
+            JobOffer fetchedJobOffer = registry.getJobOffer(this);
+            if (fetchedJobOffer != null) {
+                this.JobOfferID = fetchedJobOffer.JobOfferID;
+                this.petOwner = fetchedJobOffer.petOwner;
+                this.pets = fetchedJobOffer.pets;
+                this.location = fetchedJobOffer.location;
+                this.startDate = fetchedJobOffer.startDate;
+                this.endDate = fetchedJobOffer.endDate;
+                this.AcceptedCaretakers = fetchedJobOffer.AcceptedCaretakers;
+                this.RejectedCaretakers = fetchedJobOffer.RejectedCaretakers;
+                this.Type = fetchedJobOffer.Type;
+            }
+            this.availableCaretakers = this.availableCaretakers();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public JobOffer(PetOwner petOwner, List<Pet> pets, Calendar startDate, Calendar endDate, String Type) {
+        this.JobOfferID = UUID.randomUUID();
+        this.petOwner = petOwner;
+        this.pets = pets;
+        this.location = petOwner.getLocation(); // Assuming PetOwner has a getLocation() method
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.AcceptedCaretakers = new ArrayList<>();
+        this.RejectedCaretakers = new ArrayList<>();
+        this.Type = Type;
+        try {
+            this.registry = Registry.getInstance(); // Singleton pattern
+            this.registry.createJobOffer(this);
+            this.petOwner.addJobOfferID(this.JobOfferID);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public List<Caretaker> availableCaretakers() {
+        List<Caretaker> availableCaretakers = new ArrayList<>();
+        try {
+            availableCaretakers = registry.findAvailableCaretakers(this);
+            for (Caretaker caretaker : availableCaretakers) {
+                if (this.AcceptedCaretakers.contains(caretaker)) {
+                    availableCaretakers.remove(caretaker);
+                }
+            }
+            for (Caretaker caretaker : availableCaretakers) {
+                if (this.RejectedCaretakers.contains(caretaker)) {
+                    availableCaretakers.remove(caretaker);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return availableCaretakers;
+    }
+
+    public void acceptCaretaker(Caretaker caretaker) {
+        try {
+            this.AcceptedCaretakers.add(caretaker);
+            this.availableCaretakers.remove(caretaker);
+            this.registry.editJobOffer(this);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void rejectCaretaker(Caretaker caretaker) {
+        try {
+            this.RejectedCaretakers.add(caretaker);
+            this.availableCaretakers.remove(caretaker);
+            this.registry.editJobOffer(this);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     // Constructor with parameters
