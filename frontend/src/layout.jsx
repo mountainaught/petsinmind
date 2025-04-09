@@ -57,28 +57,55 @@ export default function Layout() {
 
             {showHelp && (
                 <div className="help">
-                    <button onClick={() => setShowTicketRequest(!showTicketRequest)} className='tktReq'>Request Ticket</button>
+                    {!showTicketRequest && (
+                    <button
+                        onClick={() => setShowTicketRequest(true)}
+                        className='tktReq'
+                    >
+                        Request Ticket
+                    </button>
+                    )}
+
                     {showTicketRequest && (
-                        <form className='help2'
-                            onSubmit={(e) => {
-                                e.preventDefault();
-                                const ticket = e.target.elements.ticket.value;
-                                console.log(ticket); // Handle the ticket submission here
+                    <form
+                        className='help2'
+                        onSubmit={(e) => {
+                        e.preventDefault();
+                        const ticket = e.target.elements.ticket.value;
+                        console.log(ticket); // Handle ticket submission here
 
-                                setShowHelp(!showHelp); setShowTicketRequest(!showTicketRequest);
-                            }}
-                        >
+                        setShowHelp(false);
+                        setShowTicketRequest(false);
+                        }}
+                    >
+                        <input
+                        name='title'
+                        type="text"
+                        placeholder='Title:'
+                        className='ticketInput'
+                        />
+                        <input
+                        name='ticket'
+                        placeholder='Enter Ticket / Problem faced here:'
+                        className='ticketInput'
+                        required
+                        />
+                        <button type='submit' className='submitTkt'>Submit</button>
+                    </form>
+                    )}
 
-                            
-                            <input name='title' type="text" placeholder='Title:' className='ticketInput'/>
-                            <input name='ticket' placeholder='Enter Ticket / Problem faced here:' className='ticketInput' required></input>
-                            <button type='submit' className='submitTkt'>Submit</button>
-                        </form>
-
-                     )}
-                    <button className='closeBtn' onClick={() => {setShowHelp(false); setShowTicketRequest(false)}}>Close</button>
+                    <button
+                    className='closeBtn'
+                    onClick={() => {
+                        setShowHelp(false);
+                        setShowTicketRequest(false);
+                    }}
+                    >
+                    Close
+                    </button>
                 </div>
-            )}
+                )}
+
 
 
 
