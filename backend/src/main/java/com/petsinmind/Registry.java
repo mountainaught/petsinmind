@@ -832,6 +832,31 @@ public class Registry {
         return false; // Delete failed
     }
 
+    public boolean createReview(Review review) throws SQLException {
+        PreparedStatement ps = null;
+        String sql = "INSERT INTO review (Details, Rating, AppointmentID, CaretakerID, PetownerID) VALUES (?, ?, ?, ?, ?);";
+        try {
+            ps = connection.prepareStatement(sql);
+            ps.setString(1, review.getDetails()); // Details
+            ps.setInt(2, review.getRating()); // Rating
+            ps.setString(3, review.getAppointment().getAppointmentId().toString()); // AppointmentID
+            ps.setString(4, review.getCaretaker().getUserID().toString()); // CaretakerID
+            ps.setString(5, review.getPetOwner().getUserID().toString()); // PetOwnerID
+
+            int rowsInserted = ps.executeUpdate();
+            if (rowsInserted > 0) {
+                System.out.println("Review inserted successfully!");
+                return true;
+            } else {
+                System.out.println("Insert failed.");
+                return false;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false; // Insert failed
+    }
+
     public boolean createMessage(Message message) throws SQLException {
         PreparedStatement ps = null;
         String sql = "INSERT INTO Message (Details, SenderID, ReferenceID, ReceiverID, Date) VALUES (?, ?, ?, ?, ?);";
