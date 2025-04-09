@@ -52,6 +52,15 @@ public class JobOffer {
     }
 
     // Getters
+    // // Getters and Setters
+    // public UUID getJobOfferID() {
+    // return JobOfferID;
+    // }
+
+    // public void setJobOfferID(UUID JobOfferID) {
+    // this.JobOfferID = JobOfferID;
+    // }
+
     public PetOwner getPetOwner() {
         return petOwner;
     }
