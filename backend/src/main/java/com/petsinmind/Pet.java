@@ -34,6 +34,14 @@ public class Pet {
     }
 
     // Getters and Setters
+    public String getPetID() {
+        return petID;
+    }
+
+    public void setPetID(String petID) {
+        this.petID = petID;
+    }
+
     public String getName() {
         return name;
     }
@@ -66,13 +74,21 @@ public class Pet {
         this.age = age;
     }
 
-    public UUID getPetID() { return petID; }
+    public UUID getPetID() {
+        return petID;
+    }
 
-    public void setPetID(UUID petID) { this.petID = petID; }
+    public void setPetID(UUID petID) {
+        this.petID = petID;
+    }
 
-    public UUID getOwnerID() { return ownerID; }
+    public UUID getOwnerID() {
+        return ownerID;
+    }
 
-    public void setOwnerID(UUID ownerID) { this.ownerID = ownerID; }
+    public void setOwnerID(UUID ownerID) {
+        this.ownerID = ownerID;
+    }
 
     // End of getters and setters
 

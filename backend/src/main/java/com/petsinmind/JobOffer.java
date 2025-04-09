@@ -53,9 +53,9 @@ public class JobOffer {
 
     // Getters
     // // Getters and Setters
-    // public UUID getJobOfferID() {
-    // return JobOfferID;
-    // }
+    public UUID getJobOfferID() {
+        return JobOfferID;
+    }
 
     // public void setJobOfferID(UUID JobOfferID) {
     // this.JobOfferID = JobOfferID;
@@ -67,6 +67,14 @@ public class JobOffer {
 
     public List<Pet> getPets() {
         return pets;
+    }
+
+    public List<String> getPetIDs() {
+        List<String> petIDs = new ArrayList<>();
+        for (Pet pet : pets) {
+            petIDs.add(pet.getPetID());
+        }
+        return petIDs;
     }
 
     public String getLocation() {
@@ -85,8 +93,24 @@ public class JobOffer {
         return AcceptedCaretakers;
     }
 
+    public List<String> getAcceptedCaretakerIDs() {
+        List<String> acceptedCaretakerIDs = new ArrayList<>();
+        for (Caretaker caretaker : AcceptedCaretakers) {
+            acceptedCaretakerIDs.add(caretaker.getUserID().toString());
+        }
+        return acceptedCaretakerIDs;
+    }
+
     public List<Caretaker> getRejectedCaretakers() {
         return RejectedCaretakers;
+    }
+
+    public List<String> getRejectedCaretakerIDs() {
+        List<String> rejectedCaretakerIDs = new ArrayList<>();
+        for (Caretaker caretaker : RejectedCaretakers) {
+            rejectedCaretakerIDs.add(caretaker.getUserID().toString());
+        }
+        return rejectedCaretakerIDs;
     }
 
     public List<JobOfferMessage> getMessageList() {

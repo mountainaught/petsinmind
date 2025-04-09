@@ -88,6 +88,14 @@ public class Ticket {
         return EmployeeIDs;
     }
 
+    public List<String> getEmployeeSIDs() {
+        List<String> employeeSIDs = new ArrayList<>();
+        for (UUID employeeID : EmployeeIDs) {
+            employeeSIDs.add(employeeID.toString());
+        }
+        return employeeSIDs;
+    }
+
     public void setEmployeeIDs(List<UUID> EmployeeIDs) {
         this.EmployeeIDs = EmployeeIDs;
     }
@@ -104,5 +112,7 @@ public class Ticket {
         this.messageList.add(message);
     }
 
-    public List<TicketMessage> getMessageList() {return messageList;}
+    public List<TicketMessage> getMessageList() {
+        return messageList;
+    }
 }
