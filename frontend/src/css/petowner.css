@@ -52,7 +52,7 @@
     align-self: center;
 }
 
-.bookApt:hover {
+.bookApt:hover,  .editProfile:hover{
     background-color: #5A0001;
     color: white;
 } 

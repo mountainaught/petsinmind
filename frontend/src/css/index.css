@@ -73,7 +73,14 @@ button {
     height: 25%;
     box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
     background-color: white;
+}
 
+.help .tktReq:hover, 
+.help .closeBtn:hover, 
+.help .ticketRequest:hover, 
+.help2 button:hover {
+    background-color: #5A0001;
+    color: white;
 }
 
 .help2{
