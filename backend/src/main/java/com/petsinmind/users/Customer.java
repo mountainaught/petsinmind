@@ -1,6 +1,7 @@
 package com.petsinmind.users;
 
 import com.petsinmind.Appointment;
+import com.petsinmind.Registry;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -13,8 +14,10 @@ public abstract class Customer extends User {
     private List<UUID> ListAppointmentIDs;
     private List<UUID> ListTicketIDs;
     private List<UUID> ListJobOfferIDs;
+    private Registry registry;
 
-    public Customer() {}
+    public Customer() {
+    }
 
     public Customer(UUID userID, String userName, String userPassword, String userEmail, String phoneNumber,
             String firstName, String lastName, String location,
@@ -75,6 +78,42 @@ public abstract class Customer extends User {
         return jobOfferIDsAsString;
     }
 
+    public void addTicketID(UUID ticketID) {
+        ListTicketIDs.add(ticketID);
+        try {
+            registry.editUser(this);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void removeTicketID(UUID ticketID) {
+        ListTicketIDs.remove(ticketID);
+        try {
+            registry.editUser(this);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void addJobOfferID(UUID jobOfferID) {
+        ListJobOfferIDs.add(jobOfferID);
+        try {
+            registry.editUser(this);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void removeJobOfferID(UUID jobOfferID) {
+        ListJobOfferIDs.remove(jobOfferID);
+        try {
+            registry.editUser(this);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
     // setters
     public void setLocation(String location) throws SQLException {
         this.location = location;
@@ -96,10 +135,20 @@ public abstract class Customer extends User {
     // Methods to manage appointments
     public void AddAppointment(UUID appointmentID) {
         ListAppointmentIDs.add(appointmentID);
+        try {
+            registry.editUser(this);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
-    public Boolean CancelAppointment(Appointment appointment) {
-        return ListAppointmentIDs.remove(appointment.getAppointmentId());
+    public void CancelAppointment(Appointment appointment) {
+        ListAppointmentIDs.remove(appointment.getAppointmentId());
+        try {
+            registry.editUser(this);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     public boolean CreateTicket(String Title, String details) {
