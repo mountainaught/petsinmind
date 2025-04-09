@@ -44,39 +44,44 @@ public class Appointment {
         this.type = Type;
     }
 
-    // Getters and Setters
+    // Getters
     public UUID getAppointmentId() {
         return appointmentId;
-    }
-
-    public void setAppointmentId(UUID appointmentId) {
-        this.appointmentId = appointmentId;
     }
 
     public Caretaker getCaretaker() {
         return caretaker;
     }
 
+    public PetOwner getPetOwner() {
+        return PetOwner;
+    }
+    
+    public List<Pet> getPets() {
+        return pets;
+    }
+
+    // setters
+    public void setAppointmentId(UUID appointmentId) {
+        this.appointmentId = appointmentId;
+    }
+
+
     public void setCaretaker(Caretaker caretaker) {
         this.caretaker = caretaker;
     }
 
-    public PetOwner getPetOwner() {
-        return PetOwner;
-    }
 
     public void setPetOwner(PetOwner PetOwner) {
         this.PetOwner = PetOwner;
     }
 
-    public List<Pet> getPets() {
-        return pets;
-    }
 
     public void setPets(List<Pet> pets) {
         this.pets = pets;
     }
 
+    // methods
     public void addPet(Pet pet) {
         this.pets.add(pet);
     }

@@ -16,37 +16,47 @@ public abstract class Message {
         this.receiverId = receiverId;
         this.referenceId = referenceId;
     }
-
+    
+    // getters
     public String getDetail() {
         return detail;
     }
-
-    public void setDetail(String detail) {
-        this.detail = detail;
-    }
-
+    
     public String getTimeSent() {
         return timeSent;
+    }
+    
+    public int getReceiverId() {
+        return receiverId;
+    }
+    
+    public int getSenderId() {
+        return senderId;
+    }
+
+    public int getReferenceId() {
+        return referenceId;
+    }
+    
+    // setters
+    public void setDetail(String detail) {
+        this.detail = detail;
     }
 
     public void setTimeSent(String timeSent) {
         this.timeSent = timeSent;
     }
-
-    public int getSenderId() {
-        return senderId;
-    }
-
+    
     public void setSenderId(int senderId) {
         this.senderId = senderId;
     }
 
-    public int getReceiverId() {
-        return receiverId;
-    }
-
     public void setReceiverId(int receiverId) {
         this.receiverId = receiverId;
+    }
+
+    public void setReferenceId(int referenceId) {
+        this.referenceId = referenceId;
     }
 
 }

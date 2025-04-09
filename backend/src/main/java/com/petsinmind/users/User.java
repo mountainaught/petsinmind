@@ -39,6 +39,8 @@ public abstract class User {
 		this.LastName = lastName;
 	}
 
+	// getters
+
 	public UUID getUserID() {
 		return UserID;
 	}
@@ -67,6 +69,7 @@ public abstract class User {
 		return UserEmail;
 	}
 
+	// setters
 
 	/**
 	 *

@@ -15,6 +15,16 @@ public class GUI {
         this.registry = registry;
     }
 
+    // Getter
+    public Registry getRegistry() {
+        return registry;
+    }
+
+    // Setter
+    public void setRegistry(Registry registry) {
+        this.registry = registry;
+    }
+
     // Method for user login
     public boolean login(String username, String password) {
         // Check if the username and password are not empty

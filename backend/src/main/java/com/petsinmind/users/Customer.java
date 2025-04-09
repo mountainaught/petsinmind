@@ -23,38 +23,43 @@ public abstract class Customer extends User {
         ListJobOfferIDs = listJobOfferIDs;
     }
 
+    // getters
     public String getLocation() { 
         return location;
-    }
-
-    public void setLocation(String location) { 
-        this.location = location; 
     }
 
     public List<String> getListAppointmentIDs() { 
         return ListAppointmentIDs; 
     }
 
+    
+    public List<String> getListTicketIDs() { 
+        return ListTicketIDs; 
+    }
+    
+    public List<String> getListJobOfferIDs() { 
+        return ListJobOfferIDs; 
+    }
+    
+    // setters
+    public void setLocation(String location) { 
+        this.location = location; 
+    }
+
     public void setListAppointmentIDs(List<String> listAppointmentIDs) { 
         ListAppointmentIDs = listAppointmentIDs; 
     }
 
-    public List<String> getListTicketIDs() { 
-        return ListTicketIDs; 
-    }
 
     public void setListTicketIDs(List<String> listTicketIDs) { 
         ListTicketIDs = listTicketIDs; 
-    }
-
-    public List<String> getListJobOfferIDs() { 
-        return ListJobOfferIDs; 
     }
 
     public void setListJobOfferIDs(List<String> listJobOfferIDs) { 
         ListJobOfferIDs = listJobOfferIDs; 
     }
 
+    // Methods to manage appointments
     public void AddAppointment(String appointmentID) {
         ListAppointmentIDs.add(appointmentID);
     }

@@ -22,10 +22,12 @@ public class PetOwner extends Customer {
 		this.PetList = petList;
 	}
 
+	// getters
 	public List<Pet> getPetList() {
 		return PetList;
 	}
 
+	// setters
 	public void setPetList(List<Pet> petList) {
 		PetList = petList;
 	}

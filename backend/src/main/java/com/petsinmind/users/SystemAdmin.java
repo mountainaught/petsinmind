@@ -19,10 +19,12 @@ public class SystemAdmin extends User implements TicketSA, ApplicationSA {
 		this.MyTicketList = myTicketList;
 	}
 
+	// getter
 	public List<Ticket> getMyTicketList() {
 		return MyTicketList;
 	}
 
+	// setter
 	public void setMyTicketList(List<Ticket> myTicketList) {
 		MyTicketList = myTicketList;
 	}

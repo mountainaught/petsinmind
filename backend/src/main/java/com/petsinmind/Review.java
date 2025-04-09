@@ -18,41 +18,43 @@ public class Review {
         this.petOwner = petOwner;
         this.caretaker = caretaker;
     }
-
+    
+    // Getters
     public String getDetails() {
         return details;
     }
-
-    public void setDetails(String details) {
-        this.details = details;
-    }
-
+    
     public int getRating() {
         return rating;
     }
-
-    public void setRating(int rating) {
-        this.rating = rating;
+    
+    public Caretaker getCaretaker() {
+        return caretaker;
     }
-
+    
     public Appointment getAppointment() {
         return appointment;
     }
-
-    public void setAppointment(Appointment appointment) {
-        this.appointment = appointment;
-    }
-
+    
     public PetOwner getPetOwner() {
         return petOwner;
     }
-
+    
+    // Setters
     public void setPetOwner(PetOwner petOwner) {
         this.petOwner = petOwner;
     }
-
-    public Caretaker getCaretaker() {
-        return caretaker;
+    
+    public void setDetails(String details) {
+        this.details = details;
+    }
+    
+    public void setRating(int rating) {
+        this.rating = rating;
+    }
+    
+    public void setAppointment(Appointment appointment) {
+        this.appointment = appointment;
     }
 
     public void setCaretaker(Caretaker caretaker) {
