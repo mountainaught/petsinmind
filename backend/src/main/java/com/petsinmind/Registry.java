@@ -1300,6 +1300,44 @@ public class Registry {
         return false;
     }
 
+    public boolean downloadImage(int i, String outputPath) {
+        String sql = "SELECT image_data FROM images WHERE id = ?";
+
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setInt(1, i);
+            ResultSet rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                InputStream input = rs.getBinaryStream("image_data");
+
+                if (input == null) {
+                    System.out.println("⚠️ No picture.");
+                    return false;
+                }
+
+                FileOutputStream output = new FileOutputStream(outputPath);
+                byte[] buffer = new byte[1024];
+                int bytesRead;
+
+                while ((bytesRead = input.read(buffer)) != -1) {
+                    output.write(buffer, 0, bytesRead);
+                }
+
+                input.close();
+                output.close();
+                System.out.println("✅ CV saved to: " + outputPath);
+                return true;
+            } else {
+                System.out.println("❌ Caretaker not found.");
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return false;
+    }
+
     public boolean userNameExists(String userName) throws SQLException {
         PreparedStatement ps = connection
                 .prepareStatement("SELECT * FROM (caretaker OR petowner OR systemadmin) WHERE UserName");
