@@ -72,7 +72,7 @@ public class JobOffer {
         try {
             this.registry = Registry.getInstance(); // Singleton pattern
             this.registry.createJobOffer(this);
-            this.petOwner.addJobOffer(this);
+            this.petOwner.addJobOfferID(this.JobOfferID);
         } catch (Exception e) {
             e.printStackTrace();
         }
