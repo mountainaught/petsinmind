@@ -17,12 +17,26 @@ public abstract class User {
 	private String FirstName;
 	private String LastName;
 
+
 	/**
-	 * 
-	 * @param Password
+	 * Constructor for User class.
+	 *
+	 * @param userID       Unique identifier for the user.
+	 * @param userName     Username of the user.
+	 * @param userPassword Password of the user.
+	 * @param userEmail    Email of the user.
+	 * @param phoneNumber  Phone number of the user.
+	 * @param firstName    First name of the user.
+	 * @param lastName     Last name of the user.
 	 */
-	public void ChangePassword(String Password) {
-		UserPassword = Password;
+	public User(UUID userID, String userName, String userPassword, String userEmail, String phoneNumber, String firstName, String lastName) {
+		this.UserID = userID;
+		this.UserName = userName;
+		this.UserPassword = userPassword;
+		this.UserEmail = userEmail;
+		this.PhoneNumber = phoneNumber;
+		this.FirstName = firstName;
+		this.LastName = lastName;
 	}
 
 	public UUID getUserID() {

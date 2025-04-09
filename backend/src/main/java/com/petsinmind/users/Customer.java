@@ -13,6 +13,16 @@ public abstract class Customer extends User {
     private List<String> ListTicketIDs;
     private List<String> ListJobOfferIDs;
 
+    public Customer(UUID userID, String userName, String userPassword, String userEmail, String phoneNumber, String firstName, String lastName, String location, 
+        List<String> listAppointmentIDs, List<String> listTicketIDs, List<String> listJobOfferIDs) {
+        // Call the constructor of the superclass (User)
+        super(userID, userName, userPassword, userEmail, phoneNumber, firstName, lastName);
+        this.location = location;
+        ListAppointmentIDs = listAppointmentIDs;
+        ListTicketIDs = listTicketIDs;
+        ListJobOfferIDs = listJobOfferIDs;
+    }
+
     public String getLocation() { 
         return location;
     }

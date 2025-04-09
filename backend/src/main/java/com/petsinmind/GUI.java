@@ -1,6 +1,9 @@
 package com.petsinmind;
 
+
 import com.petsinmind.users.User;
+import com.petsinmind.users.Caretaker;
+import com.petsinmind.users.PetOwner;
 
 public class GUI {
 
@@ -22,8 +25,13 @@ public class GUI {
     }
 
     // Method for user registration
-    public boolean register(String username, String password, String email, String phoneNumber, String firstName, String lastName) {
-        User newUser = new User(username, password, email, phoneNumber, firstName, lastName);
-        return registry.createUser(firstName, lastName, username, password, email, phoneNumber);
+    public boolean registerPetOwner(String username, String password, String email, String phoneNumber, String firstName, String lastName) {
+        // Check if the username and password are not empty
+        if (username == null || username.isEmpty() || password == null || password.isEmpty()) {
+            return false;
+        }
+        // Call the registry to add a new user
+        PetOwner newUser = new PetOwner(username, password, email, phoneNumber, firstName, lastName);
+        return registry.createUser(newUser);
     }
 }

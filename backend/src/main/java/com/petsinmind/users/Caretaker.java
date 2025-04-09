@@ -19,15 +19,21 @@ public class Caretaker extends Customer implements JobOfferCT {
 
 	private List<Review> ListReviews;
 
-
+	public Caretaker(UUID userID, String userName, String userPassword, String userEmail, String phoneNumber, String firstName, String lastName, String location,
+			List<String> listAppointmentIDs, List<String> listTicketIDs, List<String> listJobOfferIDs, float pay, boolean[][] availability, List<Review> ListReviews) {
+		super(userID, userName, userPassword, userEmail, phoneNumber, firstName, lastName, location, listAppointmentIDs,
+				listTicketIDs, listJobOfferIDs);
+		this.Pay = pay;
+		this.availability = availability;
+		this.ListReviews = ListReviews;
+	}
 
 	public boolean[][] getAvailability() {
 		return availability;
 	}
-	/*
+	/**
 	 * 
-	 *  @param availability
-	 * 
+	 * @param availability sets the availability for the caretaker for the week (7 days, 24 hours)
 	 */
 	
 	public void setAvailability(boolean[][] availability) {
@@ -61,9 +67,6 @@ public class Caretaker extends Customer implements JobOfferCT {
 		}
 		return false;
 	}
-	
-	
-
 
 	public float getPay() {
 		return Pay;
@@ -73,8 +76,17 @@ public class Caretaker extends Customer implements JobOfferCT {
 	 * 
 	 * @param Pay
 	 */
+
 	public void setPay(float Pay) {
 		this.Pay = Pay;
+	}
+	
+	public void setReviews(List<Review> ListReviews) {
+		this.ListReviews = ListReviews;
+	}
+
+	public List<Review> getReviews() {
+		return ListReviews;
 	}
 
 	/**
@@ -109,10 +121,6 @@ public class Caretaker extends Customer implements JobOfferCT {
 	 */
 	public void AddReview(Review Review) {
 		ListReviews.add(Review);
-	}
-
-	public List<Review> GetReviews() {
-		return ListReviews;
 	}
 
 	/**

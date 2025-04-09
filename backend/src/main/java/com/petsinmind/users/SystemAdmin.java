@@ -14,6 +14,19 @@ public class SystemAdmin extends User implements TicketSA, ApplicationSA {
 
 	private List<Ticket> MyTicketList;
 
+	public SystemAdmin(UUID userID, String userName, String userPassword, String userEmail, String phoneNumber, String firstName, String lastName, List<Ticket> myTicketList) {
+		super(userID, userName, userPassword, userEmail, phoneNumber, firstName, lastName);
+		this.MyTicketList = myTicketList;
+	}
+
+	public List<Ticket> getMyTicketList() {
+		return MyTicketList;
+	}
+
+	public void setMyTicketList(List<Ticket> myTicketList) {
+		MyTicketList = myTicketList;
+	}
+
 	/**
 	 * 
 	 * @param TicketID
