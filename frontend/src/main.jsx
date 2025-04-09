@@ -15,6 +15,7 @@ import Home from './home.jsx';
 import FindCaretaker from './findCaretaker.jsx';
 import CaretakerHome from './caretakerHome.jsx';
 import NewAcc from './newAcc.jsx';
+import Admin from './admin.jsx';
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
@@ -32,6 +33,7 @@ createRoot(document.getElementById('root')).render(
           <Route path="/findcaretaker" element={<FindCaretaker />}/>
           <Route path="/caretakerHome" element={<CaretakerHome />}/>
           <Route path="/newAcc" element={<NewAcc />}/>
+          <Route path="/admin" element={<Admin />}/>
         </Route>
       </Routes>
     </BrowserRouter>

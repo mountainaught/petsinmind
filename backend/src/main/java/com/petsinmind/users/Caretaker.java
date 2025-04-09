@@ -27,15 +27,34 @@ public class Caretaker extends Customer implements JobOfferCT {
 		this.availability = availability;
 		this.ListReviews = ListReviews;
 	}
+	
+	// Getters
+	public float getPay() {
+		return Pay;
+	}
 
+	public List<Review> getReviews() {
+		return ListReviews;
+	}
+	
 	public boolean[][] getAvailability() {
 		return availability;
 	}
+
+	// Setters
+	
+	public void setPay(float Pay) {
+		this.Pay = Pay;
+	}
+	
+	public void setReviews(List<Review> ListReviews) {
+		this.ListReviews = ListReviews;
+	}
+	
 	/**
 	 * 
 	 * @param availability sets the availability for the caretaker for the week (7 days, 24 hours)
 	 */
-	
 	public void setAvailability(boolean[][] availability) {
 		if (availability.length == 7 && availability[0].length == 24) {
 			this.availability = availability;
@@ -68,26 +87,6 @@ public class Caretaker extends Customer implements JobOfferCT {
 		return false;
 	}
 
-	public float getPay() {
-		return Pay;
-	}
-
-	/**
-	 * 
-	 * @param Pay
-	 */
-
-	public void setPay(float Pay) {
-		this.Pay = Pay;
-	}
-	
-	public void setReviews(List<Review> ListReviews) {
-		this.ListReviews = ListReviews;
-	}
-
-	public List<Review> getReviews() {
-		return ListReviews;
-	}
 
 	/**
 	 * 
