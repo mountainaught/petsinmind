@@ -17,7 +17,7 @@ public class Ticket {
     private UUID CustomerID;
     private List<UUID> EmployeeIDs;
     private Boolean Status;
-
+    private Registry registry;
     private ArrayList<TicketMessage> messageList;
 
     // Initial constructor
@@ -29,6 +29,12 @@ public class Ticket {
         this.CustomerID = null;
         this.EmployeeIDs = null;
         this.Status = false;
+        try {
+            this.registry = Registry.getInstance();
+        } catch (Exception e) {
+            e.printStackTrace();
+            this.registry = null; // Handle the exception by setting registry to null or another fallback
+        }
     }
 
     public Ticket(String Title, String Details, UUID CustomerID) {
@@ -39,6 +45,11 @@ public class Ticket {
         this.CustomerID = CustomerID;
         this.EmployeeIDs = EmployeeIDs;
         this.Status = false;
+    }
+
+    public Ticket(UUID ticketID) {
+        this.TicketID = ticketID;
+
     }
 
     // Constructor with parameters
@@ -110,8 +121,14 @@ public class Ticket {
         this.EmployeeIDs = EmployeeIDs;
     }
 
-    public void addEmployee(UUID EmployID) {
+    public boolean addEmployee(UUID EmployID) {
         this.EmployeeIDs.add(EmployID);
+        try {
+            return registry.editTicket(this);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false; // Return false or handle the error appropriately
+        }
     }
 
     public Boolean getStatus() {
