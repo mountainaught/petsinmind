@@ -199,7 +199,7 @@ public class Registry {
     // ******************************************//
     // SQL Write Functions //
     // ******************************************//
-    public int uploadImage(Connection connection, File imageFile, String imageFor) {
+    public int uploadImage(Connection connection, File imageFile, String imageFor) throws SQLException {
         int generatedImageID = -1; // Return -1 if the image upload fails
         String sql = "INSERT INTO images (image_data, content_type, image_for) VALUES (?, ?, ?)";
         try (PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
@@ -225,7 +225,7 @@ public class Registry {
         return generatedImageID;
     }
 
-    private String guessContentType(File file) {
+    private String guessContentType(File file) throws SQLException {
         String fileName = file.getName().toLowerCase();
         if (fileName.endsWith(".png")) {
             return "image/png";
@@ -496,7 +496,7 @@ public class Registry {
         return true; // Update successful
     }
 
-    public boolean deleteUser(User user) {
+    public boolean deleteUser(User user) throws SQLException {
         PreparedStatement ps = null;
         if (user instanceof Caretaker) {
             Caretaker caretaker = (Caretaker) user;
@@ -558,7 +558,7 @@ public class Registry {
         return false; // User type not recognized
     }
 
-    public boolean createPet(Pet pet, PetOwner petOwner) {
+    public boolean createPet(Pet pet, PetOwner petOwner) throws SQLException {
         PreparedStatement ps = null;
         String sql = "INSERT INTO pet (PetID, Name, Type, Size, Age, PetownerID) " +
                 "VALUES (?, ?, ?, ?, ?, ?);";
@@ -585,7 +585,7 @@ public class Registry {
         return false; // Insert failed
     }
 
-    public boolean editPet(Pet pet, PetOwner petOwner) {
+    public boolean editPet(Pet pet, PetOwner petOwner) throws SQLException {
         PreparedStatement ps = null;
         String sql = "UPDATE pet SET Name = ?, Type = ?, Size = ?, Age = ? WHERE PetID = ?;";
         try {
@@ -610,7 +610,7 @@ public class Registry {
         return false; // Update failed
     }
 
-    public boolean deletePet(Pet pet, PetOwner petOwner) {
+    public boolean deletePet(Pet pet, PetOwner petOwner) throws SQLException {
         PreparedStatement ps = null;
         String sql = "DELETE FROM pet WHERE PetID = ?;";
         try {
@@ -631,7 +631,7 @@ public class Registry {
         return false; // Delete failed
     }
 
-    public boolean createAppointment(Appointment appointment) {
+    public boolean createAppointment(Appointment appointment) throws SQLException {
         PreparedStatement ps = null;
         String sql = "INSERT INTO appointment (AppointmentID, CaretakerID, PetownerID, PetIDsList, Startdate, Enddate, Type)"
                 +
@@ -661,7 +661,7 @@ public class Registry {
         return false; // Insert failed
     }
 
-    public boolean deleteAppointment(Appointment appointment) {
+    public boolean deleteAppointment(Appointment appointment) throws SQLException {
         PreparedStatement ps = null;
         String sql = "DELETE FROM appointment WHERE AppointmentID = ?;";
         try {
@@ -682,7 +682,7 @@ public class Registry {
         return false; // Delete failed
     }
 
-    public boolean createJobOffer(JobOffer jobOffer) {
+    public boolean createJobOffer(JobOffer jobOffer) throws SQLException {
         PreparedStatement ps = null;
         String sql = "INSERT INTO joboffer (JobofferID, PetownerID, Startdate, Enddate, AcceptedcaretakerIDs, RejectedcaretakerIDs, Type, PetIDs)"
                 +
@@ -722,7 +722,7 @@ public class Registry {
         return false; // Insert failed
     }
 
-    public boolean deleteJobOffer(JobOffer jobOffer) {
+    public boolean deleteJobOffer(JobOffer jobOffer) throws SQLException {
         PreparedStatement ps = null;
         String sql = "DELETE FROM joboffer WHERE JobofferID = ?;";
         try {
@@ -743,15 +743,192 @@ public class Registry {
         return false; // Delete failed
     }
 
-    public boolean editAvailability(Caretaker ct) {
+    public boolean deleteAvailabilitypoints(Caretaker ct) throws SQLException {
+        PreparedStatement ps = null;
+        String sql = "DELETE FROM availability WHERE CaretakerID = ?;";
+        try {
+            ps = connection.prepareStatement(sql);
+            ps.setString(1, ct.getUserID().toString()); // CaretakerID
+
+            int rowsDeleted = ps.executeUpdate();
+            if (rowsDeleted > 0) {
+                System.out.println("Delete successful.");
+                return true;
+            } else {
+                System.out.println("Delete failed.");
+                return false;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false; // Delete failed
+    }
+
+    public boolean addAvailabilitypoints(Caretaker ct) throws SQLException {
+        PreparedStatement ps = null;
+        String sql = "INSERT INTO availability (CaretakerID, Hour, Day) " +
+                "VALUES (?, ?, ?);";
+        try {
+            ps = connection.prepareStatement(sql);
+            ps.setString(1, ct.getUserID().toString()); // CaretakerID
+            boolean[][] availability = ct.getAvailability(); // 2D array for availability points
+            for (int i = 0; i < 24; i++) {
+                for (int j = 0; j < 7; j++) {
+                    if (availability[i][j]) {
+                        ps.setInt(2, i); // Hour
+                        ps.setInt(3, j); // Day
+                        ps.addBatch();
+                    }
+                }
+            }
+
+            int rowsInserted = ps.executeUpdate();
+            if (rowsInserted > 0) {
+                System.out.println("Availability points inserted successfully!");
+                return true;
+            } else {
+                System.out.println("Insert failed.");
+                return false;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false; // Insert failed
+    }
+
+    public boolean editAvailability(Caretaker ct) throws SQLException {
+        boolean flag = deleteAvailabilitypoints(ct);
+        if (flag) {
+            return addAvailabilitypoints(ct);
+        } else {
+            return false;
+        }
+    }
+
+    public boolean createPayment(Payment payment) throws SQLException {
+        PreparedStatement ps = null;
+        String sql = "INSERT INTO payment (PaymentID, Method, Date, Amount, Currency, SenderID, ReceiverID) " +
+                "VALUES (?, ?, ?, ?, ?,?,?);";
+        try {
+            ps = connection.prepareStatement(sql);
+            ps.setString(1, payment.getPaymentID().toString()); // PaymentID
+            ps.setString(2, payment.getPaymentMethod()); // Method
+            ps.setDate(3, new Date(payment.getPaymentDate().getTimeInMillis())); // Date
+            ps.setFloat(4, payment.getPaymentAmount()); // Amount
+            ps.setString(5, payment.getPaymentCurrency()); // Currency
+            ps.setString(6, payment.getSenderID().toString()); // SenderID
+            ps.setString(7, payment.getReceiverID().toString()); // ReceiverID
+
+            int rowsInserted = ps.executeUpdate();
+            if (rowsInserted > 0) {
+                System.out.println("Payment inserted successfully!");
+                return true;
+            } else {
+                System.out.println("Insert failed.");
+                return false;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false; // Insert failed
+    }
+
+    public boolean createTicket(Ticket ticket) throws SQLException {
+        PreparedStatement ps = null;
+        String sql = "INSERT INTO ticket (TicketID, Title, Details, Date, CustomerID, SystemadminIDs, Status) " +
+                "VALUES (?, ?, ?, ?, ?, ?, ?);";
+        try {
+            String TicketId = ticket.getTicketID().toString();
+            String Title = ticket.getTitle();
+            String Details = ticket.getDetails();
+            Date Date = new Date(ticket.getDate().getTimeInMillis());
+            String CustomerID = ticket.getCustomerID().toString();
+            List<String> EmployeeIDs = ticket.getEmployeeSIDs();
+
+            Gson gson = new Gson();
+            String EmployeeIDsJson = gson.toJson(EmployeeIDs); // Convert the list to JSON
+
+            ps = connection.prepareStatement(sql);
+            ps.setString(1, TicketId); // TicketID
+            ps.setString(2, Title); // Title
+            ps.setString(3, Details); // Details
+            ps.setDate(4, Date); // Date
+            ps.setString(5, CustomerID); // CustomerID
+            ps.setString(6, EmployeeIDsJson); // SystemadminIDs (stored as JSON)
+            ps.setBoolean(7, false); // Status
+
+            int rowsInserted = ps.executeUpdate();
+            if (rowsInserted > 0) {
+                System.out.println("Ticket inserted successfully!");
+                return true;
+            } else {
+                System.out.println("Insert failed.");
+                return false;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false; // Insert failed
 
     }
 
-    public boolean createPayment(Payment payment) {
+    public boolean editTicket(Ticket ticket) throws SQLException {
+        PreparedStatement ps = null;
+        String sql = "UPDATE ticket SET Title = ?, Details = ?, Date = ?, CustomerID = ?, SystemadminIDs = ?, Status =? WHERE TicketID = ?;";
+        try {
+            String TicketId = ticket.getTicketID().toString();
+            String Title = ticket.getTitle();
+            String Details = ticket.getDetails();
+            Date Date = new Date(ticket.getDate().getTimeInMillis());
+            String CustomerID = ticket.getCustomerID().toString();
+            List<String> EmployeeIDs = ticket.getEmployeeSIDs();
+            boolean status = ticket.getStatus();
 
+            Gson gson = new Gson();
+            String EmployeeIDsJson = gson.toJson(EmployeeIDs); // Convert the list to JSON
+
+            ps = connection.prepareStatement(sql);
+            ps.setString(1, Title); // Title
+            ps.setString(2, Details); // Details
+            ps.setDate(3, Date); // Date
+            ps.setString(4, CustomerID); // CustomerID
+            ps.setString(5, EmployeeIDsJson); // SystemadminIDs (stored as JSON)
+            ps.setBoolean(6, status); // Status
+            ps.setString(7, TicketId); // TicketID
+
+            int rowsUpdated = ps.executeUpdate();
+            if (rowsUpdated > 0) {
+                System.out.println("Ticket updated successfully!");
+                return true;
+            } else {
+                System.out.println("Update failed.");
+                return false;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false; // Update failed
     }
 
-    public boolean createApplication(Application app) {
+    public boolean deleteTicket(Ticket ticket) throws SQLException {
+        PreparedStatement ps = null;
+        String sql = "DELETE FROM ticket WHERE TicketID = ?;";
+        try {
+            ps = connection.prepareStatement(sql);
+            ps.setString(1, ticket.getTicketID().toString()); // TicketID
+
+            int rowsDeleted = ps.executeUpdate();
+            if (rowsDeleted > 0) {
+                System.out.println("Delete successful.");
+                return true;
+            } else {
+                System.out.println("Delete failed.");
+                return false;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false; // Delete failed
     }
 
     public boolean createApplication(Application app, String pdfPath) {
