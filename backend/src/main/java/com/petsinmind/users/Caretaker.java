@@ -1,10 +1,8 @@
 package com.petsinmind.users;
 
 import com.petsinmind.*;
-import com.petsinmind.messages.AppointmentMessage;
+import com.petsinmind.messages.Message;
 
-
-import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.UUID;
@@ -112,9 +110,9 @@ public class Caretaker extends Customer implements JobOfferCT {
 	 * 
 	 * @param jobOffer
 	 */
-	public Void RejectJobOffer(JobOffer jobOffer) {
+	public void RejectJobOffer(JobOffer jobOffer) throws SQLException {
 		jobOffer.addRejectedCaretaker(this);
-		reg.editJobOffer(jobOffer);
+		registry.editJobOffer(jobOffer);
 	}
 
 
@@ -122,26 +120,18 @@ public class Caretaker extends Customer implements JobOfferCT {
 	 * 
 	 * @param Review
 	 */
-	public void AddReview(Review Review) {
+	public void AddReview(Review Review) throws SQLException {
 		ListReviews.add(Review);
+		registry.editUser(this);
 	}
 
 	/**
-	 * 
+	 *
 	 * @param Message
 	 */
-	// public boolean SendMessageJO(JobOffer offer, JobOfferMessage Message) {
-	// offer.addMessage(Message);
-	// // TODO - PUSH UPDATED JO TO FIREBASE
-	// }
-
-	/**
-	 * 
-	 * @param Message
-	 */
-	public boolean SendMessageApp(AppointmentMessage Message) {
-		// TODO - implement Caretaker.SendMessageApp
-		throw new UnsupportedOperationException();
-	}
+	 public boolean SendMessage(Message message) throws SQLException {
+		  registry.createMessage(message);
+		  return true;
+	 }
 
 }
