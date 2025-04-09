@@ -341,39 +341,371 @@ public class Registry {
     }
 
     public boolean editUser(User user) {
+        PreparedStatement ps = null;
+        if (user instanceof Caretaker) {
+            Caretaker caretaker = (Caretaker) user;
+            // Upload the image and get the generated image ID
+            String userid = caretaker.getUserID().toString();
+            String username = caretaker.getUserName();
+            String userpassword = caretaker.getUserPassword();
+            String useremail = caretaker.getUserEmail();
+            String phonenumber = caretaker.getPhoneNumber();
+            String firstname = caretaker.getFirstName();
+            String lastname = caretaker.getLastName();
+            List<String> ticketIDs = caretaker.getTicketIDs();
+            List<String> jobofferIDs = caretaker.getJobOfferIDs();
+            String location = caretaker.getLocation();
+            float pay = caretaker.getPay();
+            List<String> appointmentIDs = caretaker.getAppointmentIDs();
 
+            Gson gson = new Gson();
+            String ticketIDsJson = gson.toJson(ticketIDs);
+            String jobofferIDsJson = gson.toJson(jobofferIDs);
+            String appointmentIDsJson = gson.toJson(appointmentIDs);
+            String sql = "UPDATE caretaker SET UserName = ?,UserPassword = ?,UserEmail = ?, PhoneNumber = ?, FirstName = ?, LastName = ?,ListTicketIDs = ?,ListJobOfferIDs = ?, Location = ?, Pay = ?,ListAppointmentIDs = ? WHERE UserID = ?";
+            ps = connection.prepareStatement(sql);
+            ps.setString(1, username); // UserName
+            ps.setString(2, userpassword); // UserPassword
+            ps.setString(3, useremail); // UserEmail
+            ps.setString(4, phonenumber); // PhoneNumber
+            ps.setString(5, firstname); // FirstName
+            ps.setString(6, lastname); // LastName
+            ps.setString(7, ticketIDsJson); // ListTicketIDs (stored as JSON)
+            ps.setString(8, jobofferIDsJson); // ListJobOfferIDs (stored as JSON)
+            ps.setString(9, location); // Location
+            ps.setFloat(10, pay); // Pay
+            ps.setString(11, appointmentIDsJson); // ListAppointmentIDs (stored as JSON)
+            ps.setString(12, userid); // UserID
+
+            // Execute the insert statement
+            int rowsUpdated = ps.executeUpdate();
+            if (rowsUpdated > 0) {
+                System.out.println("Update successful.");
+            } else {
+                System.out.println("Update failed.");
+            }
+        } else if (user instanceof PetOwner) {
+            PetOwner petowner = (PetOwner) user;
+
+            String userid = petowner.getUserID().toString();
+            String username = petowner.getUserName();
+            String userpassword = petowner.getUserPassword();
+            String useremail = petowner.getUserEmail();
+            String phonenumber = petowner.getPhoneNumber();
+            String firstname = petowner.getFirstName();
+            String lastname = petowner.getLastName();
+            List<String> ticketIDs = petowner.getTicketIDs();
+            List<String> jobofferIDs = petowner.getJobOfferIDs();
+            List<String> petIDs = petowner.getPetIDs();
+            List<String> appointmentIDs = petowner.getAppointmentIDs();
+            String location = petowner.getLocation();
+
+            Gson gson = new Gson();
+            String ticketIDsJson = gson.toJson(ticketIDs);
+            String jobofferIDsJson = gson.toJson(jobofferIDs);
+            String petIDsJson = gson.toJson(petIDs);
+            String appointmentIDsJson = gson.toJson(appointmentIDs);
+
+            String sql = "UPDATE petowner SET " +
+                    "(UserName =?, UserPassword =?, UserEmail =?, PhoneNumber=?, FirstName=?, LastName=?, " +
+                    "ListTicketIDs=?, ListJobOfferIDs=?, ListPetIDs=?, Location=?,ListAppointmentIDs=?) " +
+                    "WHERE UserID = ?;";
+            ps = connection.prepareStatement(sql);
+
+            ps.setString(1, username); // UserName
+            ps.setString(2, userpassword); // UserPassword
+            ps.setString(3, useremail); // UserEmail
+            ps.setString(4, phonenumber); // PhoneNumber
+            ps.setString(5, firstname); // FirstName
+            ps.setString(6, lastname); // LastName
+            ps.setString(7, ticketIDsJson); // ListTicketIDs (stored as JSON)
+            ps.setString(8, jobofferIDsJson); // ListJobOfferIDs (stored as JSON)
+            ps.setString(9, petIDsJson); // ListPetIDs (stored as JSON)
+            ps.setString(10, location); // Location
+            ps.setString(11, appointmentIDsJson); // ListAppointmentIDs (stored as JSON)
+            ps.setString(12, userid); // UserID
+
+            int rowsUpdated = ps.executeUpdate();
+            if (rowsUpdated > 0) {
+                System.out.println("Update successful.");
+            } else {
+                System.out.println("Update failed.");
+            }
+        } else if (user instanceof SystemAdmin) {
+            SystemAdmin sysadmin = (SystemAdmin) user;
+            String userid = sysadmin.getUserID().toString();
+            String username = sysadmin.getUserName();
+            String userpassword = sysadmin.getUserPassword();
+            String useremail = sysadmin.getUserEmail();
+            String phonenumber = sysadmin.getPhoneNumber();
+            String firstname = sysadmin.getFirstName();
+            String lastname = sysadmin.getLastName();
+
+            String sql = "UPDATE systemadmin SET" +
+                    "(UserName=?, UserPassword=?, UserEmail=?, PhoneNumber=?, FirstName=?, LastName=?) " +
+                    "WHERE UserID = ?;";
+            ps = connection.prepareStatement(sql);
+            ps.setString(1, username); // UserName
+            ps.setString(2, userpassword); // UserPassword
+            ps.setString(3, useremail); // UserEmail
+            ps.setString(4, phonenumber); // PhoneNumber
+            ps.setString(5, firstname); // FirstName
+            ps.setString(6, lastname); // LastName
+            ps.setString(7, userid); // UserID
+            int rowsUpdated = ps.executeUpdate();
+            if (rowsUpdated > 0) {
+                System.out.println("Update successful.");
+            } else {
+                System.out.println("Update failed.");
+            }
+        } else {
+            return false; // Invalid user type
+        }
     }
 
     public boolean deleteUser(User user) {
-
+        PreparedStatement ps = null;
+        if (user instanceof Caretaker) {
+            Caretaker caretaker = (Caretaker) user;
+            String userid = caretaker.getUserID().toString();
+            String sql = "DELETE FROM caretaker WHERE UserID = ?;";
+            try {
+                ps = connection.prepareStatement(sql);
+                ps.setString(1, userid); // UserID
+                int rowsDeleted = ps.executeUpdate();
+                if (rowsDeleted > 0) {
+                    System.out.println("Delete successful.");
+                    return true;
+                } else {
+                    System.out.println("Delete failed.");
+                    return false;
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        } else if (user instanceof PetOwner) {
+            PetOwner petowner = (PetOwner) user;
+            String userid = petowner.getUserID().toString();
+            String sql = "DELETE FROM petowner WHERE UserID = ?;";
+            try {
+                ps = connection.prepareStatement(sql);
+                ps.setString(1, userid); // UserID
+                int rowsDeleted = ps.executeUpdate();
+                if (rowsDeleted > 0) {
+                    System.out.println("Delete successful.");
+                    return true;
+                } else {
+                    System.out.println("Delete failed.");
+                    return false;
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        } else if (user instanceof SystemAdmin) {
+            SystemAdmin sysadmin = (SystemAdmin) user;
+            String userid = sysadmin.getUserID().toString();
+            String sql = "DELETE FROM systemadmin WHERE UserID = ?;";
+            try {
+                ps = connection.prepareStatement(sql);
+                ps.setString(1, userid); // UserID
+                int rowsDeleted = ps.executeUpdate();
+                if (rowsDeleted > 0) {
+                    System.out.println("Delete successful.");
+                    return true;
+                } else {
+                    System.out.println("Delete failed.");
+                    return false;
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        } else {
+            return false; // Invalid user type
+        }
+        return false; // User type not recognized
     }
 
     public boolean createPet(Pet pet, PetOwner petOwner) {
+        PreparedStatement ps = null;
+        String sql = "INSERT INTO pet (PetID, Name, Type, Size, Age, PetownerID) " +
+                "VALUES (?, ?, ?, ?, ?, ?);";
+        try {
+            ps = connection.prepareStatement(sql);
+            ps.setString(1, pet.getPetID().toString()); // PetID
+            ps.setString(2, pet.getPetName()); // PetName
+            ps.setString(3, pet.getPetType()); // PetType
+            ps.setString(4, pet.getPetSize()); // PetBreed
+            ps.setInt(5, pet.getPetAge()); // PetAge
+            ps.setString(6, petOwner.getUserID().toString()); // PetOwnerID
 
+            int rowsInserted = ps.executeUpdate();
+            if (rowsInserted > 0) {
+                System.out.println("Insert successful.");
+                return true;
+            } else {
+                System.out.println("Insert failed.");
+                return false;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false; // Insert failed
     }
 
     public boolean editPet(Pet pet, PetOwner petOwner) {
+        PreparedStatement ps = null;
+        String sql = "UPDATE pet SET Name = ?, Type = ?, Size = ?, Age = ? WHERE PetID = ?;";
+        try {
+            ps = connection.prepareStatement(sql);
+            ps.setString(1, pet.getPetName()); // PetName
+            ps.setString(2, pet.getPetType()); // PetType
+            ps.setString(3, pet.getPetSize()); // PetBreed
+            ps.setInt(4, pet.getPetAge()); // PetAge
+            ps.setString(5, pet.getPetID().toString()); // PetID
 
+            int rowsUpdated = ps.executeUpdate();
+            if (rowsUpdated > 0) {
+                System.out.println("Update successful.");
+                return true;
+            } else {
+                System.out.println("Update failed.");
+                return false;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false; // Update failed
     }
 
     public boolean deletePet(Pet pet, PetOwner petOwner) {
+        PreparedStatement ps = null;
+        String sql = "DELETE FROM pet WHERE PetID = ?;";
+        try {
+            ps = connection.prepareStatement(sql);
+            ps.setString(1, pet.getPetID().toString()); // PetID
 
+            int rowsDeleted = ps.executeUpdate();
+            if (rowsDeleted > 0) {
+                System.out.println("Delete successful.");
+                return true;
+            } else {
+                System.out.println("Delete failed.");
+                return false;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false; // Delete failed
     }
 
     public boolean createAppointment(Appointment appointment) {
+        PreparedStatement ps = null;
+        String sql = "INSERT INTO appointment (AppointmentID, CaretakerID, PetownerID, PetIDsList, Startdate, Enddate, Type)"
+                +
+                "VALUES (?, ?, ?, ?, ?, ?, ?);";
+        try {
+            List<String> petIDs = appointment.getPetIDsList();
+            Gson gson = new Gson();
+            String petIDsJson = gson.toJson(petIDs); // Convert the list to JSON
+            Date startDate = new Date(appointment.getStartDate().getTimeInMillis());
+            Date endDate = new Date(appointment.getEndDate().getTimeInMillis());
+            ps = connection.prepareStatement(sql);
+            ps.setString(1, appointment.getAppointmentId().toString()); // AppointmentID
+            ps.setString(2, appointment.getCaretaker().getUserID().toString()); // CaretakerID
+            ps.setString(3, appointment.getPetOwner().getUserID().toString()); // PetOwnerID
+            ps.setString(4, petIDsJson); // PetIDsList (stored as JSON)
+            ps.setDate(5, startDate); // Startdate
+            ps.setDate(6, endDate); // Enddate
+            ps.setString(7, appointment.getType()); // Type
 
+            int rowsInserted = ps.executeUpdate();
+            if (rowsInserted > 0) {
+                System.out.println("Appointment inserted successfully!");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     public boolean deleteAppointment(Appointment appointment) {
+        PreparedStatement ps = null;
+        String sql = "DELETE FROM appointment WHERE AppointmentID = ?;";
+        try {
+            ps = connection.prepareStatement(sql);
+            ps.setString(1, appointment.getAppointmentId().toString()); // AppointmentID
 
+            int rowsDeleted = ps.executeUpdate();
+            if (rowsDeleted > 0) {
+                System.out.println("Delete successful.");
+                return true;
+            } else {
+                System.out.println("Delete failed.");
+                return false;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false; // Delete failed
     }
 
     public boolean createJobOffer(JobOffer jobOffer) {
+        PreparedStatement ps = null;
+        String sql = "INSERT INTO joboffer (JobofferID, PetownerID, Startdate, Enddate, AcceptedcaretakerIDs, RejectedcaretakerIDs, Type, PetIDs)"
+                +
+                "VALUES (?, ?, ?, ?, ?, ?, ?, ?);";
+        try {
+            List<String> petIDs = jobOffer.getPetIDs();
+            List<String> acceptedCaretakerIDs = jobOffer.getAcceptedCaretakerIDs();
+            List<String> rejectedCaretakerIDs = jobOffer.getRejectedCaretakerIDs();
 
+            Gson gson = new Gson();
+            String petIDsJson = gson.toJson(petIDs); // Convert the list to JSON
+            String acceptedCaretakerIDsJson = gson.toJson(acceptedCaretakerIDs); // Convert the list to JSON
+            String rejectedCaretakerIDsJson = gson.toJson(rejectedCaretakerIDs); // Convert the list to JSON
+            Date startDate = new Date(jobOffer.getStartDate().getTimeInMillis());
+            Date endDate = new Date(jobOffer.getEndDate().getTimeInMillis());
+            ps = connection.prepareStatement(sql);
+            ps.setString(1, jobOffer.getJobOfferID().toString()); // JobofferID
+            ps.setString(2, jobOffer.getPetOwner().getUserID().toString()); // PetOwnerID
+            ps.setDate(3, startDate); // Startdate
+            ps.setDate(4, endDate); // Enddate
+            ps.setString(5, acceptedCaretakerIDsJson); // AcceptedcaretakerIDs (stored as JSON)
+            ps.setString(6, rejectedCaretakerIDsJson); // RejectedcaretakerIDs (stored as JSON)
+            ps.setString(7, jobOffer.getType()); // Type
+            ps.setString(8, petIDsJson); // PetIDs (stored as JSON)
+
+            int rowsInserted = ps.executeUpdate();
+            if (rowsInserted > 0) {
+                System.out.println("Job offer inserted successfully!");
+                return true;
+            } else {
+                System.out.println("Insert failed.");
+                return false;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     public boolean deleteJobOffer(JobOffer jobOffer) {
+        PreparedStatement ps = null;
+        String sql = "DELETE FROM joboffer WHERE JobofferID = ?;";
+        try {
+            ps = connection.prepareStatement(sql);
+            ps.setString(1, jobOffer.getJobOfferID().toString()); // JobofferID
 
+            int rowsDeleted = ps.executeUpdate();
+            if (rowsDeleted > 0) {
+                System.out.println("Delete successful.");
+                return true;
+            } else {
+                System.out.println("Delete failed.");
+                return false;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false; // Delete failed
     }
 
     public boolean editAvailability(Caretaker ct) {
