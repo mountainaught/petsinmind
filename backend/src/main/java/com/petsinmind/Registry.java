@@ -1,9 +1,6 @@
 package com.petsinmind;
 
-import com.petsinmind.messages.AppointmentMessage;
-import com.petsinmind.messages.JobOfferMessage;
 import com.petsinmind.messages.Message;
-import com.petsinmind.messages.TicketMessage;
 import com.petsinmind.users.Caretaker;
 import com.petsinmind.users.PetOwner;
 import com.petsinmind.users.SystemAdmin;
@@ -13,22 +10,24 @@ import com.petsinmind.users.User;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
 import java.sql.*;
-import java.sql.Date;
-import java.time.Instant;
-import java.time.ZoneId;
-import java.time.ZonedDateTime;
-import java.util.*;
-import java.util.function.Consumer;
-import java.util.regex.Pattern;
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+import java.net.URL;
+import java.net.URLEncoder;
 
 public class Registry {
     private static Registry instance = null;
@@ -295,8 +294,8 @@ public class Registry {
             payment.setPaymentDate(dateToCalendar(rs.getDate("Date")));
             payment.setPaymentAmount(rs.getFloat("Amount"));
             payment.setPaymentCurrency(rs.getString("Currency"));
-            payment.setSenderID(rs.getString("SenderID"));
-            payment.setReceiverID(rs.getString("ReceiverID"));
+            payment.setSenderID(UUID.fromString(rs.getString("SenderID")));
+            payment.setReceiverID(UUID.fromString(rs.getString("ReceiverID")));
             return payment;
         }
         return null;
