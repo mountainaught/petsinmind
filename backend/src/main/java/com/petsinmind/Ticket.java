@@ -14,8 +14,8 @@ public class Ticket {
     private String Title;
     private String Details;
     private Calendar Date;
-    private int CustomerID;
-    private List<Integer> EmployeeIDs;
+    private UUID CustomerID;
+    private List<UUID> EmployeeIDs;
     private Boolean Status;
 
     private ArrayList<TicketMessage> messageList;
@@ -26,14 +26,14 @@ public class Ticket {
         this.Title = null;
         this.Details = null;
         this.Date = null;
-        this.CustomerID = 0;
+        this.CustomerID = null;
         this.EmployeeIDs = null;
         this.Status = false;
     }
 
     // Constructor with parameters
-    public Ticket(String Title, String Details, Calendar Date, int CustomerID,
-            List<Integer> EmployeeIDs, Boolean Status) {
+    public Ticket(String Title, String Details, Calendar Date, UUID CustomerID,
+            List<UUID> EmployeeIDs, Boolean Status) {
         this.TicketID = UUID.randomUUID();
         this.Title = Title;
         this.Details = Details;
@@ -76,19 +76,27 @@ public class Ticket {
         this.Date = Date;
     }
 
-    public int getCustomerID() {
+    public UUID getCustomerID() {
         return CustomerID;
     }
 
-    public void setCustomerID(int CustomerID) {
+    public void setCustomerID(UUID CustomerID) {
         this.CustomerID = CustomerID;
     }
 
-    public List<Integer> getEmployeeIDs() {
+    public List<UUID> getEmployeeIDs() {
         return EmployeeIDs;
     }
 
-    public void setEmployeeIDs(List<Integer> EmployeeIDs) {
+    public List<String> getEmployeeSIDs() {
+        List<String> employeeSIDs = new ArrayList<>();
+        for (UUID employeeID : EmployeeIDs) {
+            employeeSIDs.add(employeeID.toString());
+        }
+        return employeeSIDs;
+    }
+
+    public void setEmployeeIDs(List<UUID> EmployeeIDs) {
         this.EmployeeIDs = EmployeeIDs;
     }
 
@@ -104,5 +112,7 @@ public class Ticket {
         this.messageList.add(message);
     }
 
-    public List<TicketMessage> getMessageList() {return messageList;}
+    public List<TicketMessage> getMessageList() {
+        return messageList;
+    }
 }

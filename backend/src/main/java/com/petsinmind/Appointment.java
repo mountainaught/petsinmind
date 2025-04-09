@@ -56,9 +56,17 @@ public class Appointment {
     public PetOwner getPetOwner() {
         return PetOwner;
     }
-    
+
     public List<Pet> getPets() {
         return pets;
+    }
+
+    public List<String> getPetIDs() {
+        List<String> petIDs = new ArrayList<>();
+        for (Pet pet : pets) {
+            petIDs.add(pet.getPetID().toString());
+        }
+        return petIDs;
     }
 
     // setters
@@ -66,25 +74,19 @@ public class Appointment {
         this.appointmentId = appointmentId;
     }
 
-
     public void setCaretaker(Caretaker caretaker) {
         this.caretaker = caretaker;
     }
 
-
     public void setPetOwner(PetOwner PetOwner) {
         this.PetOwner = PetOwner;
     }
-
 
     public void setPets(List<Pet> pets) {
         this.pets = pets;
     }
 
     // methods
-    public void addPet(Pet pet) {
-        this.pets.add(pet);
-    }
 
     public void removePet(Pet pet) {
         this.pets.remove(pet);
