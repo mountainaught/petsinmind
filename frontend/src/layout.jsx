@@ -71,6 +71,7 @@ export default function Layout() {
                         
                         
                         >
+                            <input name='title' type="text" placeholder='Title:' className='ticketInput'/>
                             <input name='ticket' placeholder='Enter Ticket / Problem faced here:' className='ticketInput' required></input>
                             <button type='submit' className='submitTkt'>Submit</button>
                         </form>
