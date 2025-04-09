@@ -24,6 +24,8 @@ export default function Layout() {
 
     const isChat = location.pathname === '/chat';
 
+
+
     return (
         <div>
             <nav className='navbar'>
