@@ -28,16 +28,16 @@ public abstract class Customer extends User {
         return location;
     }
 
-    public List<String> getListAppointmentIDs() { 
+    public List<String> getAppointmentIDs() { 
         return ListAppointmentIDs; 
     }
 
     
-    public List<String> getListTicketIDs() { 
+    public List<String> getTicketIDs() { 
         return ListTicketIDs; 
     }
     
-    public List<String> getListJobOfferIDs() { 
+    public List<String> getJobOfferIDs() { 
         return ListJobOfferIDs; 
     }
     
@@ -46,16 +46,16 @@ public abstract class Customer extends User {
         this.location = location; 
     }
 
-    public void setListAppointmentIDs(List<String> listAppointmentIDs) { 
+    public void setAppointmentIDs(List<String> listAppointmentIDs) { 
         ListAppointmentIDs = listAppointmentIDs; 
     }
 
 
-    public void setListTicketIDs(List<String> listTicketIDs) { 
+    public void setTicketIDs(List<String> listTicketIDs) { 
         ListTicketIDs = listTicketIDs; 
     }
 
-    public void setListJobOfferIDs(List<String> listJobOfferIDs) { 
+    public void setJobOfferIDs(List<String> listJobOfferIDs) { 
         ListJobOfferIDs = listJobOfferIDs; 
     }
 

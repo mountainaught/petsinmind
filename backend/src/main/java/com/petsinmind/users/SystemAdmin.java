@@ -5,18 +5,27 @@ import com.petsinmind.ApplicationSA;
 import com.petsinmind.Ticket;
 import com.petsinmind.TicketSA;
 import com.petsinmind.messages.TicketMessage;
+import com.petsinmind.Registry;
 
 import java.util.List;
 import java.util.UUID;
+import java.io.File;
 
 // Tibet
 public class SystemAdmin extends User implements TicketSA, ApplicationSA {
 
 	private List<Ticket> MyTicketList;
+	private Registry registry;
 
+// Constructor
 	public SystemAdmin(UUID userID, String userName, String userPassword, String userEmail, String phoneNumber, String firstName, String lastName, List<Ticket> myTicketList) {
 		super(userID, userName, userPassword, userEmail, phoneNumber, firstName, lastName);
 		this.MyTicketList = myTicketList;
+		try {
+			this.registry = Registry.getInstance(); // Singleton pattern
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	// getter
@@ -107,5 +116,33 @@ public class SystemAdmin extends User implements TicketSA, ApplicationSA {
 		// TODO - implement SystemAdmin.viewAllApplications
 		throw new UnsupportedOperationException();
 	}
+	
+	public boolean createCaretaker(String userName, String userPassword, String userEmail, String phoneNumber, String firstName, String lastName, String location, float pay, File imageFile) {
+        try {
+            // Create a new Caretaker object
+            Caretaker caretaker = new Caretaker(
+                UUID.randomUUID(),
+                userName,
+                userPassword,
+                userEmail,
+                phoneNumber,
+                firstName,
+                lastName,
+                location,
+                null, // Ticket IDs (placeholder)
+                null, // Job Offer IDs (placeholder)
+                null, // Appointment IDs (placeholder)
+                pay,
+                null, // availability (placeholder)
+                null  // reviews (placeholder)
+            );
+
+            // Use the Registry to create the caretaker account
+            return registry.createUser(caretaker, imageFile);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
 
 }

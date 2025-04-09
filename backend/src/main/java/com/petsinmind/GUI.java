@@ -51,13 +51,13 @@ public class GUI {
     }
 
     public boolean registerCaretaker(String firstName, String lastName, String username, String password, String email,
-            String phoneNumber) {
+            String phoneNumber, String location) {
         // Check if the username and password are not empty
         if (username == null || username.isEmpty() || password == null || password.isEmpty()) {
             return false;
         }
         // Create an application object for the caretaker
-        Application application = new Application(firstName, lastName, username, password, email, null, phoneNumber);
+        Application application = new Application(firstName, lastName, username, password, email, null, phoneNumber, location);
         return registry.createApplication(application);
     }
 }
