@@ -10,15 +10,25 @@ import com.petsinmind.users.User;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+import java.net.URL;
+import java.net.URLEncoder;
+
 
 public class Registry {
     private static Registry instance = null;
@@ -744,8 +754,40 @@ public class Registry {
     }
 
     public boolean editAvailability(Caretaker ct) {
-
+        String deleteSQL = "DELETE FROM availability WHERE UserID = ?";
+        String insertSQL = "INSERT INTO availability (UserID, Day, Hour) VALUES (?, ?, ?)";
+    
+        try (PreparedStatement deleteStmt = connection.prepareStatement(deleteSQL)) {
+            deleteStmt.setString(1, ct.getUserID().toString());
+            deleteStmt.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println("❌ Failed to clear previous availability.");
+            e.printStackTrace();
+            return false;
+        }
+    
+        try (PreparedStatement insertStmt = connection.prepareStatement(insertSQL)) {
+            boolean[][] availability = ct.getAvailability();
+            for (int day = 0; day < 7; day++) {
+                for (int hour = 0; hour < 24; hour++) {
+                    if (availability[day][hour]) {
+                        insertStmt.setString(1, ct.getUserID().toString());
+                        insertStmt.setInt(2, day);
+                        insertStmt.setInt(3, hour);
+                        insertStmt.addBatch();
+                    }
+                }
+            }
+            insertStmt.executeBatch();
+            System.out.println("✅ Availability updated.");
+            return true;
+        } catch (SQLException e) {
+            System.out.println("❌ Failed to insert availability.");
+            e.printStackTrace();
+            return false;
+        }
     }
+    
 
     public boolean createPayment(Payment payment) {
 
@@ -814,8 +856,105 @@ public class Registry {
     // Implementations //
     // ******************************************//
 
-    public List<Caretaker> findAvailableCaretakers(JobOffer jobOffer) {
+
+    private String fetchGoogleApiKey() {
+        String apiKey = "";
+        String sql = "SELECT APIKEY FROM API WHERE Name = 'GeoAPI'";
+        try (PreparedStatement stmt = connection.prepareStatement(sql);
+             ResultSet rs = stmt.executeQuery()) {
+            if (rs.next()) {
+                apiKey = rs.getString("APIKEY");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return apiKey;
     }
+
+    public double getDistanceInKm(String origin, String destination, String apiKey) throws IOException {
+        String urlStr = "https://maps.googleapis.com/maps/api/distancematrix/json?units=metric" +
+                "&origins=" + URLEncoder.encode(origin, "UTF-8") +
+                "&destinations=" + URLEncoder.encode(destination, "UTF-8") +
+                "&key=" + apiKey;
+
+        URL url = new URL(urlStr);
+        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+        conn.setRequestMethod("GET");
+
+        BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+        String inputLine;
+        StringBuilder response = new StringBuilder();
+        while ((inputLine = in.readLine()) != null) {
+            response.append(inputLine);
+        }
+        in.close();
+
+        JsonObject json = JsonParser.parseString(response.toString()).getAsJsonObject();
+        JsonObject element = json.getAsJsonArray("rows")
+                                .get(0).getAsJsonObject()
+                                .getAsJsonArray("elements")
+                                .get(0).getAsJsonObject();
+
+        if (element.get("status").getAsString().equals("OK")) {
+            return element.getAsJsonObject("distance").get("value").getAsDouble() / 1000.0; // meters to km
+        }
+        return Double.MAX_VALUE;
+    }
+
+    
+
+    public List<Caretaker> findAvailableCaretakers(JobOffer jobOffer) {
+        List<Caretaker> availableCaretakers = new ArrayList<>();
+    
+        try {
+            Calendar start = jobOffer.getStartDate();
+            int day = start.get(Calendar.DAY_OF_WEEK) - 1; // Sunday = 0
+            int hour = start.get(Calendar.HOUR_OF_DAY);
+    
+            // Step 1: Get all caretakers who are available at that day/hour
+            PreparedStatement avStmt = connection.prepareStatement(
+                "SELECT DISTINCT c.* FROM caretaker c " +
+                "JOIN availability a ON c.UserID = a.CaretakerID " +
+                "WHERE a.Day = ? AND a.Hour = ?"
+            );
+            avStmt.setInt(1, day);
+            avStmt.setInt(2, hour);
+            ResultSet rs = avStmt.executeQuery();
+    
+            String apiKey = fetchGoogleApiKey();
+    
+            while (rs.next()) {
+                System.out.println("\n? Checking caretaker: " + rs.getString("FirstName") + " " + rs.getString("LastName"));
+                String caretakerID = rs.getString("UserID");
+                String caretakerLocation = rs.getString("Location");
+                System.out.println("    Location: " + caretakerLocation);
+                System.out.println("  ? Checking availability for Day=" + day + ", Hour=" + hour);
+    
+                // Step 2: Calculate distance
+                double distance = getDistanceInKm(jobOffer.getLocation(), caretakerLocation, apiKey);
+                System.out.println("Distance to " + caretakerLocation + ": " + distance + " km");
+                if (distance > 10.0) continue;
+    
+                // Step 3: Add to list
+                Caretaker ct = new Caretaker();
+                ct.setUserID(UUID.fromString(caretakerID));
+                ct.setLocation(caretakerLocation);
+                ct.setPay(rs.getFloat("Pay"));
+                ct.setFirstName(rs.getString("FirstName"));
+                ct.setLastName(rs.getString("LastName"));
+    
+                availableCaretakers.add(ct);
+            }
+    
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    
+        return availableCaretakers;
+    }
+    
+    
+
 
     public boolean uploadApplicationCV(String userName, String filePath) {
         String sql = "UPDATE application SET UserCV = ? WHERE UserName = ?";
