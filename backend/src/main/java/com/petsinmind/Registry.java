@@ -854,6 +854,7 @@ public class Registry {
             }
         } catch (SQLException e) {
             e.printStackTrace();
+            return false; // Insert failed
         }
     }
 

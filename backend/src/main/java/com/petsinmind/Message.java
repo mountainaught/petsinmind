@@ -25,7 +25,7 @@ public abstract class Message {
         }
     }
 
-    public String getSenderIDSTring() {
+    public String getSenderIDString() {
         return senderId.toString();
     }
 
