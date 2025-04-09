@@ -1,5 +1,26 @@
+@media only screen and (min-width: 768px) {
+    .bookapt-container {
+        width: 70%;
+    }
+
+    .petselect{
+        width: 80%;
+    }
+
+    .left-container input{
+        width: 80%;
+        height: 100%;
+    }
+
+    .findCt{
+        margin-top: 40%;
+    }
+}
+
+
+
 .bookapt-container {
-    width: 70%;
+ 
     height: 45%;
     display: flex;
     justify-content: space-between; 
@@ -100,8 +121,7 @@
 
 
 .left-container input{
-    width: 80%;
-    height: 20%;
+
     border-radius: 15px;
     border: 2px solid #5A0001;
     background: #FFF;
@@ -124,7 +144,6 @@
 
 
 .petselect{
-    width: 80%;
     height: 100%;
     border-radius: 15px;
     border: 2px solid #5A0001;
@@ -135,7 +154,6 @@
 
 .findCt{
     width: 30%;
-    margin-top: 35%;
     height: 41.211px;
     flex-shrink: 0;
     border-radius: 15px;
