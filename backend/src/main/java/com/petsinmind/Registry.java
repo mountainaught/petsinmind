@@ -201,8 +201,25 @@ public class Registry {
         return null;
     }
 
-    public Payment getPayment(Payment payment) {
+    public Payment getPayment(Payment payment) throws SQLException {
+        PreparedStatement ps = null;
+        ResultSet rs = null;
 
+        ps = connection.prepareStatement("SELECT * FROM payment WHERE PaymentID = ?");
+        ps.setString(1, payment.getPaymentID().toString());
+        rs = ps.executeQuery();
+
+        if (rs.next()) {
+            payment.setPaymentID(UUID.fromString(rs.getString("PaymentID")));
+            payment.setPaymentMethod(rs.getString("Method"));
+            payment.setPaymentDate(dateToCalendar(rs.getDate("Date")));
+            payment.setPaymentAmount(rs.getFloat("Amount"));
+            payment.setPaymentCurrency(rs.getString("Currency"));
+            payment.setSenderID(rs.getString("SenderID"));
+            payment.setReceiverID(rs.getString("ReceiverID"));
+            return payment;
+        }
+        return null;
     }
 
     public List<Payment> getPayments(User user) {

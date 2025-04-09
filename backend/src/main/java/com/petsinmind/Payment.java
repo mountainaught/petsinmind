@@ -1,10 +1,11 @@
 package com.petsinmind;
 
 import java.util.Calendar;
+import java.util.UUID;
 
 // Dimitris
 public class Payment {
-    private String PaymentID;
+    private UUID PaymentID;
     private String PaymentMethod;
     private Calendar PaymentDate;
     private float PaymentAmount;
@@ -24,7 +25,7 @@ public class Payment {
     }
 
     // Constructor with parameters
-    public Payment(String PaymentID, String PaymentMethod, Calendar PaymentDate, float PaymentAmount,
+    public Payment(UUID PaymentID, String PaymentMethod, Calendar PaymentDate, float PaymentAmount,
             String PaymentCurrency, String SenderID,
             String ReceiverID) {
         this.PaymentID = PaymentID;
@@ -36,11 +37,11 @@ public class Payment {
     }
 
     // Getters and Setters
-    public String getPaymentID() {
+    public UUID getPaymentID() {
         return PaymentID;
     }
 
-    public void setPaymentID(String PaymentID) {
+    public void setPaymentID(UUID PaymentID) {
         this.PaymentID = PaymentID;
     }
 
