@@ -19,12 +19,6 @@ public abstract class User {
 
 	private Registry registry;
 
-	public User() {}
-
-	public User(UUID caretakerID) {
-		this.UserID = caretakerID;
-	}
-
 	/**
 	 * Constructor for User class.
 	 *
