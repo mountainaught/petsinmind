@@ -451,52 +451,11 @@ public class Registry {
     // ******************************************//
     // SQL Write Functions //
     // ******************************************//
-    public int uploadImage(Connection connection, File imageFile, String imageFor) throws SQLException {
-        int generatedImageID = -1; // Return -1 if the image upload fails
-        String sql = "INSERT INTO images (image_data, content_type, image_for) VALUES (?, ?, ?)";
-        try (PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-                FileInputStream fis = new FileInputStream(imageFile)) {
-            ps.setBinaryStream(1, fis, (int) imageFile.length());
-            String contentType = guessContentType(imageFile);
-            ps.setString(2, contentType); // Set the content type based on the file extension
-            ps.setString(3, imageFor); // Specify the purpose of the image (e.g.,"profile", "pet", etc.)
 
-            int affectedRows = ps.executeUpdate();
-            if (affectedRows > 0) {
-                // Retrieve the auto-generated keys
-                try (ResultSet rs = ps.getGeneratedKeys()) {
-                    if (rs.next()) {
-                        generatedImageID = rs.getInt(1); // Get the generated image ID
-                    }
-                }
-            }
-        } catch (SQLException | IOException e) {
-            e.printStackTrace();
-        }
-
-        return generatedImageID;
-    }
-
-    private String guessContentType(File file) throws SQLException {
-        String fileName = file.getName().toLowerCase();
-        if (fileName.endsWith(".png")) {
-            return "image/png";
-        } else if (fileName.endsWith(".jpg") || fileName.endsWith(".jpeg")) {
-            return "image/jpeg";
-        }
-        // Fallback
-        return "application/octet-stream";
-    }
-
-    public boolean createUser(User user, File imageFile) throws SQLException {
+    public boolean createUser(User user) throws SQLException {
         PreparedStatement ps = null;
         if (user instanceof Caretaker) {
             Caretaker caretaker = (Caretaker) user;
-            // Upload the image and get the generated image ID
-            int imageID = 2;
-            if (imageFile != null) {
-                imageID = uploadImage(connection, imageFile, "caretaker");
-            }
 
             String userid = caretaker.getUserID().toString();
             String username = caretaker.getUserName();
@@ -517,8 +476,8 @@ public class Registry {
             String appointmentIDsJson = gson.toJson(appointmentIDs);
             String sql = "INSERT INTO caretaker " +
                     "(UserID, UserName, UserPassword, UserEmail, PhoneNumber, FirstName, LastName, " +
-                    "ListTicketIDs, ListJobOfferIDs, Location, Pay, IMAGEID, ListAppointmentIDs) " +
-                    "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
+                    "ListTicketIDs, ListJobOfferIDs, Location, Pay, ListAppointmentIDs) " +
+                    "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
             ps = connection.prepareStatement(sql);
             ps.setString(1, userid); // UserID
             ps.setString(2, username); // UserName
@@ -531,8 +490,7 @@ public class Registry {
             ps.setString(9, jobofferIDsJson); // ListJobOfferIDs (stored as JSON)
             ps.setString(10, location); // Location
             ps.setFloat(11, pay); // Pay
-            ps.setInt(12, imageID); // IMAGEID
-            ps.setString(13, appointmentIDsJson); // ListAppointmentIDs (stored as JSON)
+            ps.setString(12, appointmentIDsJson); // ListAppointmentIDs (stored as JSON)
 
             // Execute the insert statement
             int rowsInserted = ps.executeUpdate();
@@ -543,10 +501,6 @@ public class Registry {
             }
         } else if (user instanceof PetOwner) {
             PetOwner petowner = (PetOwner) user;
-            int imageID = 2;
-            if (imageFile != null) {
-                imageID = uploadImage(connection, imageFile, "caretaker");
-            }
 
             String userid = petowner.getUserID().toString();
             String username = petowner.getUserName();
@@ -569,8 +523,8 @@ public class Registry {
 
             String sql = "INSERT INTO petowner " +
                     "(UserID, UserName, UserPassword, UserEmail, PhoneNumber, FirstName, LastName, " +
-                    "ListTicketIDs, ListJobOfferIDs, ListPetIDs, Location, IMAGEID, ListAppointmentIDs) " +
-                    "VALUES (?,?,?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
+                    "ListTicketIDs, ListJobOfferIDs, ListPetIDs, Location, ListAppointmentIDs) " +
+                    "VALUES (?,?,?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
             ps = connection.prepareStatement(sql);
             ps.setString(1, userid); // UserID
             ps.setString(2, username); // UserName
@@ -583,8 +537,7 @@ public class Registry {
             ps.setString(9, jobofferIDsJson); // ListJobOfferIDs (stored as JSON)
             ps.setString(10, petIDsJson); // ListPetIDs (stored as JSON)
             ps.setString(11, location); // Location
-            ps.setInt(12, imageID); // IMAGEID
-            ps.setString(13, appointmentIDsJson); // ListAppointmentIDs (stored as JSON)
+            ps.setString(12, appointmentIDsJson); // ListAppointmentIDs (stored as JSON)
 
             int rowsInserted = ps.executeUpdate();
             if (rowsInserted > 0) {
@@ -1212,33 +1165,6 @@ public class Registry {
         }
     }
 
-    public static void insertCaretaker(Connection conn, Caretaker ct) {
-        try {
-            String sql = "INSERT INTO caretaker (UserID, UserName, UserPassword, " +
-                    "UserEmail, PhoneNumber, FirstName, LastName, Location, Pay) " +
-                    "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
-
-            PreparedStatement ps = conn.prepareStatement(sql);
-            ps.setString(1, ct.getUserID().toString());
-            ps.setString(2, ct.getUserEmail());
-            ps.setString(3, ct.getUserPassword());
-            ps.setString(4, ct.getUserName());
-            ps.setString(5, ct.getPhoneNumber());
-            ps.setString(6, ct.getFirstName());
-            ps.setString(7, ct.getLastName());
-            ps.setString(8, ct.getLocation());
-            ps.setFloat(9, ct.getPay());
-
-            int rows = ps.executeUpdate();
-            System.out.println("✅ Rows inserted: " + rows);
-
-            ps.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-    }
-
     // ******************************************//
     // Implementations //
     // ******************************************//
@@ -1274,44 +1200,6 @@ public class Registry {
 
                 if (input == null) {
                     System.out.println("⚠️ No CV found for caretaker.");
-                    return false;
-                }
-
-                FileOutputStream output = new FileOutputStream(outputPath);
-                byte[] buffer = new byte[1024];
-                int bytesRead;
-
-                while ((bytesRead = input.read(buffer)) != -1) {
-                    output.write(buffer, 0, bytesRead);
-                }
-
-                input.close();
-                output.close();
-                System.out.println("✅ CV saved to: " + outputPath);
-                return true;
-            } else {
-                System.out.println("❌ Caretaker not found.");
-            }
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        return false;
-    }
-
-    public boolean downloadImage(int i, String outputPath) {
-        String sql = "SELECT image_data FROM images WHERE id = ?";
-
-        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
-            stmt.setInt(1, i);
-            ResultSet rs = stmt.executeQuery();
-
-            if (rs.next()) {
-                InputStream input = rs.getBinaryStream("image_data");
-
-                if (input == null) {
-                    System.out.println("⚠️ No picture.");
                     return false;
                 }
 
