@@ -17,7 +17,7 @@ import java.util.Map;
   origins = {"http://localhost:5173", "http://localhost:5174", "http://frontend:5173"},
   allowedHeaders = "*",
   methods = {RequestMethod.POST, RequestMethod.OPTIONS}
-)
+)   
 public class AuthController {
 
     private final GUI gui = new GUI(Registry.getInstance());
@@ -35,9 +35,9 @@ public class AuthController {
         }
     }
 
-    @PostMapping("/register")
-    public ResponseEntity<String> register(@Valid @RequestBody RegisterRequest request) {
-        boolean result = gui.register(
+    @PostMapping("/register-owner")
+    public ResponseEntity<String> registerOwner(@Valid @RequestBody RegisterRequest request) {
+        boolean result = gui.registerOwner(
             request.getUsername(),
             request.getPassword(),
             request.getEmail(),
@@ -47,9 +47,28 @@ public class AuthController {
         );
 
         if (result) {
-            return ResponseEntity.ok("Registration successful");
+            return ResponseEntity.ok("Owner registration successful");
         } else {
-            return ResponseEntity.badRequest().body("User already exists");
+            return ResponseEntity.badRequest().body("Owner already exists");
         }
     }
+
+    @PostMapping("/register-caretaker")
+    public ResponseEntity<String> registerCaretaker(@Valid @RequestBody RegisterRequest request) {
+        boolean result = gui.registerCaretaker(
+            request.getUsername(),
+            request.getPassword(),
+            request.getEmail(),
+            request.getPhoneNumber(),
+            request.getFirstName(),
+            request.getLastName()
+        );
+
+        if (result) {
+            return ResponseEntity.ok("Caretaker registration successful");
+        } else {
+            return ResponseEntity.badRequest().body("Caretaker already exists");
+        }
+    }
+
 }

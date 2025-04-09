@@ -1,36 +1,42 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import "./css/reset.css";
 import "./css/details.css";
 import { useNavigate } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 
-export default function NewOwner() {
+export default function NewAcc() {
 
     const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:8080';
+    const location = useLocation();
+    const navigate = useNavigate();
 
-    // Test connection first:
-    const testConnection = async () => {
-    try {
-        const res = await fetch(`${apiUrl}/api/test`);  // Add this test endpoint
-        console.log("Connection test:", await res.text());
-    } catch (err) {
-        console.error("Connection failed:", err);
-    }
-    };
+    // Read role from query param
+    const queryParams = new URLSearchParams(location.search);
+    const role = queryParams.get('role'); // 'owner' or 'caretaker'
+
     const [formData, setFormData] = useState({
         username: '',
         password: '',
         email: '',
         phoneNumber: '',
         firstName: '',
-        lastName: ''
+        lastName: '',
+        location: ''
     });
-    const navigate = useNavigate();
+
+    useEffect(() => {
+        if (!role) {
+          alert("No role specified. Redirecting to register page.");
+          navigate("/register");
+        }
+      }, [role, navigate]); // In case something goes wrong and there is no role
 
     const validateForm = () => {
-        const { username, password, email, phoneNumber, firstName, lastName } = formData;
+        const { username, password, email, phoneNumber, firstName, lastName, location } = formData;
         
         if (!username.trim() || !password.trim() || !email.trim() || 
-            !phoneNumber.trim() || !firstName.trim() || !lastName.trim()) {
+            !phoneNumber.trim() || !firstName.trim() || !lastName.trim() || 
+            !location.trim()) {
             alert("Please fill in all fields");
             return false;
         }
@@ -48,7 +54,12 @@ export default function NewOwner() {
         if (!/^[\d\s\-()+]{8,20}$/.test(phoneNumber)) {
             alert("Phone number must be 8-20 digits and may include +, -, or spaces");
             return false;
-          }
+        }
+
+        if (location.trim().length === 0) {
+            alert("Location is required for pet owners");
+            return false;
+        }
         
         return true;
     };
@@ -58,7 +69,8 @@ export default function NewOwner() {
         if (!validateForm()) return;
 
         try {
-            const response = await fetch('http://localhost:8080/api/register', {
+            const endpoint = role === "caretaker" ? "/api/register-caretaker" : "/api/register-owner";
+            const response = await fetch(`${apiUrl}${endpoint}`, {
               method: 'POST',
               headers: { 
                 'Content-Type': 'application/json',
@@ -69,7 +81,7 @@ export default function NewOwner() {
             });
 
             if (response.ok) {
-                alert("Registration successful!");
+                alert(`${role.charAt(0).toUpperCase() + role.slice(1)}egistration successful!`);
                 navigate('/login'); // Redirect to login after success
             } else {
                 const error = await response.text();
@@ -83,27 +95,29 @@ export default function NewOwner() {
     const handleChange = (e) => {
         const { id, value } = e.target;
         setFormData(prev => ({ ...prev, [id]: value }));
-    };
+    };  
 
     return (
         <form className="details-container" onSubmit={handleSubmit}>
-            <h2>Register as Pet Owner</h2>
+            <h2>{role === 'owner' ? 'Register as Pet Owner' : 'Register as Caretaker'}</h2>
             
-            {Object.entries(formData).map(([key, value]) => (
-                <div className="form-container" key={key}>
-                    <input
-                        type={key === 'password' ? 'password' : 'text'}
-                        id={key}
-                        value={value}
-                        onChange={handleChange}
-                        placeholder={
-                            key === 'phoneNumber' ? 'Phone Number' : 
-                            key.charAt(0).toUpperCase() + key.slice(1).replace(/([A-Z])/g, ' $1')
-                        }
-                        required
-                    />
-                </div>
-            ))}
+            {Object.entries(formData).map(([key, value]) => {
+                return (
+                    <div className="form-container" key={key}>
+                        <input
+                            type={key === 'password' ? 'password' : 'text'}
+                            id={key}
+                            value={value}
+                            onChange={handleChange}
+                            placeholder={
+                                key === 'phoneNumber' ? 'Phone Number' : 
+                                key.charAt(0).toUpperCase() + key.slice(1).replace(/([A-Z])/g, ' $1')
+                            }
+                            required
+                        />
+                    </div>
+                );
+            })}
             
             <button type="submit" className="submit-btn">Register</button>
         </form>

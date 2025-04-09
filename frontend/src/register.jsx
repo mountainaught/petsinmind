@@ -17,7 +17,7 @@ export default function Register() {
                     <li>Feel at ease while your fluffy friends are away with live tracking and updates</li>
                     <li>Message your caretaker to get updates or message us if you have any issues</li>
                 </ul>
-                <button className='option-btn' onClick={() => navigate('/newOwner')}>Register as Pet-Owner</button>
+                <button className='option-btn' onClick={() => navigate('/newAcc?role=owner')}>Register as Pet-Owner</button>
             </div>
 
             <div className="option-container">
@@ -30,7 +30,7 @@ export default function Register() {
                     <li>Support from our team of pet owners</li>
                     <li>Make friends with pet owners (They might book you again!)</li>
                 </ul>
-                <button className='option-btn align-options'>Register as Caretaker</button>
+                <button className='option-btn align-options' onClick={() => navigate('/newAcc?role=caretaker')}>Register as Caretaker</button>
             </div>
         </div>
     );
