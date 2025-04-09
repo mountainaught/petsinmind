@@ -53,7 +53,21 @@ public class Ticket {
 
     public Ticket(UUID ticketID) {
         this.TicketID = ticketID;
-
+        try {
+            Ticket fetchedTicket = registry.getTicket(this);
+            if (fetchedTicket != null) {
+                this.TicketID = fetchedTicket.TicketID;
+                this.Title = fetchedTicket.Title;
+                this.Details = fetchedTicket.Details;
+                this.Date = fetchedTicket.Date;
+                this.CustomerID = fetchedTicket.CustomerID;
+                this.EmployeeIDs = fetchedTicket.EmployeeIDs;
+                this.Status = fetchedTicket.Status;
+                this.messageList = fetchedTicket.messageList;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     // Constructor with parameters

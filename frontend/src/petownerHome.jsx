@@ -66,6 +66,30 @@ export default function PetOwnerHome() {
                         <option value="dog2">Dog 2</option>
                         <option value="dog3">Dog 3</option>
                     </select>
+                    <div className='petInfo'>
+                        <div className='name'>
+                            <p>name: input name from db</p>
+                            <button>Change</button>
+                        </div>
+
+                        <div className='age'>
+                            <p>age: input age from db</p>
+                            <button>Change</button>
+                        </div>
+
+                        <div className='type'>
+                            <p>type: input type from db</p>
+                            <button>Change</button>
+                        </div>
+
+                        <div className='photo'>
+                            <p>photo: input photo from db</p>
+                            <button>Change</button>
+                        </div>
+                    </div>
+
+
+
                     <div className='petEdit'>
 
 
@@ -76,8 +100,10 @@ export default function PetOwnerHome() {
 
             {showEditProfile && (
                 <div className='editProfileOption'>
-                    <p>Edit Profile</p>
-                    <input type="file" />
+                    <div className='profilePic'>
+                        <p>insert profile picture here</p>
+                        <button>Change</button>
+                    </div>
                 </div>
                 
 
