@@ -17,9 +17,6 @@ import java.util.UUID;
 public class PetOwner extends Customer {
 
 	private List<Pet> PetList;
-	private List<UUID> TicketIDs;
-	private List<UUID> AppointmentIDs;
-	private List<UUID> JobOfferIDs;
 
 	public PetOwner() {}
 
@@ -28,7 +25,7 @@ public class PetOwner extends Customer {
 	}
 
 	public PetOwner(UUID userID, String userName, String userPassword, String userEmail, String phoneNumber, String firstName, String lastName, String location,
-			List<String> listAppointmentIDs, List<String> listTicketIDs, List<String> listJobOfferIDs, List<Pet> petList) {
+			List<UUID> listAppointmentIDs, List<UUID> listTicketIDs, List<UUID> listJobOfferIDs, List<Pet> petList) {
 		super(userID, userName, userPassword, userEmail, phoneNumber, firstName, lastName, location, listAppointmentIDs, listTicketIDs, listJobOfferIDs);
 		this.PetList = petList;
 	}
@@ -164,18 +161,5 @@ public class PetOwner extends Customer {
 		// TODO - implement PetOwner.SendMessageApp
 		throw new UnsupportedOperationException();
 	}
-
-
-	public List<Pet> getPetList() { return PetList; }
-	public void setPetList(List<Pet> petList) { PetList = petList; }
-
-	public List<UUID> getAppointmentIDs() { return AppointmentIDs; }
-	public void setAppointmentIDs(List<UUID> appointmentIDs) { AppointmentIDs = appointmentIDs; }
-
-	public List<UUID> getTicketIDs() { return TicketIDs; }
-	public void setTicketIDs(List<UUID> ticketIDs) { TicketIDs = ticketIDs; }
-
-	public List<UUID> getJobOfferIDs() { return JobOfferIDs; }
-	public void setJobOfferIDs(List<UUID> jobOfferIDs) { JobOfferIDs = jobOfferIDs; }
 
 }
