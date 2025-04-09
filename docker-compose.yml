@@ -14,7 +14,7 @@ services:
     build: ./backend
     ports: ["8080:8080"]
     environment:
-      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql:3306/petsinmind?useSSL=false&allowPublicKeyRetrieval=true
+      - SPRING_DATASOURCE_URL=jdbc:mysql://127.0.0.1:3306/PetsInMindDB?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
       - SPRING_DATASOURCE_USERNAME=root
       - SPRING_DATASOURCE_PASSWORD=root
       - SPRING_JPA_HIBERNATE_DDL_AUTO=update
@@ -28,8 +28,8 @@ services:
   mysql:
     image: mysql:8
     environment:
-      - MYSQL_ROOT_PASSWORD=root
-      - MYSQL_DATABASE=petsinmind
+      - MYSQL_ROOT_PASSWORD=vLEBM7XeCqp7F7gk
+      - MYSQL_DATABASE=PetsInMindDB
     volumes:
       - mysql_data:/var/lib/mysql
     healthcheck:
