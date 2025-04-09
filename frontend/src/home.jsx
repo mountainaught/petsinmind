@@ -14,13 +14,15 @@ import Eftichis from './assets/Eftichis.png';
 import SirSmoky from './assets/sirsmoky.png';
 import Michi from './assets/michi.png';
 import Auntie from './assets/auntie.png';
+import cat from './assets/cat.jpg';
 
 const pets = [
     { name: 'Odin', image: odin },
     { name: 'Eftichis', image: Eftichis },
     { name: 'Sir Smoky', image: SirSmoky },
     { name: 'Michi', image: Michi },
-    { name: 'Auntie', image: Auntie }
+    { name: 'Auntie', image: Auntie },
+    { name: 'Cat', image: cat }
 
 ];
 const petIndex = 0;

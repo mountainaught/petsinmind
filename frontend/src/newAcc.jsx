@@ -21,7 +21,8 @@ export default function NewAcc() {
         phoneNumber: '',
         firstName: '',
         lastName: '',
-        location: ''
+        location: '',
+        ...(role === 'caretaker' && { CV: null }) // Will be a pdf file upload
     });
 
     useEffect(() => {
@@ -32,11 +33,11 @@ export default function NewAcc() {
       }, [role, navigate]); // In case something goes wrong and there is no role
 
     const validateForm = () => {
-        const { username, password, email, phoneNumber, firstName, lastName, location } = formData;
+        const { username, password, email, phoneNumber, firstName, lastName, location, CV } = formData;
         
         if (!username.trim() || !password.trim() || !email.trim() || 
             !phoneNumber.trim() || !firstName.trim() || !lastName.trim() || 
-            !location.trim()) {
+            !location.trim() || !CV) {
             alert("Please fill in all fields");
             return false;
         }
@@ -60,6 +61,8 @@ export default function NewAcc() {
             alert("Location is required for pet owners");
             return false;
         }
+
+
         
         return true;
     };
@@ -70,15 +73,19 @@ export default function NewAcc() {
 
         try {
             const endpoint = role === "caretaker" ? "/api/register-caretaker" : "/api/register-owner";
-            const response = await fetch(`${apiUrl}${endpoint}`, {
-              method: 'POST',
-              headers: { 
-                'Content-Type': 'application/json',
-                'Accept': 'application/json'
-              },
-              body: JSON.stringify(formData),
-              credentials: 'include'  // Important for CORS with credentials
+
+            const toSend = new FormData();
+            Object.entries(formData).forEach(([key, value]) => {
+                if (value != null) {
+                    toSend.append(key, value);
+                }
             });
+
+            const response = await fetch(`${apiUrl}${endpoint}`, {
+                method: 'POST',
+                body: toSend,
+                credentials: 'include'  // Important for CORS with credentials
+              });
 
             if (response.ok) {
                 alert(`${role.charAt(0).toUpperCase() + role.slice(1)}egistration successful!`);
@@ -97,11 +104,21 @@ export default function NewAcc() {
         setFormData(prev => ({ ...prev, [id]: value }));
     };  
 
+    const handleFileChange = (e) => {
+        const file = e.target.files[0];
+        if (file && file.type === "application/pdf") {
+            setFormData((prev) => ({ ...prev, CV: file }));
+        } else {
+            alert("Please upload a valid PDF file.");
+        }
+    };
+
     return (
         <form className="details-container" onSubmit={handleSubmit}>
             <h2>{role === 'owner' ? 'Register as Pet Owner' : 'Register as Caretaker'}</h2>
             
             {Object.entries(formData).map(([key, value]) => {
+                if (key === 'CV') return null; // No text input for CV
                 return (
                     <div className="form-container" key={key}>
                         <input
@@ -118,7 +135,19 @@ export default function NewAcc() {
                     </div>
                 );
             })}
-            
+
+            {role === 'caretaker' && (
+                <div className="form-container">
+                    <label htmlFor="pdfFile">Upload CV as PDF:</label>
+                    <input
+                        type="file"
+                        id="CV"
+                        accept="application/pdf"
+                        onChange={handleFileChange}
+                        required
+                    />
+                </div>
+            )}
             <button type="submit" className="submit-btn">Register</button>
         </form>
     );

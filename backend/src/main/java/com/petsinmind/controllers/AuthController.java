@@ -37,13 +37,15 @@ public class AuthController {
 
     @PostMapping("/register-owner")
     public ResponseEntity<String> registerOwner(@Valid @RequestBody RegisterRequest request) {
-        boolean result = gui.registerOwner(
+        boolean result = gui.registerPetOwner(
             request.getUsername(),
             request.getPassword(),
             request.getEmail(),
             request.getPhoneNumber(),
             request.getFirstName(),
-            request.getLastName()
+            request.getLastName(),
+            request.getLocation(),
+            request.getImageFile()
         );
 
         if (result) {
@@ -61,7 +63,8 @@ public class AuthController {
             request.getEmail(),
             request.getPhoneNumber(),
             request.getFirstName(),
-            request.getLastName()
+            request.getLastName(),
+            request.getImageFile()
         );
 
         if (result) {
