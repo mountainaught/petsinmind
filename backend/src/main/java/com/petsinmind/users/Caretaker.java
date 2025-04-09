@@ -22,7 +22,7 @@ public class Caretaker extends Customer implements JobOfferCT {
     }
 
 	public Caretaker(UUID userID, String userName, String userPassword, String userEmail, String phoneNumber, String firstName, String lastName, String location,
-			List<String> listAppointmentIDs, List<String> listTicketIDs, List<String> listJobOfferIDs, float pay, boolean[][] availability, List<Review> ListReviews) {
+			List<UUID> listAppointmentIDs, List<UUID> listTicketIDs, List<UUID> listJobOfferIDs, float pay, boolean[][] availability, List<Review> ListReviews) {
 		super(userID, userName, userPassword, userEmail, phoneNumber, firstName, lastName, location, listAppointmentIDs,
 				listTicketIDs, listJobOfferIDs);
 		this.Pay = pay;

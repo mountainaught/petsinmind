@@ -17,11 +17,9 @@ import java.util.ArrayList;
 public class PetOwner extends Customer {
 
 	private List<Pet> PetList;
-	private List<UUID> TicketIDs;
-	private List<UUID> AppointmentIDs;
-	private List<UUID> JobOfferIDs;
 
-	public PetOwner() {}
+	public PetOwner() {
+	}
 
 	public PetOwner(UUID caretakerID) {
 		super(caretakerID);
@@ -175,18 +173,5 @@ public class PetOwner extends Customer {
 		// TODO - implement PetOwner.SendMessageApp
 		throw new UnsupportedOperationException();
 	}
-
-
-	public List<Pet> getPetList() { return PetList; }
-	public void setPetList(List<Pet> petList) { PetList = petList; }
-
-	public List<UUID> getAppointmentIDs() { return AppointmentIDs; }
-	public void setAppointmentIDs(List<UUID> appointmentIDs) { AppointmentIDs = appointmentIDs; }
-
-	public List<UUID> getTicketIDs() { return TicketIDs; }
-	public void setTicketIDs(List<UUID> ticketIDs) { TicketIDs = ticketIDs; }
-
-	public List<UUID> getJobOfferIDs() { return JobOfferIDs; }
-	public void setJobOfferIDs(List<UUID> jobOfferIDs) { JobOfferIDs = jobOfferIDs; }
 
 }
