@@ -4,7 +4,7 @@
         flex-direction: row;
         justify-content: space-around;
     }
-    .infobox h1{
+    .infobox h1, .infoboxLeft h1{
         font-size: 150%;
         margin: 0;
         padding: 0;
@@ -14,6 +14,12 @@
         height: 7vh;
         width: 7vh;
     }
+
+    .homeLogo{
+        height: 30vh;
+    }
+
+
     
 }
 .home-container{
@@ -25,10 +31,7 @@
 }
 
 
-.home-container img{
-    height: 30vh;
-    width: 30vh;
-}
+
 
 
 
@@ -45,21 +48,48 @@
     color: black;
     padding: 15px;
     margin: 20px;
-    justify-content: space-between;
+    align-items: center;
+    
 }
-
+.infoboxLeft{
+    display: flex;
+    flex-direction: column;
+    width: 30vh;
+    height: 30vh;
+    border-radius: 15px;
+    border: 2px solid #5A0001;
+    background: #FFF;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+    color: black;
+    padding: 15px;
+    margin: 20px;
+    
+}
 
 
 .arrow-container{
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+    width: 100%;
 }
 
-.infobox img{
-    height: 20vh;
+.petImg{
+    width: auto;
+    height: 100%
     
-    object-fit: contain;
 }
+
+.petImg-container{
+    height: 65%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    background-color: #FFE5E5;
+    border-radius: 15px;
+    background-image: url('/src/assets/paws.png');
+    background-size: cover;
+}
+
 
 
