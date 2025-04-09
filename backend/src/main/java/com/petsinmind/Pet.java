@@ -2,6 +2,7 @@ package com.petsinmind;
 
 // Dimitris
 public class Pet {
+    private String petID;
     private String name;
     private String type;
     private String size;
@@ -24,6 +25,14 @@ public class Pet {
     }
 
     // Getters and Setters
+    public String getPetID() {
+        return petID;
+    }
+
+    public void setPetID(String petID) {
+        this.petID = petID;
+    }
+
     public String getName() {
         return name;
     }

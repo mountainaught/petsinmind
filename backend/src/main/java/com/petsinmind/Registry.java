@@ -165,36 +165,36 @@ public class Registry {
     }
 
     public Application getApplication(Application app) {
+    }
 
     public Application getApplication(Application app, String outputPath) {
         String sql = "SELECT * FROM application WHERE UserName = ?";
-    
+
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setString(1, app.getUserName());
             ResultSet rs = stmt.executeQuery();
-    
+
             if (rs.next()) {
                 app.setFirstName(rs.getString("FirstName"));
                 app.setLastName(rs.getString("LastName"));
                 app.setUserEmail(rs.getString("UserEmail"));
                 app.setUserPassword(rs.getString("UserPassword"));
                 app.setPhoneNumber(rs.getString("PhoneNumber"));
-    
+
                 // ✅ Download the PDF using your existing method
                 downloadApplicationCV(app.getUserName(), outputPath);
-    
+
                 return app;
             } else {
                 System.out.println("❌ Application not found for: " + app.getUserName());
             }
-    
+
         } catch (Exception e) {
             e.printStackTrace();
         }
-    
+
         return null;
     }
-    
 
     // ******************************************//
     // SQL Write Functions //
@@ -253,11 +253,11 @@ public class Registry {
             String phonenumber = caretaker.getPhoneNumber();
             String firstname = caretaker.getFirstName();
             String lastname = caretaker.getLastName();
-            List<String> ticketIDs = caretaker.getTicketIDs();
-            List<String> jobofferIDs = caretaker.getJobOfferIDs();
+            List<String> ticketIDs = caretaker.getListTicketIDs();
+            List<String> jobofferIDs = caretaker.getListJobOfferIDs();
             String location = caretaker.getLocation();
             float pay = caretaker.getPay();
-            List<String> appointmentIDs = caretaker.getAppointmentIDs();
+            List<String> appointmentIDs = caretaker.getListAppointmentIDs();
 
             Gson gson = new Gson();
             String ticketIDsJson = gson.toJson(ticketIDs);
@@ -303,10 +303,10 @@ public class Registry {
             String phonenumber = petowner.getPhoneNumber();
             String firstname = petowner.getFirstName();
             String lastname = petowner.getLastName();
-            List<String> ticketIDs = petowner.getTicketIDs();
-            List<String> jobofferIDs = petowner.getJobOfferIDs();
+            List<String> ticketIDs = petowner.getListTicketIDs();
+            List<String> jobofferIDs = petowner.getListJobOfferIDs();
             List<String> petIDs = petowner.getPetIDs();
-            List<String> appointmentIDs = petowner.getAppointmentIDs();
+            List<String> appointmentIDs = petowner.getListAppointmentIDs();
             String location = petowner.getLocation();
 
             Gson gson = new Gson();
@@ -372,7 +372,7 @@ public class Registry {
         }
     }
 
-    public boolean editUser(User user) {
+    public boolean editUser(User user) throws SQLException {
         PreparedStatement ps = null;
         if (user instanceof Caretaker) {
             Caretaker caretaker = (Caretaker) user;
@@ -384,11 +384,11 @@ public class Registry {
             String phonenumber = caretaker.getPhoneNumber();
             String firstname = caretaker.getFirstName();
             String lastname = caretaker.getLastName();
-            List<String> ticketIDs = caretaker.getTicketIDs();
-            List<String> jobofferIDs = caretaker.getJobOfferIDs();
+            List<String> ticketIDs = caretaker.getListTicketIDs();
+            List<String> jobofferIDs = caretaker.getListJobOfferIDs();
             String location = caretaker.getLocation();
             float pay = caretaker.getPay();
-            List<String> appointmentIDs = caretaker.getAppointmentIDs();
+            List<String> appointmentIDs = caretaker.getListAppointmentIDs();
 
             Gson gson = new Gson();
             String ticketIDsJson = gson.toJson(ticketIDs);
@@ -426,10 +426,10 @@ public class Registry {
             String phonenumber = petowner.getPhoneNumber();
             String firstname = petowner.getFirstName();
             String lastname = petowner.getLastName();
-            List<String> ticketIDs = petowner.getTicketIDs();
-            List<String> jobofferIDs = petowner.getJobOfferIDs();
+            List<String> ticketIDs = petowner.getListTicketIDs();
+            List<String> jobofferIDs = petowner.getListJobOfferIDs();
             List<String> petIDs = petowner.getPetIDs();
-            List<String> appointmentIDs = petowner.getAppointmentIDs();
+            List<String> appointmentIDs = petowner.getListAppointmentIDs();
             String location = petowner.getLocation();
 
             Gson gson = new Gson();
@@ -493,6 +493,7 @@ public class Registry {
         } else {
             return false; // Invalid user type
         }
+        return true; // Update successful
     }
 
     public boolean deleteUser(User user) {
@@ -564,10 +565,10 @@ public class Registry {
         try {
             ps = connection.prepareStatement(sql);
             ps.setString(1, pet.getPetID().toString()); // PetID
-            ps.setString(2, pet.getPetName()); // PetName
-            ps.setString(3, pet.getPetType()); // PetType
-            ps.setString(4, pet.getPetSize()); // PetBreed
-            ps.setInt(5, pet.getPetAge()); // PetAge
+            ps.setString(2, pet.getName()); // PetName
+            ps.setString(3, pet.getType()); // PetType
+            ps.setString(4, pet.getSize()); // PetBreed
+            ps.setInt(5, pet.getAge()); // PetAge
             ps.setString(6, petOwner.getUserID().toString()); // PetOwnerID
 
             int rowsInserted = ps.executeUpdate();
@@ -589,10 +590,10 @@ public class Registry {
         String sql = "UPDATE pet SET Name = ?, Type = ?, Size = ?, Age = ? WHERE PetID = ?;";
         try {
             ps = connection.prepareStatement(sql);
-            ps.setString(1, pet.getPetName()); // PetName
-            ps.setString(2, pet.getPetType()); // PetType
-            ps.setString(3, pet.getPetSize()); // PetBreed
-            ps.setInt(4, pet.getPetAge()); // PetAge
+            ps.setString(1, pet.getName()); // PetName
+            ps.setString(2, pet.getType()); // PetType
+            ps.setString(3, pet.getSize()); // PetBreed
+            ps.setInt(4, pet.getAge()); // PetAge
             ps.setString(5, pet.getPetID().toString()); // PetID
 
             int rowsUpdated = ps.executeUpdate();
@@ -636,7 +637,7 @@ public class Registry {
                 +
                 "VALUES (?, ?, ?, ?, ?, ?, ?);";
         try {
-            List<String> petIDs = appointment.getPetIDsList();
+            List<String> petIDs = appointment.getPetIDs();
             Gson gson = new Gson();
             String petIDsJson = gson.toJson(petIDs); // Convert the list to JSON
             Date startDate = new Date(appointment.getStartDate().getTimeInMillis());
@@ -657,6 +658,7 @@ public class Registry {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        return false; // Insert failed
     }
 
     public boolean deleteAppointment(Appointment appointment) {
@@ -717,6 +719,7 @@ public class Registry {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        return false; // Insert failed
     }
 
     public boolean deleteJobOffer(JobOffer jobOffer) {
@@ -749,22 +752,23 @@ public class Registry {
     }
 
     public boolean createApplication(Application app) {
+    }
 
     public boolean createApplication(Application app, String pdfPath) {
         String sql = "INSERT INTO application (FirstName, LastName, UserName, UserPassword, UserEmail, PhoneNumber) " +
-                     "VALUES (?, ?, ?, ?, ?, ?)";
-    
+                "VALUES (?, ?, ?, ?, ?, ?)";
+
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
-    
+
             stmt.setString(1, app.getFirstName());
             stmt.setString(2, app.getLastName());
             stmt.setString(3, app.getUserName());
             stmt.setString(4, app.getUserPassword());
             stmt.setString(5, app.getUserEmail());
             stmt.setString(6, app.getPhoneNumber());
-    
+
             int rows = stmt.executeUpdate();
-    
+
             if (rows > 0) {
                 System.out.println("✅ Application inserted.");
                 return uploadApplicationCV(app.getUserName(), pdfPath);
@@ -772,13 +776,12 @@ public class Registry {
                 System.out.println("❌ Failed to insert application.");
                 return false;
             }
-    
+
         } catch (Exception e) {
             e.printStackTrace();
             return false;
         }
     }
-    
 
     public static void insertCaretaker(Connection conn, Caretaker ct) {
         try {
@@ -812,20 +815,13 @@ public class Registry {
     // ******************************************//
 
     public List<Caretaker> findAvailableCaretakers(JobOffer jobOffer) {
-
-
-
-
-
-
-
-
+    }
 
     public boolean uploadApplicationCV(String userName, String filePath) {
         String sql = "UPDATE application SET UserCV = ? WHERE UserName = ?";
 
         try (PreparedStatement stmt = connection.prepareStatement(sql);
-            FileInputStream fis = new FileInputStream(filePath)) {
+                FileInputStream fis = new FileInputStream(filePath)) {
 
             stmt.setBinaryStream(1, fis, fis.available());
             stmt.setString(2, userName);
@@ -877,7 +873,5 @@ public class Registry {
 
         return false;
     }
-
-
 
 }
