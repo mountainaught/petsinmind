@@ -67,10 +67,9 @@ export default function Layout() {
 
                                 setShowHelp(!showHelp); setShowTicketRequest(!showTicketRequest);
                             }}
-                            
-                        
-                        
                         >
+
+                            
                             <input name='title' type="text" placeholder='Title:' className='ticketInput'/>
                             <input name='ticket' placeholder='Enter Ticket / Problem faced here:' className='ticketInput' required></input>
                             <button type='submit' className='submitTkt'>Submit</button>
