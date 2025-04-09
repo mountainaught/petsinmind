@@ -43,7 +43,6 @@ import java.time.ZonedDateTime;
 import java.util.*;
 import java.util.regex.Pattern;
 
-
 public class Registry {
     private static Registry instance = null;
     private Map<String, String[]> users; // Stores username and an array of user details
@@ -905,6 +904,39 @@ public class Registry {
         return false; // Insert failed
     }
 
+    public boolean editJobOffer(JobOffer jobOffer) throws SQLException {
+        PreparedStatement ps = null;
+        String sql = "UPDATE joboffer SET Startdate = ?, Enddate = ?, AcceptedcaretakerIDs = ?, RejectedcaretakerIDs = ? WHERE JobofferID = ?;";
+        try {
+            List<String> acceptedCaretakerIDs = jobOffer.getAcceptedCaretakerIDs();
+            List<String> rejectedCaretakerIDs = jobOffer.getRejectedCaretakerIDs();
+
+            Gson gson = new Gson();
+            String acceptedCaretakerIDsJson = gson.toJson(acceptedCaretakerIDs); // Convert the list to JSON
+            String rejectedCaretakerIDsJson = gson.toJson(rejectedCaretakerIDs); // Convert the list to JSON
+            Date startDate = new Date(jobOffer.getStartDate().getTimeInMillis());
+            Date endDate = new Date(jobOffer.getEndDate().getTimeInMillis());
+            ps = connection.prepareStatement(sql);
+            ps.setDate(1, startDate); // Startdate
+            ps.setDate(2, endDate); // Enddate
+            ps.setString(3, acceptedCaretakerIDsJson); // AcceptedcaretakerIDs (stored as JSON)
+            ps.setString(4, rejectedCaretakerIDsJson); // RejectedcaretakerIDs (stored as JSON)
+            ps.setString(5, jobOffer.getJobOfferID().toString()); // JobofferID
+
+            int rowsUpdated = ps.executeUpdate();
+            if (rowsUpdated > 0) {
+                System.out.println("Update successful.");
+                return true;
+            } else {
+                System.out.println("Update failed.");
+                return false;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false; // Update failed
+    }
+
     public boolean deleteJobOffer(JobOffer jobOffer) throws SQLException {
         PreparedStatement ps = null;
         String sql = "DELETE FROM joboffer WHERE JobofferID = ?;";
@@ -925,12 +957,11 @@ public class Registry {
         }
         return false; // Delete failed
     }
-  
-  
-      public boolean editAvailability(Caretaker ct) {
+
+    public boolean editAvailability(Caretaker ct) {
         String deleteSQL = "DELETE FROM availability WHERE UserID = ?";
         String insertSQL = "INSERT INTO availability (UserID, Day, Hour) VALUES (?, ?, ?)";
-    
+
         try (PreparedStatement deleteStmt = connection.prepareStatement(deleteSQL)) {
             deleteStmt.setString(1, ct.getUserID().toString());
             deleteStmt.executeUpdate();
@@ -939,7 +970,7 @@ public class Registry {
             e.printStackTrace();
             return false;
         }
-    
+
         try (PreparedStatement insertStmt = connection.prepareStatement(insertSQL)) {
             boolean[][] availability = ct.getAvailability();
             for (int day = 0; day < 7; day++) {
@@ -962,8 +993,7 @@ public class Registry {
         }
     }
 
-  
-   public boolean deleteAvailabilitypoints(Caretaker ct) throws SQLException {
+    public boolean deleteAvailabilitypoints(Caretaker ct) throws SQLException {
         PreparedStatement ps = null;
         String sql = "DELETE FROM availability WHERE CaretakerID = ?;";
         try {
@@ -983,7 +1013,6 @@ public class Registry {
         }
         return false; // Delete failed
     }
-    
 
     public boolean addAvailabilitypoints(Caretaker ct) throws SQLException {
         PreparedStatement ps = null;
@@ -1016,7 +1045,6 @@ public class Registry {
         }
         return false; // Insert failed
     }
-
 
     public boolean createPayment(Payment payment) throws SQLException {
         PreparedStatement ps = null;
@@ -1245,12 +1273,12 @@ public class Registry {
 
         return false;
     }
-  
-      private String fetchGoogleApiKey() {
+
+    private String fetchGoogleApiKey() {
         String apiKey = "";
         String sql = "SELECT APIKEY FROM API WHERE Name = 'GeoAPI'";
         try (PreparedStatement stmt = connection.prepareStatement(sql);
-             ResultSet rs = stmt.executeQuery()) {
+                ResultSet rs = stmt.executeQuery()) {
             if (rs.next()) {
                 apiKey = rs.getString("APIKEY");
             }
@@ -1280,9 +1308,9 @@ public class Registry {
 
         JsonObject json = JsonParser.parseString(response.toString()).getAsJsonObject();
         JsonObject element = json.getAsJsonArray("rows")
-                                .get(0).getAsJsonObject()
-                                .getAsJsonArray("elements")
-                                .get(0).getAsJsonObject();
+                .get(0).getAsJsonObject()
+                .getAsJsonArray("elements")
+                .get(0).getAsJsonObject();
 
         if (element.get("status").getAsString().equals("OK")) {
             return element.getAsJsonObject("distance").get("value").getAsDouble() / 1000.0; // meters to km
@@ -1290,40 +1318,39 @@ public class Registry {
         return Double.MAX_VALUE;
     }
 
-    
-
     public List<Caretaker> findAvailableCaretakers(JobOffer jobOffer) {
         List<Caretaker> availableCaretakers = new ArrayList<>();
-    
+
         try {
             Calendar start = jobOffer.getStartDate();
             int day = start.get(Calendar.DAY_OF_WEEK) - 1; // Sunday = 0
             int hour = start.get(Calendar.HOUR_OF_DAY);
-    
+
             // Step 1: Get all caretakers who are available at that day/hour
             PreparedStatement avStmt = connection.prepareStatement(
-                "SELECT DISTINCT c.* FROM caretaker c " +
-                "JOIN availability a ON c.UserID = a.CaretakerID " +
-                "WHERE a.Day = ? AND a.Hour = ?"
-            );
+                    "SELECT DISTINCT c.* FROM caretaker c " +
+                            "JOIN availability a ON c.UserID = a.CaretakerID " +
+                            "WHERE a.Day = ? AND a.Hour = ?");
             avStmt.setInt(1, day);
             avStmt.setInt(2, hour);
             ResultSet rs = avStmt.executeQuery();
-    
+
             String apiKey = fetchGoogleApiKey();
-    
+
             while (rs.next()) {
-                System.out.println("\n? Checking caretaker: " + rs.getString("FirstName") + " " + rs.getString("LastName"));
+                System.out.println(
+                        "\n? Checking caretaker: " + rs.getString("FirstName") + " " + rs.getString("LastName"));
                 String caretakerID = rs.getString("UserID");
                 String caretakerLocation = rs.getString("Location");
                 System.out.println("    Location: " + caretakerLocation);
                 System.out.println("  ? Checking availability for Day=" + day + ", Hour=" + hour);
-    
+
                 // Step 2: Calculate distance
                 double distance = getDistanceInKm(jobOffer.getLocation(), caretakerLocation, apiKey);
                 System.out.println("Distance to " + caretakerLocation + ": " + distance + " km");
-                if (distance > 10.0) continue;
-    
+                if (distance > 10.0)
+                    continue;
+
                 // Step 3: Add to list
                 Caretaker ct = new Caretaker();
                 ct.setUserID(UUID.fromString(caretakerID));
@@ -1331,20 +1358,16 @@ public class Registry {
                 ct.setPay(rs.getFloat("Pay"));
                 ct.setFirstName(rs.getString("FirstName"));
                 ct.setLastName(rs.getString("LastName"));
-    
+
                 availableCaretakers.add(ct);
             }
-    
+
         } catch (Exception e) {
             e.printStackTrace();
         }
-    
+
         return availableCaretakers;
     }
-    
-    
-
-
 
     // ******************************************//
     // Helper Functions //

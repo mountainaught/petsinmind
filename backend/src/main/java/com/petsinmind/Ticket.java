@@ -31,6 +31,16 @@ public class Ticket {
         this.Status = false;
     }
 
+    public Ticket(String Title, String Details, UUID CustomerID) {
+        this.TicketID = UUID.randomUUID();
+        this.Title = Title;
+        this.Details = Details;
+        this.Date = Calendar.getInstance();
+        this.CustomerID = CustomerID;
+        this.EmployeeIDs = EmployeeIDs;
+        this.Status = false;
+    }
+
     // Constructor with parameters
     public Ticket(String Title, String Details, Calendar Date, UUID CustomerID,
             List<UUID> EmployeeIDs, Boolean Status) {
@@ -98,6 +108,10 @@ public class Ticket {
 
     public void setEmployeeIDs(List<UUID> EmployeeIDs) {
         this.EmployeeIDs = EmployeeIDs;
+    }
+
+    public void addEmployee(UUID EmployID) {
+        this.EmployeeIDs.add(EmployID);
     }
 
     public Boolean getStatus() {
