@@ -141,16 +141,8 @@ export default function PetOwnerHome() {
                             Cancel
                             </button>
                         </div>
-                    </form>
-
-                    
-
-
-
-
-                
+                    </form>            
                 </div>
-
             )}
 
             {showEditProfile && (

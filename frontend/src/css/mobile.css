@@ -178,3 +178,24 @@
     }
 
 }
+
+
+/*BOOK APPOINTMENT*/
+
+.bookapt-container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.petselect{
+    width: 100%;
+}
+
+.location-input{
+    width: 100%;
+}
+
+.findCt{
+    margin-top: 135%
+}
