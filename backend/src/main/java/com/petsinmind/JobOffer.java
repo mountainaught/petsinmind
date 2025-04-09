@@ -69,8 +69,8 @@ public class JobOffer {
         return pets;
     }
 
-    public List<String> getPetIDs() {
-        List<String> petIDs = new ArrayList<>();
+    public List<UUID> getPetIDs() {
+        List<UUID> petIDs = new ArrayList<>();
         for (Pet pet : pets) {
             petIDs.add(pet.getPetID());
         }

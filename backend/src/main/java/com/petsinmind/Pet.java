@@ -33,64 +33,55 @@ public class Pet {
         this.age = petAge;
     }
 
-    // Getters and Setters
-    public String getPetID() {
-        return petID;
-    }
-
-    public void setPetID(String petID) {
-        this.petID = petID;
-    }
-
+    // Getters
     public String getName() {
         return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     public String getType() {
         return type;
     }
 
-    public void setType(String type) {
-        this.type = type;
-    }
-
     public String getSize() {
         return size;
-    }
-
-    public void setSize(String size) {
-        this.size = size;
     }
 
     public Integer getAge() {
         return age;
     }
 
-    public void setAge(Integer age) {
-        this.age = age;
-    }
-
     public UUID getPetID() {
         return petID;
-    }
-
-    public void setPetID(UUID petID) {
-        this.petID = petID;
     }
 
     public UUID getOwnerID() {
         return ownerID;
     }
 
+    // Setters
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public void setSize(String size) {
+        this.size = size;
+    }
+
+    public void setAge(Integer age) {
+        this.age = age;
+    }
+
+    public void setPetID(UUID petID) {
+        this.petID = petID;
+    }
+
     public void setOwnerID(UUID ownerID) {
         this.ownerID = ownerID;
     }
-
-    // End of getters and setters
 
     // toString method
     public String toString() {
@@ -101,5 +92,4 @@ public class Pet {
                 ", age='" + age + '\'' +
                 '}';
     }
-
 }
