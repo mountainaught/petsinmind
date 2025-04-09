@@ -989,6 +989,7 @@ public class Registry {
             e.printStackTrace();
             return false;
         }
+    }
 
   
    public boolean deleteAvailabilitypoints(Caretaker ct) throws SQLException {
@@ -1045,14 +1046,6 @@ public class Registry {
         return false; // Insert failed
     }
 
-    public boolean editAvailability(Caretaker ct) throws SQLException {
-        boolean flag = deleteAvailabilitypoints(ct);
-        if (flag) {
-            return addAvailabilitypoints(ct);
-        } else {
-            return false;
-        }
-    }
 
     public boolean createPayment(Payment payment) throws SQLException {
         PreparedStatement ps = null;
