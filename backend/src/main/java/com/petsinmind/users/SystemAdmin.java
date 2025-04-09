@@ -17,8 +17,9 @@ public class SystemAdmin extends User implements TicketSA, ApplicationSA {
 	private List<Ticket> MyTicketList;
 	private Registry registry;
 
-// Constructor
-	public SystemAdmin(UUID userID, String userName, String userPassword, String userEmail, String phoneNumber, String firstName, String lastName, List<Ticket> myTicketList) {
+	// Constructor
+	public SystemAdmin(UUID userID, String userName, String userPassword, String userEmail, String phoneNumber,
+			String firstName, String lastName, List<Ticket> myTicketList) {
 		super(userID, userName, userPassword, userEmail, phoneNumber, firstName, lastName);
 		this.MyTicketList = myTicketList;
 		try {
@@ -38,7 +39,8 @@ public class SystemAdmin extends User implements TicketSA, ApplicationSA {
 		MyTicketList = myTicketList;
 	}
 
-	public SystemAdmin() {}
+	public SystemAdmin() {
+	}
 
 	public SystemAdmin(UUID uuid) {
 		this.setUserID(uuid);
@@ -122,33 +124,34 @@ public class SystemAdmin extends User implements TicketSA, ApplicationSA {
 		// TODO - implement SystemAdmin.viewAllApplications
 		throw new UnsupportedOperationException();
 	}
-	
-	public boolean createCaretaker(String userName, String userPassword, String userEmail, String phoneNumber, String firstName, String lastName, String location, float pay, File imageFile) {
-        try {
-            // Create a new Caretaker object
-            Caretaker caretaker = new Caretaker(
-                UUID.randomUUID(),
-                userName,
-                userPassword,
-                userEmail,
-                phoneNumber,
-                firstName,
-                lastName,
-                location,
-                null, // Ticket IDs (placeholder)
-                null, // Job Offer IDs (placeholder)
-                null, // Appointment IDs (placeholder)
-                pay,
-                null, // availability (placeholder)
-                null  // reviews (placeholder)
-            );
 
-            // Use the Registry to create the caretaker account
-            return registry.createUser(caretaker, imageFile);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return false;
-        }
-    }
+	public boolean createCaretaker(String userName, String userPassword, String userEmail, String phoneNumber,
+			String firstName, String lastName, String location, float pay, File imageFile) {
+		try {
+			// Create a new Caretaker object
+			Caretaker caretaker = new Caretaker(
+					UUID.randomUUID(),
+					userName,
+					userPassword,
+					userEmail,
+					phoneNumber,
+					firstName,
+					lastName,
+					location,
+					null, // Ticket IDs (placeholder)
+					null, // Job Offer IDs (placeholder)
+					null, // Appointment IDs (placeholder)
+					pay,
+					null, // availability (placeholder)
+					null // reviews (placeholder)
+			);
+
+			// Use the Registry to create the caretaker account
+			return registry.createUser(caretaker);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+	}
 
 }
