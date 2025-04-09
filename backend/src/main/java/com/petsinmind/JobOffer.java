@@ -57,9 +57,9 @@ public class JobOffer {
         return JobOfferID;
     }
 
-    // public void setJobOfferID(UUID JobOfferID) {
-    // this.JobOfferID = JobOfferID;
-    // }
+    public void setJobOfferID(UUID JobOfferID) {
+        this.JobOfferID = JobOfferID;
+    }
 
     public PetOwner getPetOwner() {
         return petOwner;
@@ -75,6 +75,15 @@ public class JobOffer {
             petIDs.add(pet.getPetID());
         }
         return petIDs;
+    }
+
+    public List<String> getPetIDsAsString() {
+        List<String> petIDsAsString = new ArrayList<>();
+        for (Pet pet : pets) {
+            String idString = pet.getPetID().toString();
+            petIDsAsString.add(idString);
+        }
+        return petIDsAsString;
     }
 
     public String getLocation() {

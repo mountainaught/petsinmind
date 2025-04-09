@@ -8,6 +8,12 @@ import com.petsinmind.users.Caretaker;
 import com.petsinmind.users.PetOwner;
 import com.petsinmind.users.SystemAdmin;
 import com.petsinmind.users.User;
+import com.petsinmind.Application;
+import com.petsinmind.Config;
+import com.petsinmind.Appointment;
+import com.petsinmind.JobOffer;
+import com.petsinmind.Payment;
+import com.petsinmind.Pet;
 // import com.petsinmind.users.Application;
 
 import java.io.FileInputStream;
@@ -234,10 +240,11 @@ public class Registry {
 
             PetOwner pt = (PetOwner) findUser(new PetOwner(UUID.fromString(rs.getString("PetownerID"))));
             appointment.setPetOwner(pt);
-
+            List<Pet> pets = new ArrayList<>();
             for (UUID petID : idListParser(rs.getArray("PetIDsList"))) {
-                appointment.addPet(getPet(new Pet(petID)));
+                pets.add(getPet(new Pet(petID)));
             }
+            appointment.setPets(pets);
 
             appointment.setStartDate(GregorianCalendar
                     .from(ZonedDateTime.ofInstant(rs.getDate("Startdate").toInstant(), ZoneId.systemDefault())));
@@ -498,11 +505,11 @@ public class Registry {
             String phonenumber = caretaker.getPhoneNumber();
             String firstname = caretaker.getFirstName();
             String lastname = caretaker.getLastName();
-            List<String> ticketIDs = caretaker.getListTicketIDs();
-            List<String> jobofferIDs = caretaker.getListJobOfferIDs();
+            List<String> ticketIDs = caretaker.getTicketIDsAsString();
+            List<String> jobofferIDs = caretaker.getJobOfferIDsAsString();
             String location = caretaker.getLocation();
             float pay = caretaker.getPay();
-            List<String> appointmentIDs = caretaker.getListAppointmentIDs();
+            List<String> appointmentIDs = caretaker.getAppointmentIDsAsString();
 
             Gson gson = new Gson();
             String ticketIDsJson = gson.toJson(ticketIDs);
@@ -548,10 +555,10 @@ public class Registry {
             String phonenumber = petowner.getPhoneNumber();
             String firstname = petowner.getFirstName();
             String lastname = petowner.getLastName();
-            List<String> ticketIDs = petowner.getListTicketIDs();
-            List<String> jobofferIDs = petowner.getListJobOfferIDs();
+            List<String> ticketIDs = petowner.getTicketIDsAsString();
+            List<String> jobofferIDs = petowner.getJobOfferIDsAsString();
             List<String> petIDs = petowner.getPetIDs();
-            List<String> appointmentIDs = petowner.getListAppointmentIDs();
+            List<String> appointmentIDs = petowner.getAppointmentIDsAsString();
             String location = petowner.getLocation();
 
             Gson gson = new Gson();
@@ -629,11 +636,11 @@ public class Registry {
             String phonenumber = caretaker.getPhoneNumber();
             String firstname = caretaker.getFirstName();
             String lastname = caretaker.getLastName();
-            List<String> ticketIDs = caretaker.getListTicketIDs();
-            List<String> jobofferIDs = caretaker.getListJobOfferIDs();
+            List<String> ticketIDs = caretaker.getTicketIDsAsString();
+            List<String> jobofferIDs = caretaker.getJobOfferIDsAsString();
             String location = caretaker.getLocation();
             float pay = caretaker.getPay();
-            List<String> appointmentIDs = caretaker.getListAppointmentIDs();
+            List<String> appointmentIDs = caretaker.getAppointmentIDsAsString();
 
             Gson gson = new Gson();
             String ticketIDsJson = gson.toJson(ticketIDs);
@@ -671,10 +678,10 @@ public class Registry {
             String phonenumber = petowner.getPhoneNumber();
             String firstname = petowner.getFirstName();
             String lastname = petowner.getLastName();
-            List<String> ticketIDs = petowner.getListTicketIDs();
-            List<String> jobofferIDs = petowner.getListJobOfferIDs();
+            List<String> ticketIDs = petowner.getTicketIDsAsString();
+            List<String> jobofferIDs = petowner.getJobOfferIDsAsString();
             List<String> petIDs = petowner.getPetIDs();
-            List<String> appointmentIDs = petowner.getListAppointmentIDs();
+            List<String> appointmentIDs = petowner.getAppointmentIDsAsString();
             String location = petowner.getLocation();
 
             Gson gson = new Gson();
@@ -933,7 +940,7 @@ public class Registry {
                 +
                 "VALUES (?, ?, ?, ?, ?, ?, ?, ?);";
         try {
-            List<String> petIDs = jobOffer.getPetIDs();
+            List<String> petIDs = jobOffer.getPetIDsAsString();
             List<String> acceptedCaretakerIDs = jobOffer.getAcceptedCaretakerIDs();
             List<String> rejectedCaretakerIDs = jobOffer.getRejectedCaretakerIDs();
 

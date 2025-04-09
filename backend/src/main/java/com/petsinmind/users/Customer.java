@@ -3,13 +3,15 @@ package com.petsinmind.users;
 import com.petsinmind.Appointment;
 import com.petsinmind.messages.TicketMessage;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
 public abstract class Customer extends User {
     private String location;
 
-    public Customer() {}
+    public Customer() {
+    }
 
     public Customer(UUID caretakerID) {
         super.setUserID(caretakerID);
@@ -19,8 +21,9 @@ public abstract class Customer extends User {
     private List<UUID> ListTicketIDs;
     private List<UUID> ListJobOfferIDs;
 
-    public Customer(UUID userID, String userName, String userPassword, String userEmail, String phoneNumber, String firstName, String lastName, String location, 
-        List<UUID> listAppointmentIDs, List<UUID> listTicketIDs, List<UUID> listJobOfferIDs) {
+    public Customer(UUID userID, String userName, String userPassword, String userEmail, String phoneNumber,
+            String firstName, String lastName, String location,
+            List<UUID> listAppointmentIDs, List<UUID> listTicketIDs, List<UUID> listJobOfferIDs) {
         // Call the constructor of the superclass (User)
         super(userID, userName, userPassword, userEmail, phoneNumber, firstName, lastName);
         this.location = location;
@@ -30,39 +33,64 @@ public abstract class Customer extends User {
     }
 
     // getters
-    public String getLocation() { 
+    public String getLocation() {
         return location;
     }
 
-    public List<UUID> getAppointmentIDs() { 
-        return ListAppointmentIDs; 
+    public List<UUID> getAppointmentIDs() {
+        return ListAppointmentIDs;
     }
 
-    
-    public List<UUID> getTicketIDs() { 
-        return ListTicketIDs; 
+    public List<String> getAppointmentIDsAsString() {
+        List<String> appointmentIDsAsString = new ArrayList<>();
+        for (UUID id : ListAppointmentIDs) {
+            String idString = id.toString();
+            appointmentIDsAsString.add(idString);
+        }
+        return appointmentIDsAsString;
     }
-    
-    public List<UUID> getJobOfferIDs() { 
-        return ListJobOfferIDs; 
+
+    public List<UUID> getTicketIDs() {
+        return ListTicketIDs;
     }
-    
+
+    public List<String> getTicketIDsAsString() {
+        List<String> ticketIDsAsString = new ArrayList<>();
+        for (UUID id : ListTicketIDs) {
+            String idString = id.toString();
+            ticketIDsAsString.add(idString);
+        }
+        return ticketIDsAsString;
+    }
+
+    public List<UUID> getJobOfferIDs() {
+        return ListJobOfferIDs;
+    }
+
+    public List<String> getJobOfferIDsAsString() {
+        List<String> jobOfferIDsAsString = new ArrayList<>();
+        for (UUID id : ListJobOfferIDs) {
+            String idString = id.toString();
+            jobOfferIDsAsString.add(idString);
+        }
+        return jobOfferIDsAsString;
+    }
+
     // setters
-    public void setLocation(String location) { 
-        this.location = location; 
+    public void setLocation(String location) {
+        this.location = location;
     }
 
-    public void setAppointmentIDs(List<UUID> listAppointmentIDs) { 
-        ListAppointmentIDs = listAppointmentIDs; 
+    public void setAppointmentIDs(List<UUID> listAppointmentIDs) {
+        ListAppointmentIDs = listAppointmentIDs;
     }
 
-
-    public void setTicketIDs(List<UUID> listTicketIDs) { 
-        ListTicketIDs = listTicketIDs; 
+    public void setTicketIDs(List<UUID> listTicketIDs) {
+        ListTicketIDs = listTicketIDs;
     }
 
-    public void setJobOfferIDs(List<UUID> listJobOfferIDs) { 
-        ListJobOfferIDs = listJobOfferIDs; 
+    public void setJobOfferIDs(List<UUID> listJobOfferIDs) {
+        ListJobOfferIDs = listJobOfferIDs;
     }
 
     // Methods to manage appointments
