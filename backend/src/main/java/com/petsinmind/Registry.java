@@ -1,6 +1,9 @@
 package com.petsinmind;
 
+import com.petsinmind.messages.AppointmentMessage;
+import com.petsinmind.messages.JobOfferMessage;
 import com.petsinmind.messages.Message;
+import com.petsinmind.messages.TicketMessage;
 import com.petsinmind.users.Caretaker;
 import com.petsinmind.users.PetOwner;
 import com.petsinmind.users.SystemAdmin;
@@ -308,9 +311,29 @@ public class Registry {
         List<Message> messages = new ArrayList<>();
 
         while (rs.next()) {
-            // TODO - We need a way to differentiate messages past the DB.
+            String messageType = rs.getString("type");
+            Message msg = switch (messageType) {
+                case "AppointmentMessage" -> new AppointmentMessage(rs.getString("Details"),
+                        UUID.fromString(rs.getString("SenderID")),
+                        UUID.fromString(rs.getString("ReferenceID")),
+                        UUID.fromString(rs.getString("ReceiverID")),
+                        dateToCalendar(rs.getDate("Date")));
+                case "JobOfferMessage" -> new JobOfferMessage(rs.getString("Details"),
+                        UUID.fromString(rs.getString("SenderID")),
+                        UUID.fromString(rs.getString("ReferenceID")),
+                        UUID.fromString(rs.getString("ReceiverID")),
+                        dateToCalendar(rs.getDate("Date")));
+                case "TicketMessage" -> new TicketMessage(rs.getString("Details"),
+                        UUID.fromString(rs.getString("SenderID")),
+                        UUID.fromString(rs.getString("ReferenceID")),
+                        UUID.fromString(rs.getString("ReceiverID")),
+                        dateToCalendar(rs.getDate("Date")));
+                default -> null;
+            };
+
+            messages.add(msg);
         }
-        return null;
+        return messages;
     }
 
     public Application getApplication(Application app) throws SQLException {
@@ -318,7 +341,7 @@ public class Registry {
         ResultSet rs = null;
 
         ps = connection.prepareStatement("SELECT * FROM application WHERE UserEmail= ?");
-        ps.setString(1, app.getAppo().toString());
+        ps.setString(1, app.getEmail());
         rs = ps.executeQuery();
 
         if (rs.next()) {

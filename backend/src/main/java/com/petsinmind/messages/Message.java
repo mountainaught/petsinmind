@@ -1,60 +1,37 @@
 package com.petsinmind.messages;
 
+import java.util.Calendar;
+import java.util.UUID;
+
 // Falak
 public abstract class Message {
-    private String title;
-    private String text;
-    private String timeSent;
-    private int senderId;
-    private int receiverId;
+    private String details;
+    private UUID senderId;
+    private UUID receiverId;
+    private UUID referenceID;
+    private Calendar date;
 
-
-    public Message(String title, String text, String timeSent, int senderId, int receiverId) {
-        this.title = title;
-        this.text = text;
-        this.timeSent = timeSent;
+    public Message(String details, UUID senderId, UUID receiverId, UUID referenceID, Calendar date) {
+        this.details = details;
         this.senderId = senderId;
         this.receiverId = receiverId;
+        this.referenceID = referenceID;
+        this.date = date;
     }
 
-    public String getTitle() {
-        return title;
-    }
+    public String getDetails() { return details; }
+    public void setDetails(String details) { this.details = details; }
 
-    public void setTitle(String title) {
-        this.title = title;
-    }
+    public Calendar getDate() { return date; }
+    public void setDate(Calendar date) { this.date = date; }
 
-    public String getText() {
-        return text;
-    }
+    public UUID getReferenceID() { return referenceID; }
+    public void setReferenceID(UUID referenceID) { this.referenceID = referenceID; }
 
-    public void setText(String text) {
-        this.text = text;
-    }
+    public UUID getSenderId() { return senderId; }
+    public void setSenderId(UUID senderId) { this.senderId = senderId; }
 
-    public String getTimeSent() {
-        return timeSent;
-    }
-
-    public void setTimeSent(String timeSent) {
-        this.timeSent = timeSent;
-    }
-
-    public int getSenderId() {
-        return senderId;
-    }
-
-    public void setSenderId(int senderId) {
-        this.senderId = senderId;
-    }
-
-    public int getReceiverId() {
-        return receiverId;
-    }
-
-    public void setReceiverId(int receiverId) {
-        this.receiverId = receiverId;
-    }
+    public UUID getReceiverId() { return receiverId; }
+    public void setReceiverId(UUID receiverId) { this.receiverId = receiverId; }
 
 }
