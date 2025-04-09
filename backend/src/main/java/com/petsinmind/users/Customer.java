@@ -10,13 +10,6 @@ import java.util.UUID;
 public abstract class Customer extends User {
     private String location;
 
-    public Customer() {
-    }
-
-    public Customer(UUID caretakerID) {
-        super.setUserID(caretakerID);
-    }
-
     private List<UUID> ListAppointmentIDs;
     private List<UUID> ListTicketIDs;
     private List<UUID> ListJobOfferIDs;

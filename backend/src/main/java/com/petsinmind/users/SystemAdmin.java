@@ -39,13 +39,6 @@ public class SystemAdmin extends User implements TicketSA, ApplicationSA {
 		MyTicketList = myTicketList;
 	}
 
-	public SystemAdmin() {
-	}
-
-	public SystemAdmin(UUID uuid) {
-		this.setUserID(uuid);
-	}
-
 	/**
 	 * 
 	 * @param TicketID

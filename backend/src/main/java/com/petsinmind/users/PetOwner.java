@@ -18,13 +18,6 @@ public class PetOwner extends Customer {
 
 	private List<Pet> PetList;
 
-	public PetOwner() {
-	}
-
-	public PetOwner(UUID caretakerID) {
-		super(caretakerID);
-	}
-
 	public PetOwner(UUID userID, String userName, String userPassword, String userEmail, String phoneNumber,
 			String firstName, String lastName, String location,
 			List<UUID> listAppointmentIDs, List<UUID> listTicketIDs, List<UUID> listJobOfferIDs,

@@ -15,12 +15,6 @@ public class Caretaker extends Customer implements JobOfferCT {
     private boolean[][] availability = new boolean[7][24]; // 7 days a week, 24 hours a day
 	private List<Review> ListReviews;
 
-    public Caretaker() {}
-
-    public Caretaker(UUID uuid) {
-        super(uuid);
-    }
-
 	public Caretaker(UUID userID, String userName, String userPassword, String userEmail, String phoneNumber, String firstName, String lastName, String location,
 			List<UUID> listAppointmentIDs, List<UUID> listTicketIDs, List<UUID> listJobOfferIDs, float pay, boolean[][] availability, List<Review> ListReviews) {
 		super(userID, userName, userPassword, userEmail, phoneNumber, firstName, lastName, location, listAppointmentIDs,
