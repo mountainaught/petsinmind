@@ -1,11 +1,11 @@
 package com.petsinmind.users;
 
-import com.petsinmind.JobOffer;
-import com.petsinmind.JobOfferCT;
-import com.petsinmind.Review;
+import com.petsinmind.*;
 import com.petsinmind.messages.AppointmentMessage;
 
 
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.List;
 import java.util.UUID;
 
@@ -15,8 +15,14 @@ public class Caretaker extends Customer implements JobOfferCT {
     private boolean[][] availability = new boolean[7][24]; // 7 days a week, 24 hours a day
 	private List<Review> ListReviews;
 
+    public Caretaker() {}
+
+    public Caretaker(UUID uuid) {
+        super(uuid);
+    }
+
 	public Caretaker(UUID userID, String userName, String userPassword, String userEmail, String phoneNumber, String firstName, String lastName, String location,
-			List<UUID> listAppointmentIDs, List<UUID> listTicketIDs, List<UUID> listJobOfferIDs, float pay, boolean[][] availability, List<Review> ListReviews) {
+			List<UUID> listAppointmentIDs, List<UUID> listTicketIDs, List<UUID> listJobOfferIDs, float pay, boolean[][] availability, List<Review> ListReviews) throws SQLException {
 		super(userID, userName, userPassword, userEmail, phoneNumber, firstName, lastName, location, listAppointmentIDs,
 				listTicketIDs, listJobOfferIDs);
 		this.Pay = pay;
@@ -88,25 +94,27 @@ public class Caretaker extends Customer implements JobOfferCT {
 	 * 
 	 * @param offer
 	 */
-	// TODO - Probably should add code to remove JO from DB and send Appointment
-	// messages
-	// public Appointment AcceptJobOffer(JobOffer offer) {
-	// 	Appointment appointment = new Appointment(offer.getJobOfferID(), this, offer.getPetOwner(), offer.getPets(),
-	// 			offer.getStartDate(), offer.getEndDate(), offer.getType());
+	//
+	public Appointment AcceptJobOffer(JobOffer offer) throws SQLException {
+		 Appointment appointment = new Appointment(offer.getJobOfferID(), this, offer.getPetOwner(), offer.getPets(),
+				offer.getStartDate(), offer.getEndDate(), offer.getType());
 
-	// 	super.AddAppointment(appointment.getAppointmentId());
-	// 	appointment.getPetOwner().AddAppointment(appointment.getAppointmentId());
-	// 	return appointment;
-	// }
+		 super.AddAppointment(appointment.getAppointmentId());
+		 appointment.getPetOwner().AddAppointment(appointment.getAppointmentId());
+
+		 registry.createAppointment(appointment);
+		 registry.deleteJobOffer(offer);
+		// TODO - Send appointment message
+		 return appointment;
+	}
 
 	/**
 	 * 
-	 * @param JobOffer
+	 * @param jobOffer
 	 */
-	public Void RejectJobOffer(JobOffer JobOffer) {
-		// TODO - implement Caretaker.RejectJobOffer - Do we remove Caretaker from
-		// availableCaretakers?
-		throw new UnsupportedOperationException();
+	public Void RejectJobOffer(JobOffer jobOffer) {
+		jobOffer.addRejectedCaretaker(this);
+		reg.editJobOffer(jobOffer);
 	}
 
 

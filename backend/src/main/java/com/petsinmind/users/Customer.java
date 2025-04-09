@@ -1,6 +1,7 @@
 package com.petsinmind.users;
 
 import com.petsinmind.Appointment;
+import com.petsinmind.Registry;
 import com.petsinmind.messages.TicketMessage;
 
 import java.util.ArrayList;
