@@ -1,6 +1,9 @@
 package com.petsinmind;
 
+import com.petsinmind.messages.AppointmentMessage;
+import com.petsinmind.messages.JobOfferMessage;
 import com.petsinmind.messages.Message;
+import com.petsinmind.messages.TicketMessage;
 import com.petsinmind.users.Caretaker;
 import com.petsinmind.users.PetOwner;
 import com.petsinmind.users.SystemAdmin;
@@ -11,6 +14,13 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.sql.*;
+import java.sql.Date;
+import java.time.Instant;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.util.*;
+import java.util.function.Consumer;
+import java.util.regex.Pattern;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -94,9 +104,16 @@ public class Registry {
         PreparedStatement ps = null;
         ResultSet rs = null;
 
+        String[] idType = (Pattern
+                .compile("^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$")
+                .matcher(user.getUserID().toString()).matches())
+                        ? new String[] { "UserID", user.getUserID().toString() }
+                        : new String[] { "UserEmail", user.getUserEmail() };
+
         if (user.getClass() == Caretaker.class) {
-            ps = connection.prepareStatement("SELECT * FROM caretaker WHERE UserID = ?");
-            ps.setString(1, user.getUserID().toString());
+            ps = connection.prepareStatement("SELECT * FROM caretaker WHERE ? = ?");
+            ps.setString(1, idType[0]);
+            ps.setString(2, idType[1]);
             rs = ps.executeQuery();
 
             if (rs.next()) {
@@ -104,6 +121,37 @@ public class Registry {
                 ct = (Caretaker) parseUser(rs, ct);
                 ct = getCaretaker(rs, ct);
                 return ct;
+            } else {
+                System.out.println("❌ No caretaker found with ID: " + user.getUserID());
+                return null;
+            }
+
+        } else if (user.getClass() == PetOwner.class) {
+            ps = connection.prepareStatement("SELECT * FROM petowner WHERE ? = ?");
+            ps.setString(1, idType[0]);
+            ps.setString(2, idType[1]);
+            rs = ps.executeQuery();
+
+            if (rs.next()) {
+                PetOwner pt = new PetOwner();
+                pt = (PetOwner) parseUser(rs, pt);
+                pt = getPetOwner(rs, pt);
+                return pt;
+            } else {
+                System.out.println("❌ No caretaker found with ID: " + user.getUserID());
+                return null;
+            }
+
+        } else if (user.getClass() == SystemAdmin.class) {
+            ps = connection.prepareStatement("SELECT * FROM systemadmin WHERE ? = ?");
+            ps.setString(1, idType[0]);
+            ps.setString(2, idType[1]);
+            rs = ps.executeQuery();
+
+            if (rs.next()) {
+                SystemAdmin sa = new SystemAdmin();
+                sa = (SystemAdmin) parseUser(rs, sa);
+                return sa;
             } else {
                 System.out.println("❌ No caretaker found with ID: " + user.getUserID());
                 return null;
@@ -132,74 +180,270 @@ public class Registry {
         return ct;
     }
 
-    public Pet getPet(Pet pet) {
+    private PetOwner getPetOwner(ResultSet rs, PetOwner pt) throws SQLException {
+        pt.setLocation(rs.getString("Location"));
+        pt.setTicketIDs(idListParser(rs.getArray("ListTicketIDs")));
+        pt.setAppointmentIDs(idListParser(rs.getArray("ListAppointmentIDs")));
 
+        List<Pet> pets = new ArrayList<>();
+        for (UUID petID : idListParser(rs.getArray("ListPetIDs"))) {
+            getPet(new Pet(petID));
+        }
+        pt.setPetList(pets);
+
+        pt.setJobOfferIDs(idListParser(rs.getArray("ListJobOfferIDs")));
+        return pt;
     }
 
-    public Appointment getAppointment(Appointment appointment) {
+    public Pet getPet(Pet pet) throws SQLException {
+        PreparedStatement ps = null;
+        ResultSet rs = null;
 
+        ps = connection.prepareStatement("SELECT * FROM pet WHERE PetID = ?");
+        ps.setString(1, pet.getPetID().toString());
+        rs = ps.executeQuery();
+
+        if (rs.next()) {
+            pet.setPetID(UUID.fromString(rs.getString("PetID")));
+            pet.setName(rs.getString("Name"));
+            pet.setType(rs.getString("Type"));
+            pet.setSize(rs.getString("Size"));
+            pet.setAge(Integer.valueOf(rs.getString("Age")));
+            pet.setOwnerID(UUID.fromString(rs.getString("PetownerID")));
+            return pet;
+        }
+
+        return null;
     }
 
-    public JobOffer getJobOffer(JobOffer jobOffer) {
+    public Appointment getAppointment(Appointment appointment) throws SQLException {
+        PreparedStatement ps = null;
+        ResultSet rs = null;
 
+        ps = connection.prepareStatement("SELECT * FROM appointment WHERE AppointmentID = ?");
+        ps.setString(1, appointment.getAppointmentId().toString());
+        rs = ps.executeQuery();
+
+        if (rs.next()) {
+            appointment.setAppointmentId(UUID.fromString(rs.getString("AppointmentID")));
+
+            Caretaker ct = (Caretaker) findUser(new Caretaker(UUID.fromString(rs.getString("UserID"))) {
+            });
+            appointment.setCaretaker(ct);
+
+            PetOwner pt = (PetOwner) findUser(new PetOwner(UUID.fromString(rs.getString("PetownerID"))));
+            appointment.setPetOwner(pt);
+
+            for (UUID petID : idListParser(rs.getArray("PetIDsList"))) {
+                appointment.addPet(getPet(new Pet(petID)));
+            }
+
+            appointment.setStartDate(GregorianCalendar
+                    .from(ZonedDateTime.ofInstant(rs.getDate("Startdate").toInstant(), ZoneId.systemDefault())));
+            appointment.setEndDate(GregorianCalendar
+                    .from(ZonedDateTime.ofInstant(rs.getDate("Enddate").toInstant(), ZoneId.systemDefault())));
+
+            return appointment;
+        }
+
+        return null;
     }
 
-    public Payment getPayment(Payment payment) {
+    public JobOffer getJobOffer(JobOffer jobOffer) throws SQLException {
+        PreparedStatement ps = null;
+        ResultSet rs = null;
 
+        ps = connection.prepareStatement("SELECT * FROM joboffer WHERE AppointmentID = ?");
+        ps.setString(1, jobOffer.getJobOfferID().toString());
+        rs = ps.executeQuery();
+
+        if (rs.next()) {
+            jobOffer.setJobOfferID(UUID.fromString(rs.getString("JobOfferID")));
+
+            PetOwner pt = (PetOwner) findUser(new PetOwner(UUID.fromString(rs.getString("PetownerID"))));
+            jobOffer.setPetOwner(pt);
+
+            jobOffer.setStartDate(dateToCalendar(rs.getDate("Startdate")));
+            jobOffer.setEndDate(dateToCalendar(rs.getDate("Enddate")));
+
+            for (UUID ctID : idListParser(rs.getArray("AcceptedcaretakerIDs"))) {
+                jobOffer.addAcceptedCaretaker(new Caretaker(ctID));
+            }
+            for (UUID ctID : idListParser(rs.getArray("RejectedcaretakerIDs"))) {
+                jobOffer.addAcceptedCaretaker(new Caretaker(ctID));
+            }
+
+            jobOffer.setType(rs.getString("Type"));
+
+            return jobOffer;
+        }
+
+        return null;
     }
 
-    public List<Payment> getPayments(User user) {
+    public Payment getPayment(Payment payment) throws SQLException {
+        PreparedStatement ps = null;
+        ResultSet rs = null;
 
+        ps = connection.prepareStatement("SELECT * FROM payment WHERE PaymentID = ?");
+        ps.setString(1, payment.getPaymentID().toString());
+        rs = ps.executeQuery();
+
+        if (rs.next()) {
+            payment.setPaymentID(UUID.fromString(rs.getString("PaymentID")));
+            payment.setPaymentMethod(rs.getString("Method"));
+            payment.setPaymentDate(dateToCalendar(rs.getDate("Date")));
+            payment.setPaymentAmount(rs.getFloat("Amount"));
+            payment.setPaymentCurrency(rs.getString("Currency"));
+            payment.setSenderID(rs.getString("SenderID"));
+            payment.setReceiverID(rs.getString("ReceiverID"));
+            return payment;
+        }
+        return null;
     }
 
-    public List<Review> getReviews(Caretaker caretaker) {
+    public List<Payment> getPayments(User user) throws SQLException {
+        PreparedStatement ps = null;
+        ResultSet rs = null;
 
+        List<Payment> payments = new ArrayList<>();
+
+        ps = connection.prepareStatement("SELECT * FROM payment WHERE (SenderID = ? OR ReceiverID = ?)");
+        ps.setString(1, user.getUserID().toString());
+        ps.setString(2, user.getUserID().toString());
+        rs = ps.executeQuery();
+
+        while (rs.next()) {
+            Payment pay = getPayment(new Payment(UUID.fromString(rs.getString("PaymentID"))));
+            payments.add(pay);
+        }
+
+        return payments;
     }
 
-    public List<Ticket> getTickets(User user) {
+    public List<Review> getReviews(Caretaker caretaker) throws SQLException {
+        PreparedStatement ps = null;
+        ResultSet rs = null;
 
+        ps = connection.prepareStatement("SELECT * FROM review WHERE CaretakerID = ?");
+        ps.setString(1, caretaker.getUserID().toString());
+        rs = ps.executeQuery();
+
+        List<Review> reviews = new ArrayList<>();
+
+        while (rs.next()) {
+            Review review = new Review();
+
+            review.setDetails(rs.getString("Details"));
+            review.setRating(rs.getInt("Rating"));
+            review.setAppointment(getAppointment(new Appointment(UUID.fromString(rs.getString("AppointmentID")))));
+            review.setCaretaker((Caretaker) findUser(new Caretaker(UUID.fromString(rs.getString("CaretakerID")))));
+            review.setPetOwner((PetOwner) findUser(new PetOwner(UUID.fromString(rs.getString("PetownerID")))));
+            reviews.add(review);
+        }
+
+        return reviews;
     }
 
-    public List<Message> getMessages(UUID ref) {
+    public List<Ticket> getTickets(User user) throws SQLException {
+        PreparedStatement ps = null;
+        ResultSet rs = null;
 
+        ps = connection.prepareStatement("SELECT * FROM ticket WHERE CustomerID = ?");
+        ps.setString(1, user.getUserID().toString());
+        rs = ps.executeQuery();
+
+        List<Ticket> tickets = new ArrayList<>();
+
+        while (rs.next()) {
+            Ticket ticket = new Ticket();
+
+            ticket.setTicketID(UUID.fromString(rs.getString("TicketID")));
+            ticket.setTitle((rs.getString("Title")));
+            ticket.setDetails(rs.getString("Details"));
+            ticket.setDate(dateToCalendar(rs.getDate("Date")));
+            ticket.setCustomerID(UUID.fromString(rs.getString("CustomerID")));
+
+            List<UUID> sysList = new ArrayList<>(idListParser(rs.getArray("SystemadminIDs")));
+            ticket.setEmployeeIDs(sysList);
+
+            ticket.setStatus(rs.getBoolean("Status"));
+        }
+
+        return tickets;
     }
 
-    public Application getApplication(Application app) {
+    public List<Message> getMessages(User user) throws SQLException {
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+
+        ps = connection.prepareStatement("SELECT * FROM Message WHERE (SenderID = ? OR ReceiverID = ?)");
+        ps.setString(1, user.getUserID().toString());
+        ps.setString(2, user.getUserID().toString());
+
+        rs = ps.executeQuery();
+
+        List<Message> messages = new ArrayList<>();
+
+        while (rs.next()) {
+            String messageType = rs.getString("type");
+            Message msg = switch (messageType) {
+                case "AppointmentMessage" -> new AppointmentMessage(rs.getString("Details"),
+                        UUID.fromString(rs.getString("SenderID")),
+                        UUID.fromString(rs.getString("ReferenceID")),
+                        UUID.fromString(rs.getString("ReceiverID")),
+                        dateToCalendar(rs.getDate("Date")));
+                case "JobOfferMessage" -> new JobOfferMessage(rs.getString("Details"),
+                        UUID.fromString(rs.getString("SenderID")),
+                        UUID.fromString(rs.getString("ReferenceID")),
+                        UUID.fromString(rs.getString("ReceiverID")),
+                        dateToCalendar(rs.getDate("Date")));
+                case "TicketMessage" -> new TicketMessage(rs.getString("Details"),
+                        UUID.fromString(rs.getString("SenderID")),
+                        UUID.fromString(rs.getString("ReferenceID")),
+                        UUID.fromString(rs.getString("ReceiverID")),
+                        dateToCalendar(rs.getDate("Date")));
+                default -> null;
+            };
+
+            messages.add(msg);
+        }
+        return messages;
+    }
 
     public Application getApplication(Application app, String outputPath) {
         String sql = "SELECT * FROM application WHERE UserName = ?";
-    
+
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setString(1, app.getUserName());
             ResultSet rs = stmt.executeQuery();
-    
+
             if (rs.next()) {
                 app.setFirstName(rs.getString("FirstName"));
                 app.setLastName(rs.getString("LastName"));
                 app.setUserEmail(rs.getString("UserEmail"));
                 app.setUserPassword(rs.getString("UserPassword"));
                 app.setPhoneNumber(rs.getString("PhoneNumber"));
-    
+
                 // ✅ Download the PDF using your existing method
                 downloadApplicationCV(app.getUserName(), outputPath);
-    
+
                 return app;
             } else {
                 System.out.println("❌ Application not found for: " + app.getUserName());
             }
-    
+
         } catch (Exception e) {
             e.printStackTrace();
         }
-    
+
         return null;
     }
-    
 
     // ******************************************//
     // SQL Write Functions //
     // ******************************************//
-    public int uploadImage(Connection connection, File imageFile, String imageFor) {
+    public int uploadImage(Connection connection, File imageFile, String imageFor) throws SQLException {
         int generatedImageID = -1; // Return -1 if the image upload fails
         String sql = "INSERT INTO images (image_data, content_type, image_for) VALUES (?, ?, ?)";
         try (PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
@@ -225,7 +469,7 @@ public class Registry {
         return generatedImageID;
     }
 
-    private String guessContentType(File file) {
+    private String guessContentType(File file) throws SQLException {
         String fileName = file.getName().toLowerCase();
         if (fileName.endsWith(".png")) {
             return "image/png";
@@ -253,11 +497,11 @@ public class Registry {
             String phonenumber = caretaker.getPhoneNumber();
             String firstname = caretaker.getFirstName();
             String lastname = caretaker.getLastName();
-            List<String> ticketIDs = caretaker.getTicketIDs();
-            List<String> jobofferIDs = caretaker.getJobOfferIDs();
+            List<String> ticketIDs = caretaker.getListTicketIDs();
+            List<String> jobofferIDs = caretaker.getListJobOfferIDs();
             String location = caretaker.getLocation();
             float pay = caretaker.getPay();
-            List<String> appointmentIDs = caretaker.getAppointmentIDs();
+            List<String> appointmentIDs = caretaker.getListAppointmentIDs();
 
             Gson gson = new Gson();
             String ticketIDsJson = gson.toJson(ticketIDs);
@@ -303,10 +547,10 @@ public class Registry {
             String phonenumber = petowner.getPhoneNumber();
             String firstname = petowner.getFirstName();
             String lastname = petowner.getLastName();
-            List<String> ticketIDs = petowner.getTicketIDs();
-            List<String> jobofferIDs = petowner.getJobOfferIDs();
+            List<String> ticketIDs = petowner.getListTicketIDs();
+            List<String> jobofferIDs = petowner.getListJobOfferIDs();
             List<String> petIDs = petowner.getPetIDs();
-            List<String> appointmentIDs = petowner.getAppointmentIDs();
+            List<String> appointmentIDs = petowner.getListAppointmentIDs();
             String location = petowner.getLocation();
 
             Gson gson = new Gson();
@@ -372,7 +616,7 @@ public class Registry {
         }
     }
 
-    public boolean editUser(User user) {
+    public boolean editUser(User user) throws SQLException {
         PreparedStatement ps = null;
         if (user instanceof Caretaker) {
             Caretaker caretaker = (Caretaker) user;
@@ -384,11 +628,11 @@ public class Registry {
             String phonenumber = caretaker.getPhoneNumber();
             String firstname = caretaker.getFirstName();
             String lastname = caretaker.getLastName();
-            List<String> ticketIDs = caretaker.getTicketIDs();
-            List<String> jobofferIDs = caretaker.getJobOfferIDs();
+            List<String> ticketIDs = caretaker.getListTicketIDs();
+            List<String> jobofferIDs = caretaker.getListJobOfferIDs();
             String location = caretaker.getLocation();
             float pay = caretaker.getPay();
-            List<String> appointmentIDs = caretaker.getAppointmentIDs();
+            List<String> appointmentIDs = caretaker.getListAppointmentIDs();
 
             Gson gson = new Gson();
             String ticketIDsJson = gson.toJson(ticketIDs);
@@ -426,10 +670,10 @@ public class Registry {
             String phonenumber = petowner.getPhoneNumber();
             String firstname = petowner.getFirstName();
             String lastname = petowner.getLastName();
-            List<String> ticketIDs = petowner.getTicketIDs();
-            List<String> jobofferIDs = petowner.getJobOfferIDs();
+            List<String> ticketIDs = petowner.getListTicketIDs();
+            List<String> jobofferIDs = petowner.getListJobOfferIDs();
             List<String> petIDs = petowner.getPetIDs();
-            List<String> appointmentIDs = petowner.getAppointmentIDs();
+            List<String> appointmentIDs = petowner.getListAppointmentIDs();
             String location = petowner.getLocation();
 
             Gson gson = new Gson();
@@ -493,9 +737,10 @@ public class Registry {
         } else {
             return false; // Invalid user type
         }
+        return true; // Update successful
     }
 
-    public boolean deleteUser(User user) {
+    public boolean deleteUser(User user) throws SQLException {
         PreparedStatement ps = null;
         if (user instanceof Caretaker) {
             Caretaker caretaker = (Caretaker) user;
@@ -557,17 +802,17 @@ public class Registry {
         return false; // User type not recognized
     }
 
-    public boolean createPet(Pet pet, PetOwner petOwner) {
+    public boolean createPet(Pet pet, PetOwner petOwner) throws SQLException {
         PreparedStatement ps = null;
         String sql = "INSERT INTO pet (PetID, Name, Type, Size, Age, PetownerID) " +
                 "VALUES (?, ?, ?, ?, ?, ?);";
         try {
             ps = connection.prepareStatement(sql);
             ps.setString(1, pet.getPetID().toString()); // PetID
-            ps.setString(2, pet.getPetName()); // PetName
-            ps.setString(3, pet.getPetType()); // PetType
-            ps.setString(4, pet.getPetSize()); // PetBreed
-            ps.setInt(5, pet.getPetAge()); // PetAge
+            ps.setString(2, pet.getName()); // PetName
+            ps.setString(3, pet.getType()); // PetType
+            ps.setString(4, pet.getSize()); // PetBreed
+            ps.setInt(5, pet.getAge()); // PetAge
             ps.setString(6, petOwner.getUserID().toString()); // PetOwnerID
 
             int rowsInserted = ps.executeUpdate();
@@ -584,15 +829,15 @@ public class Registry {
         return false; // Insert failed
     }
 
-    public boolean editPet(Pet pet, PetOwner petOwner) {
+    public boolean editPet(Pet pet, PetOwner petOwner) throws SQLException {
         PreparedStatement ps = null;
         String sql = "UPDATE pet SET Name = ?, Type = ?, Size = ?, Age = ? WHERE PetID = ?;";
         try {
             ps = connection.prepareStatement(sql);
-            ps.setString(1, pet.getPetName()); // PetName
-            ps.setString(2, pet.getPetType()); // PetType
-            ps.setString(3, pet.getPetSize()); // PetBreed
-            ps.setInt(4, pet.getPetAge()); // PetAge
+            ps.setString(1, pet.getName()); // PetName
+            ps.setString(2, pet.getType()); // PetType
+            ps.setString(3, pet.getSize()); // PetBreed
+            ps.setInt(4, pet.getAge()); // PetAge
             ps.setString(5, pet.getPetID().toString()); // PetID
 
             int rowsUpdated = ps.executeUpdate();
@@ -609,7 +854,7 @@ public class Registry {
         return false; // Update failed
     }
 
-    public boolean deletePet(Pet pet, PetOwner petOwner) {
+    public boolean deletePet(Pet pet, PetOwner petOwner) throws SQLException {
         PreparedStatement ps = null;
         String sql = "DELETE FROM pet WHERE PetID = ?;";
         try {
@@ -630,13 +875,13 @@ public class Registry {
         return false; // Delete failed
     }
 
-    public boolean createAppointment(Appointment appointment) {
+    public boolean createAppointment(Appointment appointment) throws SQLException {
         PreparedStatement ps = null;
         String sql = "INSERT INTO appointment (AppointmentID, CaretakerID, PetownerID, PetIDsList, Startdate, Enddate, Type)"
                 +
                 "VALUES (?, ?, ?, ?, ?, ?, ?);";
         try {
-            List<String> petIDs = appointment.getPetIDsList();
+            List<String> petIDs = appointment.getPetIDs();
             Gson gson = new Gson();
             String petIDsJson = gson.toJson(petIDs); // Convert the list to JSON
             Date startDate = new Date(appointment.getStartDate().getTimeInMillis());
@@ -657,9 +902,10 @@ public class Registry {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        return false; // Insert failed
     }
 
-    public boolean deleteAppointment(Appointment appointment) {
+    public boolean deleteAppointment(Appointment appointment) throws SQLException {
         PreparedStatement ps = null;
         String sql = "DELETE FROM appointment WHERE AppointmentID = ?;";
         try {
@@ -680,7 +926,7 @@ public class Registry {
         return false; // Delete failed
     }
 
-    public boolean createJobOffer(JobOffer jobOffer) {
+    public boolean createJobOffer(JobOffer jobOffer) throws SQLException {
         PreparedStatement ps = null;
         String sql = "INSERT INTO joboffer (JobofferID, PetownerID, Startdate, Enddate, AcceptedcaretakerIDs, RejectedcaretakerIDs, Type, PetIDs)"
                 +
@@ -717,9 +963,10 @@ public class Registry {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        return false; // Insert failed
     }
 
-    public boolean deleteJobOffer(JobOffer jobOffer) {
+    public boolean deleteJobOffer(JobOffer jobOffer) throws SQLException {
         PreparedStatement ps = null;
         String sql = "DELETE FROM joboffer WHERE JobofferID = ?;";
         try {
@@ -740,31 +987,209 @@ public class Registry {
         return false; // Delete failed
     }
 
-    public boolean editAvailability(Caretaker ct) {
+    public boolean deleteAvailabilitypoints(Caretaker ct) throws SQLException {
+        PreparedStatement ps = null;
+        String sql = "DELETE FROM availability WHERE CaretakerID = ?;";
+        try {
+            ps = connection.prepareStatement(sql);
+            ps.setString(1, ct.getUserID().toString()); // CaretakerID
+
+            int rowsDeleted = ps.executeUpdate();
+            if (rowsDeleted > 0) {
+                System.out.println("Delete successful.");
+                return true;
+            } else {
+                System.out.println("Delete failed.");
+                return false;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false; // Delete failed
+    }
+
+    public boolean addAvailabilitypoints(Caretaker ct) throws SQLException {
+        PreparedStatement ps = null;
+        String sql = "INSERT INTO availability (CaretakerID, Hour, Day) " +
+                "VALUES (?, ?, ?);";
+        try {
+            ps = connection.prepareStatement(sql);
+            ps.setString(1, ct.getUserID().toString()); // CaretakerID
+            boolean[][] availability = ct.getAvailability(); // 2D array for availability points
+            for (int i = 0; i < 24; i++) {
+                for (int j = 0; j < 7; j++) {
+                    if (availability[i][j]) {
+                        ps.setInt(2, i); // Hour
+                        ps.setInt(3, j); // Day
+                        ps.addBatch();
+                    }
+                }
+            }
+
+            int rowsInserted = ps.executeUpdate();
+            if (rowsInserted > 0) {
+                System.out.println("Availability points inserted successfully!");
+                return true;
+            } else {
+                System.out.println("Insert failed.");
+                return false;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false; // Insert failed
+    }
+
+    public boolean editAvailability(Caretaker ct) throws SQLException {
+        boolean flag = deleteAvailabilitypoints(ct);
+        if (flag) {
+            return addAvailabilitypoints(ct);
+        } else {
+            return false;
+        }
+    }
+
+    public boolean createPayment(Payment payment) throws SQLException {
+        PreparedStatement ps = null;
+        String sql = "INSERT INTO payment (PaymentID, Method, Date, Amount, Currency, SenderID, ReceiverID) " +
+                "VALUES (?, ?, ?, ?, ?,?,?);";
+        try {
+            ps = connection.prepareStatement(sql);
+            ps.setString(1, payment.getPaymentID().toString()); // PaymentID
+            ps.setString(2, payment.getPaymentMethod()); // Method
+            ps.setDate(3, new Date(payment.getPaymentDate().getTimeInMillis())); // Date
+            ps.setFloat(4, payment.getPaymentAmount()); // Amount
+            ps.setString(5, payment.getPaymentCurrency()); // Currency
+            ps.setString(6, payment.getSenderID().toString()); // SenderID
+            ps.setString(7, payment.getReceiverID().toString()); // ReceiverID
+
+            int rowsInserted = ps.executeUpdate();
+            if (rowsInserted > 0) {
+                System.out.println("Payment inserted successfully!");
+                return true;
+            } else {
+                System.out.println("Insert failed.");
+                return false;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false; // Insert failed
+    }
+
+    public boolean createTicket(Ticket ticket) throws SQLException {
+        PreparedStatement ps = null;
+        String sql = "INSERT INTO ticket (TicketID, Title, Details, Date, CustomerID, SystemadminIDs, Status) " +
+                "VALUES (?, ?, ?, ?, ?, ?, ?);";
+        try {
+            String TicketId = ticket.getTicketID().toString();
+            String Title = ticket.getTitle();
+            String Details = ticket.getDetails();
+            Date Date = new Date(ticket.getDate().getTimeInMillis());
+            String CustomerID = ticket.getCustomerID().toString();
+            List<String> EmployeeIDs = ticket.getEmployeeSIDs();
+
+            Gson gson = new Gson();
+            String EmployeeIDsJson = gson.toJson(EmployeeIDs); // Convert the list to JSON
+
+            ps = connection.prepareStatement(sql);
+            ps.setString(1, TicketId); // TicketID
+            ps.setString(2, Title); // Title
+            ps.setString(3, Details); // Details
+            ps.setDate(4, Date); // Date
+            ps.setString(5, CustomerID); // CustomerID
+            ps.setString(6, EmployeeIDsJson); // SystemadminIDs (stored as JSON)
+            ps.setBoolean(7, false); // Status
+
+            int rowsInserted = ps.executeUpdate();
+            if (rowsInserted > 0) {
+                System.out.println("Ticket inserted successfully!");
+                return true;
+            } else {
+                System.out.println("Insert failed.");
+                return false;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false; // Insert failed
 
     }
 
-    public boolean createPayment(Payment payment) {
+    public boolean editTicket(Ticket ticket) throws SQLException {
+        PreparedStatement ps = null;
+        String sql = "UPDATE ticket SET Title = ?, Details = ?, Date = ?, CustomerID = ?, SystemadminIDs = ?, Status =? WHERE TicketID = ?;";
+        try {
+            String TicketId = ticket.getTicketID().toString();
+            String Title = ticket.getTitle();
+            String Details = ticket.getDetails();
+            Date Date = new Date(ticket.getDate().getTimeInMillis());
+            String CustomerID = ticket.getCustomerID().toString();
+            List<String> EmployeeIDs = ticket.getEmployeeSIDs();
+            boolean status = ticket.getStatus();
 
+            Gson gson = new Gson();
+            String EmployeeIDsJson = gson.toJson(EmployeeIDs); // Convert the list to JSON
+
+            ps = connection.prepareStatement(sql);
+            ps.setString(1, Title); // Title
+            ps.setString(2, Details); // Details
+            ps.setDate(3, Date); // Date
+            ps.setString(4, CustomerID); // CustomerID
+            ps.setString(5, EmployeeIDsJson); // SystemadminIDs (stored as JSON)
+            ps.setBoolean(6, status); // Status
+            ps.setString(7, TicketId); // TicketID
+
+            int rowsUpdated = ps.executeUpdate();
+            if (rowsUpdated > 0) {
+                System.out.println("Ticket updated successfully!");
+                return true;
+            } else {
+                System.out.println("Update failed.");
+                return false;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false; // Update failed
     }
 
-    public boolean createApplication(Application app) {
+    public boolean deleteTicket(Ticket ticket) throws SQLException {
+        PreparedStatement ps = null;
+        String sql = "DELETE FROM ticket WHERE TicketID = ?;";
+        try {
+            ps = connection.prepareStatement(sql);
+            ps.setString(1, ticket.getTicketID().toString()); // TicketID
+
+            int rowsDeleted = ps.executeUpdate();
+            if (rowsDeleted > 0) {
+                System.out.println("Delete successful.");
+                return true;
+            } else {
+                System.out.println("Delete failed.");
+                return false;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false; // Delete failed
+    }
 
     public boolean createApplication(Application app, String pdfPath) {
         String sql = "INSERT INTO application (FirstName, LastName, UserName, UserPassword, UserEmail, PhoneNumber) " +
-                     "VALUES (?, ?, ?, ?, ?, ?)";
-    
+                "VALUES (?, ?, ?, ?, ?, ?)";
+
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
-    
+
             stmt.setString(1, app.getFirstName());
             stmt.setString(2, app.getLastName());
             stmt.setString(3, app.getUserName());
             stmt.setString(4, app.getUserPassword());
             stmt.setString(5, app.getUserEmail());
             stmt.setString(6, app.getPhoneNumber());
-    
+
             int rows = stmt.executeUpdate();
-    
+
             if (rows > 0) {
                 System.out.println("✅ Application inserted.");
                 return uploadApplicationCV(app.getUserName(), pdfPath);
@@ -772,13 +1197,12 @@ public class Registry {
                 System.out.println("❌ Failed to insert application.");
                 return false;
             }
-    
+
         } catch (Exception e) {
             e.printStackTrace();
             return false;
         }
     }
-    
 
     public static void insertCaretaker(Connection conn, Caretaker ct) {
         try {
@@ -811,21 +1235,11 @@ public class Registry {
     // Implementations //
     // ******************************************//
 
-    public List<Caretaker> findAvailableCaretakers(JobOffer jobOffer) {
-
-
-
-
-
-
-
-
-
     public boolean uploadApplicationCV(String userName, String filePath) {
         String sql = "UPDATE application SET UserCV = ? WHERE UserName = ?";
 
         try (PreparedStatement stmt = connection.prepareStatement(sql);
-            FileInputStream fis = new FileInputStream(filePath)) {
+                FileInputStream fis = new FileInputStream(filePath)) {
 
             stmt.setBinaryStream(1, fis, fis.available());
             stmt.setString(2, userName);
@@ -878,6 +1292,27 @@ public class Registry {
         return false;
     }
 
+    public boolean userNameExists(String userName) throws SQLException {
+        PreparedStatement ps = connection
+                .prepareStatement("SELECT * FROM (caretaker OR petowner OR systemadmin) WHERE UserName");
+        ResultSet rs = ps.executeQuery();
 
+        if (rs.next()) {
+            return userName.equals(rs.getString("UserName"));
+        }
 
+        return false;
+    }
+
+    // ******************************************//
+    // Helper Functions //
+    // ******************************************//
+
+    public Calendar dateToCalendar(Date date) {
+        return GregorianCalendar.from(ZonedDateTime.ofInstant(date.toInstant(), ZoneId.systemDefault()));
+    }
+
+    public List<UUID> idListParser(Array idList) throws SQLException {
+        return (List<UUID>) idList.getArray();
+    }
 }

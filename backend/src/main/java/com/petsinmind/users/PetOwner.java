@@ -1,30 +1,50 @@
 package com.petsinmind.users;
 
+import com.petsinmind.Appointment;
 import com.petsinmind.JobOffer;
 import com.petsinmind.Pet;
+import com.petsinmind.Ticket;
 import com.petsinmind.messages.AppointmentMessage;
 import com.petsinmind.messages.JobOfferMessage;
-
 
 import java.util.Calendar;
 import java.util.HashSet;
 import java.util.List;
 import java.util.UUID;
+import java.util.ArrayList;
 
 // Tibet
 public class PetOwner extends Customer {
 
 	private List<Pet> PetList;
 
-	public PetOwner(UUID userID, String userName, String userPassword, String userEmail, String phoneNumber, String firstName, String lastName, String location,
-			List<String> listAppointmentIDs, List<String> listTicketIDs, List<String> listJobOfferIDs, List<Pet> petList) {
-		super(userID, userName, userPassword, userEmail, phoneNumber, firstName, lastName, location, listAppointmentIDs, listTicketIDs, listJobOfferIDs);
+	public PetOwner() {
+	}
+
+	public PetOwner(UUID caretakerID) {
+		super(caretakerID);
+	}
+
+	public PetOwner(UUID userID, String userName, String userPassword, String userEmail, String phoneNumber,
+			String firstName, String lastName, String location,
+			List<UUID> listAppointmentIDs, List<UUID> listTicketIDs, List<UUID> listJobOfferIDs,
+			List<Pet> petList) {
+		super(userID, userName, userPassword, userEmail, phoneNumber, firstName, lastName, location, listAppointmentIDs,
+				listTicketIDs, listJobOfferIDs);
 		this.PetList = petList;
 	}
 
 	// getters
 	public List<Pet> getPetList() {
 		return PetList;
+	}
+
+	public List<String> getPetIDs() {
+		List<String> petIDs = new ArrayList<>();
+		for (Pet pet : PetList) {
+			petIDs.add(pet.getPetID().toString());
+		}
+		return petIDs;
 	}
 
 	// setters

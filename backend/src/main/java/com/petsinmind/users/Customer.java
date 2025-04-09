@@ -9,12 +9,18 @@ import java.util.UUID;
 public abstract class Customer extends User {
     private String location;
 
-    private List<String> ListAppointmentIDs;
-    private List<String> ListTicketIDs;
-    private List<String> ListJobOfferIDs;
+    public Customer() {}
+
+    public Customer(UUID caretakerID) {
+        super.setUserID(caretakerID);
+    }
+
+    private List<UUID> ListAppointmentIDs;
+    private List<UUID> ListTicketIDs;
+    private List<UUID> ListJobOfferIDs;
 
     public Customer(UUID userID, String userName, String userPassword, String userEmail, String phoneNumber, String firstName, String lastName, String location, 
-        List<String> listAppointmentIDs, List<String> listTicketIDs, List<String> listJobOfferIDs) {
+        List<UUID> listAppointmentIDs, List<UUID> listTicketIDs, List<UUID> listJobOfferIDs) {
         // Call the constructor of the superclass (User)
         super(userID, userName, userPassword, userEmail, phoneNumber, firstName, lastName);
         this.location = location;
@@ -28,16 +34,16 @@ public abstract class Customer extends User {
         return location;
     }
 
-    public List<String> getAppointmentIDs() { 
+    public List<UUID> getAppointmentIDs() { 
         return ListAppointmentIDs; 
     }
 
     
-    public List<String> getTicketIDs() { 
+    public List<UUID> getTicketIDs() { 
         return ListTicketIDs; 
     }
     
-    public List<String> getJobOfferIDs() { 
+    public List<UUID> getJobOfferIDs() { 
         return ListJobOfferIDs; 
     }
     
@@ -46,21 +52,21 @@ public abstract class Customer extends User {
         this.location = location; 
     }
 
-    public void setAppointmentIDs(List<String> listAppointmentIDs) { 
+    public void setAppointmentIDs(List<UUID> listAppointmentIDs) { 
         ListAppointmentIDs = listAppointmentIDs; 
     }
 
 
-    public void setTicketIDs(List<String> listTicketIDs) { 
+    public void setTicketIDs(List<UUID> listTicketIDs) { 
         ListTicketIDs = listTicketIDs; 
     }
 
-    public void setJobOfferIDs(List<String> listJobOfferIDs) { 
+    public void setJobOfferIDs(List<UUID> listJobOfferIDs) { 
         ListJobOfferIDs = listJobOfferIDs; 
     }
 
     // Methods to manage appointments
-    public void AddAppointment(String appointmentID) {
+    public void AddAppointment(UUID appointmentID) {
         ListAppointmentIDs.add(appointmentID);
     }
 
