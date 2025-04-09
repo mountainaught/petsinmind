@@ -1,11 +1,16 @@
 package com.petsinmind;
 
+import java.util.UUID;
+
 // Dimitris
 public class Pet {
+    private UUID petID;
     private String name;
     private String type;
     private String size;
     private Integer age;
+
+    private UUID ownerID;
 
     // Initial constructor
     public Pet() {
@@ -16,11 +21,16 @@ public class Pet {
     }
 
     // Constructor with parameters
-    public Pet(String name, String type, String size, Integer age) {
-        this.name = name;
-        this.type = type;
-        this.size = size;
-        this.age = age;
+    public Pet(UUID petID) {
+        this.petID = petID;
+    }
+
+    public Pet(String petName, String petType, String petSize, Integer petAge) {
+        this.petID = UUID.randomUUID();
+        this.name = petName;
+        this.type = petType;
+        this.size = petSize;
+        this.age = petAge;
     }
 
     // Getters and Setters
@@ -55,6 +65,15 @@ public class Pet {
     public void setAge(Integer age) {
         this.age = age;
     }
+
+    public UUID getPetID() { return petID; }
+
+    public void setPetID(UUID petID) { this.petID = petID; }
+
+    public UUID getOwnerID() { return ownerID; }
+
+    public void setOwnerID(UUID ownerID) { this.ownerID = ownerID; }
+
     // End of getters and setters
 
     // toString method

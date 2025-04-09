@@ -19,6 +19,11 @@ public abstract class User {
 
 	private Registry registry;
 
+	public User() {}
+
+	public User(UUID caretakerID) {
+		this.UserID = caretakerID;
+	}
 
 	/**
 	 * Constructor for User class.
@@ -56,8 +61,8 @@ public abstract class User {
 		return UserName;
 	}
 
-	public String getUserPassword() { 
-		return UserPassword; 
+	public String getUserPassword() {
+		return UserPassword;
 	}
 
 	public String getPhoneNumber() {
@@ -82,12 +87,12 @@ public abstract class User {
 	 *
 	 * @param userID
 	 */
-	public void setUserID(UUID userID) { 
-		UserID = userID; 
+	public void setUserID(UUID userID) {
+		UserID = userID;
 	}
 
-	public void setUserPassword(String password) { 
-		UserPassword = password; 
+	public void setUserPassword(String password) {
+		UserPassword = password;
 	}
 
 	/**
@@ -167,7 +172,7 @@ public abstract class User {
 			default:
 				return false; // Invalid attribute
 		}
-	
+
 		// Update the user in the registry
 		return registry.editUser(this);
 	}
