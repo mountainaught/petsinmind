@@ -1,9 +1,7 @@
 package com.petsinmind.users;
 
-import com.petsinmind.Appointment;
-import com.petsinmind.JobOffer;
-import com.petsinmind.Pet;
-import com.petsinmind.Ticket;
+import com.petsinmind.*;
+
 import java.sql.SQLException;
 import java.util.Calendar;
 import java.util.HashSet;
@@ -88,19 +86,10 @@ public class PetOwner extends Customer {
 
 	/**
 	 * 
-	 * @param Pets
-	 */
-	public List<Pet> selectPets(List<Pet> Pets) {
-		// TODO - Is this class right? It's only returning whether all pets exist or not
-
-	}
-
-	/**
-	 * 
 	 * @param JobOfferID
 	 */
 	public boolean cancelJobOffer(UUID JobOfferID) throws SQLException {
-		registry.deleteJobOffer(new JobOffer(JobOfferID));
+		return registry.deleteJobOffer(new JobOffer(JobOfferID));
 	}
 
 	/**
@@ -123,15 +112,6 @@ public class PetOwner extends Customer {
 		Caretaker ct = (Caretaker) registry.findUser(new Caretaker(caretakerID));
 		jobOffer.addRejectedCaretaker(ct);
 		return registry.editJobOffer(jobOffer);
-	}
-
-	/**
-	 * 
-	 * @param Message
-	 */
-	public boolean SendMessageJO(JobOfferMessage Message) {
-		// TODO - implement PetOwner.SendMessageJO
-		throw new UnsupportedOperationException();
 	}
 
 }

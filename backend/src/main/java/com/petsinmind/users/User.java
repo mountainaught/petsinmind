@@ -8,8 +8,6 @@ import java.util.*;
 
 // Tibet
 public abstract class User {
-
-	Collection<Message> Sends;
 	private UUID UserID;
 	private String UserName;
 	private String UserPassword;
@@ -26,6 +24,7 @@ public abstract class User {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		UserID = UUID.randomUUID();
 	}
 
 	public User(UUID caretakerID) {

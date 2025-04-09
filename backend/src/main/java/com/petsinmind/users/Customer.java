@@ -113,7 +113,11 @@ public abstract class Customer extends User {
     }
 
     // setters
-    public void setLocation(String location) throws SQLException {
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
+    public void changeLocation(String newLocation) throws SQLException {
         this.location = location;
         registry.editUser(this);
     }
