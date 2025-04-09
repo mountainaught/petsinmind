@@ -37,32 +37,6 @@ public abstract class Message {
         return referenceID.toString();
     }
 
-    public String getType() {
-        try {
-            Ticket a = (Ticket) registry.getTicket(new Ticket(this.referenceID));
-            if (a != null) {
-                return "Ticket";
-            } else {
-                Appointment a1 = (Appointment) registry.getAppointment(new Appointment(this.referenceID));
-                if (a1 != null) {
-                    return "Appointment";
-                } else {
-                    JobOffer a2 = (JobOffer) registry.getJobOffer(new JobOffer(this.referenceID));
-                    if (a2 != null) {
-                        return "JobOffer";
-                    } else {
-                        return "Unknown";
-                    }
-                }
-            }
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
-
-    }
-
     public String getDetails() {
         return details;
     }

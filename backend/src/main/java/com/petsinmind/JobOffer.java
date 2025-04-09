@@ -21,7 +21,9 @@ public class JobOffer {
     private List<Caretaker> RejectedCaretakers;
     private String Type;
 
+    private ArrayList<Caretaker> availableCaretakers;
     private ArrayList<Message> messageList;
+    private Registry registry;
 
     // Initial constructor
     public JobOffer() {
@@ -38,6 +40,54 @@ public class JobOffer {
 
     public JobOffer(UUID jobOfferID) {
         this.JobOfferID = jobOfferID;
+        try {
+            JobOffer fetchedJobOffer = registry.getJobOffer(this);
+            if (fetchedJobOffer != null) {
+                this.JobOfferID = fetchedJobOffer.JobOfferID;
+                this.petOwner = fetchedJobOffer.petOwner;
+                this.pets = fetchedJobOffer.pets;
+                this.location = fetchedJobOffer.location;
+                this.startDate = fetchedJobOffer.startDate;
+                this.endDate = fetchedJobOffer.endDate;
+                this.AcceptedCaretakers = fetchedJobOffer.AcceptedCaretakers;
+                this.RejectedCaretakers = fetchedJobOffer.RejectedCaretakers;
+                this.Type = fetchedJobOffer.Type;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public JobOffer(PetOwner petOwner, List<Pet> pets, Calendar startDate, Calendar endDate, String Type) {
+        this.JobOfferID = UUID.randomUUID();
+        this.petOwner = petOwner;
+        this.pets = pets;
+        this.location = petOwner.getLocation(); // Assuming PetOwner has a getLocation() method
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.AcceptedCaretakers = new ArrayList<>();
+        this.RejectedCaretakers = new ArrayList<>();
+        this.Type = Type;
+        try {
+            this.registry = Registry.getInstance(); // Singleton pattern
+            this.registry.createJobOffer(this);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public List<Caretaker> availableCaretakers() {
+        List<Caretaker> availableCaretakers = new ArrayList<>();
+        try {
+            availableCaretakers = registry.findAvailableCaretakers(this);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return availableCaretakers;
+    }
+
+    public void acceptCaretaker(Caretaker caretaker) {
+        this.AcceptedCaretakers.add(caretaker);
     }
 
     // Constructor with parameters
