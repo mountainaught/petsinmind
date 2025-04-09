@@ -1,5 +1,5 @@
 /* Reset for commonly used elements */
-html, body, h1, h2, h3, h4, h5, h6, p, a, del, img, ol, ul, li, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, figure, figcaption, menu, nav
+html, body, h1, h2, h3, h4, h5, h6, p, a, del, img, ol, ul, li, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, figure, figcaption, menu, nav, select
  {
     margin: 0;
     padding: 0;

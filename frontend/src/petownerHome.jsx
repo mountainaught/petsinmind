@@ -12,9 +12,14 @@ import right from './assets/RightArrow.png';
 import human from './assets/humanIcon.png';
 import dog from './assets/dogIcon.png';
 
+
+
 export default function PetOwnerHome() {
     const location = useLocation();
     const navigate = useNavigate();
+
+    const [showEditPets, setShowEditPets] = useState(false);
+    const [showEditProfile, setShowEditProfile] = useState(false);
     return (
         <div className='petownerhome'>
 
@@ -28,7 +33,7 @@ export default function PetOwnerHome() {
 
                 <div className='buttons'>
                     <button className='left'><img src={left} alt="Left Arrow" /></button>
-                    <button className='middleBtn'>Edit Pets</button>
+                    <button className='middleBtn' onClick={() => {setShowEditPets(!showEditPets);setShowEditProfile(false)}}>Edit Pets</button>
                     <button className='right'><img src={right} alt="Right Arrow" /></button>
                 </div>
             </div>
@@ -45,8 +50,39 @@ export default function PetOwnerHome() {
                     <button className='right'><img src={right} alt="Right Arrow" /></button>
                 </div>
             </div>
+            <div className='rightButtons'>
+                <button onClick={() => navigate('/bookapt')} className='bookApt'>Book Appointment</button>
+                <button className='editProfile' onClick={() => {setShowEditProfile(!showEditProfile); setShowEditPets(false)}}>Edit Profile</button>
+            </div>
 
-            <button onClick={() => navigate('/bookapt')} className='bookApt'>Book Appointment</button>
+
+
+
+            {showEditPets && (
+                <div className='editPets'>
+                    <p>Edit Pets</p>
+                    <select>
+                        <option value="dog1">Dog 1</option>
+                        <option value="dog2">Dog 2</option>
+                        <option value="dog3">Dog 3</option>
+                    </select>
+                    <div className='petEdit'>
+
+
+                    </div>
+                </div>
+
+            )}
+
+            {showEditProfile && (
+                <div className='editProfileOption'>
+                    <p>Edit Profile</p>
+                    <input type="file" />
+                </div>
+                
+
+            )}
+
         </div>
     );
 }
