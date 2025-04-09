@@ -15,6 +15,8 @@ import java.time.Instant;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.*;
+import java.util.function.Consumer;
+import java.util.regex.Pattern;
 
 public class Registry {
     private static Registry instance = null;
@@ -90,9 +92,15 @@ public class Registry {
         PreparedStatement ps = null;
         ResultSet rs = null;
 
+        String[] idType = (Pattern.compile("^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$")
+                .matcher(user.getUserID().toString()).matches()) ?
+                new String[]{"UserID", user.getUserID().toString()} :
+                new String[]{"UserEmail", user.getUserEmail()};
+
         if (user.getClass() == Caretaker.class) {
-            ps = connection.prepareStatement("SELECT * FROM caretaker WHERE UserID = ?");
-            ps.setString(1, user.getUserID().toString());
+            ps = connection.prepareStatement("SELECT * FROM caretaker WHERE ? = ?");
+            ps.setString(1,idType[0]);
+            ps.setString(2, idType[1]);
             rs = ps.executeQuery();
 
             if (rs.next()) {
@@ -100,6 +108,37 @@ public class Registry {
                 ct = (Caretaker) parseUser(rs, ct);
                 ct = getCaretaker(rs, ct);
                 return ct;
+            } else {
+                System.out.println("❌ No caretaker found with ID: " + user.getUserID());
+                return null;
+            }
+
+        } else if (user.getClass() == PetOwner.class) {
+            ps = connection.prepareStatement("SELECT * FROM petowner WHERE ? = ?");
+            ps.setString(1,idType[0]);
+            ps.setString(2, idType[1]);
+            rs = ps.executeQuery();
+
+            if (rs.next()) {
+                PetOwner pt = new PetOwner();
+                pt = (PetOwner) parseUser(rs, pt);
+                pt = getPetOwner(rs, pt);
+                return pt;
+            } else {
+                System.out.println("❌ No caretaker found with ID: " + user.getUserID());
+                return null;
+            }
+
+        } else if (user.getClass() == SystemAdmin.class) {
+            ps = connection.prepareStatement("SELECT * FROM systemadmin WHERE ? = ?");
+            ps.setString(1,idType[0]);
+            ps.setString(2, idType[1]);
+            rs = ps.executeQuery();
+
+            if (rs.next()) {
+                SystemAdmin sa = new SystemAdmin();
+                sa = (SystemAdmin) parseUser(rs, sa);
+                return sa;
             } else {
                 System.out.println("❌ No caretaker found with ID: " + user.getUserID());
                 return null;
@@ -126,6 +165,19 @@ public class Registry {
         ct.setLocation(rs.getString("Location"));
         ct.setPay(rs.getFloat("Pay"));
         return ct;
+    }
+
+    private PetOwner getPetOwner(ResultSet rs, PetOwner pt)  throws SQLException {
+        pt.setLocation(rs.getString("Location"));
+        pt.setTicketIDs(idListParser(rs.getArray("ListTicketIDs")));
+        pt.setAppointmentIDs(idListParser(rs.getArray("ListAppointmentIDs")));
+
+        List<Pet> pets = new ArrayList<>();
+        for (UUID petID : idListParser(rs.getArray("ListPetIDs"))) { getPet(new Pet(petID)); }
+        pt.setPetList(pets);
+
+        pt.setJobOfferIDs(idListParser(rs.getArray("ListJobOfferIDs")));
+        return pt;
     }
 
     public Pet getPet(Pet pet) throws SQLException {
@@ -288,8 +340,7 @@ public class Registry {
             ticket.setDate(dateToCalendar(rs.getDate("Date")));
             ticket.setCustomerID(UUID.fromString(rs.getString("CustomerID")));
 
-            List<UUID> sysList = new ArrayList<>();
-            Collections.addAll(sysList, idListParser(rs.getArray("SystemadminIDs")));
+            List<UUID> sysList = new ArrayList<>(idListParser(rs.getArray("SystemadminIDs")));
             ticket.setEmployeeIDs(sysList);
 
             ticket.setStatus(rs.getBoolean("Status"));
@@ -442,6 +493,10 @@ public class Registry {
 
     }
 
+    public checkUserName(String userName) {
+
+    }
+
     //******************************************//
     //             Helper Functions             //
     //******************************************//
@@ -450,7 +505,7 @@ public class Registry {
         return GregorianCalendar.from(ZonedDateTime.ofInstant(date.toInstant(), ZoneId.systemDefault()));
     }
 
-    public UUID[] idListParser(Array idList) throws SQLException {
-        return (UUID[]) idList.getArray();
+    public List<UUID> idListParser(Array idList) throws SQLException {
+        return (List<UUID>) idList.getArray();
     }
 }
