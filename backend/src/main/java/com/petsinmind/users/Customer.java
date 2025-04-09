@@ -13,8 +13,47 @@ public abstract class Customer extends User {
     private List<String> ListTicketIDs;
     private List<String> ListJobOfferIDs;
 
-    public String getLocation() { return location; }
-    public void setLocation(String location) { this.location = location; }
+    public Customer(UUID userID, String userName, String userPassword, String userEmail, String phoneNumber, String firstName, String lastName, String location, 
+        List<String> listAppointmentIDs, List<String> listTicketIDs, List<String> listJobOfferIDs) {
+        // Call the constructor of the superclass (User)
+        super(userID, userName, userPassword, userEmail, phoneNumber, firstName, lastName);
+        this.location = location;
+        ListAppointmentIDs = listAppointmentIDs;
+        ListTicketIDs = listTicketIDs;
+        ListJobOfferIDs = listJobOfferIDs;
+    }
+
+    public String getLocation() { 
+        return location;
+    }
+
+    public void setLocation(String location) { 
+        this.location = location; 
+    }
+
+    public List<String> getListAppointmentIDs() { 
+        return ListAppointmentIDs; 
+    }
+
+    public void setListAppointmentIDs(List<String> listAppointmentIDs) { 
+        ListAppointmentIDs = listAppointmentIDs; 
+    }
+
+    public List<String> getListTicketIDs() { 
+        return ListTicketIDs; 
+    }
+
+    public void setListTicketIDs(List<String> listTicketIDs) { 
+        ListTicketIDs = listTicketIDs; 
+    }
+
+    public List<String> getListJobOfferIDs() { 
+        return ListJobOfferIDs; 
+    }
+
+    public void setListJobOfferIDs(List<String> listJobOfferIDs) { 
+        ListJobOfferIDs = listJobOfferIDs; 
+    }
 
     public void AddAppointment(String appointmentID) {
         ListAppointmentIDs.add(appointmentID);

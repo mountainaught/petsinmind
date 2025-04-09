@@ -2,35 +2,27 @@ package com.petsinmind.messages;
 
 // Falak
 public abstract class Message {
-    private String title;
-    private String text;
+    private String detail;
     private String timeSent;
     private int senderId;
     private int receiverId;
+    private int referenceId;
 
 
-    public Message(String title, String text, String timeSent, int senderId, int receiverId) {
-        this.title = title;
-        this.text = text;
+    public Message(String detail, String timeSent, int senderId, int receiverId, int referenceId) {
+        this.detail = detail;
         this.timeSent = timeSent;
         this.senderId = senderId;
         this.receiverId = receiverId;
+        this.referenceId = referenceId;
     }
 
-    public String getTitle() {
-        return title;
+    public String getDetail() {
+        return detail;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getText() {
-        return text;
-    }
-
-    public void setText(String text) {
-        this.text = text;
+    public void setDetail(String detail) {
+        this.detail = detail;
     }
 
     public String getTimeSent() {

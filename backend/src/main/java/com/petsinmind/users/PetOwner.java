@@ -16,6 +16,20 @@ public class PetOwner extends Customer {
 
 	private List<Pet> PetList;
 
+	public PetOwner(UUID userID, String userName, String userPassword, String userEmail, String phoneNumber, String firstName, String lastName, String location,
+			List<String> listAppointmentIDs, List<String> listTicketIDs, List<String> listJobOfferIDs, List<Pet> petList) {
+		super(userID, userName, userPassword, userEmail, phoneNumber, firstName, lastName, location, listAppointmentIDs, listTicketIDs, listJobOfferIDs);
+		this.PetList = petList;
+	}
+
+	public List<Pet> getPetList() {
+		return PetList;
+	}
+
+	public void setPetList(List<Pet> petList) {
+		PetList = petList;
+	}
+
 	/**
 	 * 
 	 * @param PetName
