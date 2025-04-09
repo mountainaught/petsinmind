@@ -6,6 +6,7 @@ import com.petsinmind.users.PetOwner;
 import com.petsinmind.users.User;
 
 import java.sql.*;
+import java.sql.Date;
 import java.time.Instant;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
@@ -161,9 +162,7 @@ public class Registry {
             PetOwner pt = (PetOwner) findUser(new PetOwner(UUID.fromString(rs.getString("PetownerID"))));
             appointment.setPetOwner(pt);
 
-            Array petIDsRaw = rs.getArray("PetIDList");
-            UUID[] petIDs = (UUID[]) petIDsRaw.getArray();
-            for ( UUID petID : petIDs) { appointment.addPet(getPet(new Pet(petID))); }
+            for ( UUID petID : idListParser(rs.getArray("PetIDsList")) ) { appointment.addPet(getPet(new Pet(petID))); }
 
             appointment.setStartDate(GregorianCalendar.from(ZonedDateTime.ofInstant(rs.getDate("Startdate").toInstant(), ZoneId.systemDefault())));
             appointment.setEndDate(GregorianCalendar.from(ZonedDateTime.ofInstant(rs.getDate("Enddate").toInstant(), ZoneId.systemDefault())));
@@ -174,8 +173,32 @@ public class Registry {
         return null;
     }
 
-    public JobOffer getJobOffer(JobOffer jobOffer) {
+    public JobOffer getJobOffer(JobOffer jobOffer) throws SQLException {
+        PreparedStatement ps = null;
+        ResultSet rs = null;
 
+        ps = connection.prepareStatement("SELECT * FROM joboffer WHERE AppointmentID = ?");
+        ps.setString(1, jobOffer.getJobOfferID().toString());
+        rs = ps.executeQuery();
+
+        if (rs.next()) {
+            jobOffer.setJobOfferID(UUID.fromString(rs.getString("JobOfferID")));
+
+            PetOwner pt = (PetOwner) findUser(new PetOwner(UUID.fromString(rs.getString("PetownerID"))));
+            jobOffer.setPetOwner(pt);
+
+            jobOffer.setStartDate(dateToCalendar(rs.getDate("Startdate")));
+            jobOffer.setEndDate(dateToCalendar(rs.getDate("Enddate")));
+
+            for (UUID ctID : idListParser(rs.getArray("AcceptedcaretakerIDs")) ) { jobOffer.addAcceptedCaretaker(new Caretaker(ctID)); }
+            for (UUID ctID : idListParser(rs.getArray("RejectedcaretakerIDs")) ) { jobOffer.addAcceptedCaretaker(new Caretaker(ctID)); }
+
+            jobOffer.setType(rs.getString("Type"));
+
+            return jobOffer;
+        }
+
+        return null;
     }
 
     public Payment getPayment(Payment payment) {
@@ -292,4 +315,15 @@ public class Registry {
 
     }
 
+    //******************************************//
+    //             Helper Functions             //
+    //******************************************//
+
+    public Calendar dateToCalendar(Date date) {
+        return GregorianCalendar.from(ZonedDateTime.ofInstant(date.toInstant(), ZoneId.systemDefault()));
+    }
+
+    public UUID[] idListParser(Array idList) throws SQLException {
+        return (UUID[]) idList.getArray();
+    }
 }

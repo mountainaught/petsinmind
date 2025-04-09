@@ -149,6 +149,10 @@ public class JobOffer {
         this.Type = Type;
     }
 
+    public UUID getJobOfferID() { return JobOfferID; }
+
+    public void setJobOfferID(UUID jobOfferID) { JobOfferID = jobOfferID; }
+
     // public List<Caretaker> findCaretakers() {
     //     List<Caretaker> availableCaretakers = new ArrayList<>();
     //     List<Caretaker> allCaretakers = FirebaseReader.getAllCaretakers();
