@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Calendar;
 import java.util.UUID;
 
-
 import com.petsinmind.messages.JobOfferMessage;
 import com.petsinmind.users.Caretaker;
 import com.petsinmind.users.PetOwner;
@@ -52,77 +51,83 @@ public class JobOffer {
         this.Type = Type;
     }
 
-    // // Getters and Setters
-    // public UUID getJobOfferID() {
-    //     return JobOfferID;
-    // }
-
-    // public void setJobOfferID(UUID JobOfferID) {
-    //     this.JobOfferID = JobOfferID;
-    // }
-
+    // Getters
     public PetOwner getPetOwner() {
         return petOwner;
-    }
-
-    public void setPetOwner(PetOwner petOwner) {
-        this.petOwner = petOwner;
     }
 
     public List<Pet> getPets() {
         return pets;
     }
 
-    public void setPets(List<Pet> pets) {
-        this.pets = pets;
-    }
-
     public String getLocation() {
         return location;
-    }
-
-    public void setLocation(String location) {
-        this.location = location;
     }
 
     public Calendar getStartDate() {
         return startDate;
     }
 
-    public void setStartDate(Calendar startDate) {
-        this.startDate = startDate;
-    }
-
     public Calendar getEndDate() {
         return endDate;
-    }
-
-    public void setEndDate(Calendar endDate) {
-        this.endDate = endDate;
     }
 
     public List<Caretaker> getAcceptedCaretakers() {
         return AcceptedCaretakers;
     }
 
+    public List<Caretaker> getRejectedCaretakers() {
+        return RejectedCaretakers;
+    }
+
+    public List<JobOfferMessage> getMessageList() {
+        return messageList;
+    }
+
+    public String getType() {
+        return Type;
+    }
+
+    // Setters
+    public void setPetOwner(PetOwner petOwner) {
+        this.petOwner = petOwner;
+    }
+
+    public void setPets(List<Pet> pets) {
+        this.pets = pets;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
+    public void setStartDate(Calendar startDate) {
+        this.startDate = startDate;
+    }
+
+    public void setEndDate(Calendar endDate) {
+        this.endDate = endDate;
+    }
+
     public void setAcceptedCaretakers(List<Caretaker> AcceptedCaretakers) {
         this.AcceptedCaretakers = AcceptedCaretakers;
     }
 
+    public void setRejectedCaretakers(List<Caretaker> RejectedCaretakers) {
+        this.RejectedCaretakers = RejectedCaretakers;
+    }
+
+    public void setType(String Type) {
+        this.Type = Type;
+    }
+
+    // Additional methods
     public void addAcceptedCaretaker(Caretaker caretaker) {
         this.AcceptedCaretakers.add(caretaker);
     }
 
     public void removeAcceptedCaretaker(Caretaker caretaker) {
         this.AcceptedCaretakers.remove(caretaker);
-    }
-
-    public List<Caretaker> getRejectedCaretakers() {
-        return RejectedCaretakers;
-    }
-
-    public void setRejectedCaretakers(List<Caretaker> RejectedCaretakers) {
-        this.RejectedCaretakers = RejectedCaretakers;
     }
 
     public void addRejectedCaretaker(Caretaker caretaker) {
@@ -133,29 +138,7 @@ public class JobOffer {
         this.RejectedCaretakers.remove(caretaker);
     }
 
-    public List<JobOfferMessage> getMessageList() {
-        return messageList;
-    }
-
     public void addMessage(JobOfferMessage jobOfferMessage) {
         this.messageList.add(jobOfferMessage);
     }
-
-    public String getType() {
-        return Type;
-    }
-
-    public void setType(String Type) {
-        this.Type = Type;
-    }
-
-    // public List<Caretaker> findCaretakers() {
-    //     List<Caretaker> availableCaretakers = new ArrayList<>();
-    //     List<Caretaker> allCaretakers = FirebaseReader.getAllCaretakers();
-    //     for (Caretaker caretaker : allCaretakers) {
-    //         if (caretaker.getSchedule().get(startDate) && caretaker.getSchedule().get(endDate)) {
-    //             availableCaretakers.add(caretaker);
-    //         }
-    //     }
-    // }
 }
