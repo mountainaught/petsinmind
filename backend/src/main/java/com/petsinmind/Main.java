@@ -1,7 +1,7 @@
 package com.petsinmind;
 
 import com.petsinmind.users.Caretaker;
-import com.petsinmind.utils.DatabaseManager;
+import com.petsinmind.Registry;
 
 import java.util.UUID;
 
@@ -10,7 +10,7 @@ public class Main {
         System.out.println("DB URL: " + Config.get("db.url"));
 
         try {
-            DatabaseManager db = new DatabaseManager();
+            Registry db = Registry.getInstance();
 
             // 🆔 Replace with the UUID of the user you want to fetch
             UUID id = UUID.fromString("077921c7-e55e-4f9b-87cb-9cdb546b5111");

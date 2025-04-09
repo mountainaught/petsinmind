@@ -12,6 +12,7 @@ repositories {
 
 dependencies {
     implementation 'mysql:mysql-connector-java:8.0.32'
+    implementation 'com.google.code.gson:gson:2.8.9'
 }
 
 application {
