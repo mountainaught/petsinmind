@@ -16,6 +16,10 @@ public class PetOwner extends Customer {
 
 	private List<Pet> PetList;
 
+	public PetOwner(UUID caretakerID) {
+		super(caretakerID);
+	}
+
 	/**
 	 * 
 	 * @param PetName

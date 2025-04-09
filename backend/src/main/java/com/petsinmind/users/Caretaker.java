@@ -16,6 +16,11 @@ public class Caretaker extends Customer implements JobOfferCT {
 	private HashMap<Calendar, Boolean> schedule;
 	private List<Review> ListReviews;
 
+	public Caretaker() {}
+
+	public Caretaker(UUID uuid) {
+		super(uuid);
+	}
 
 	public float getPay() {
 		return Pay;

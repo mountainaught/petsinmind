@@ -16,6 +16,12 @@ public abstract class User {
 	private String FirstName;
 	private String LastName;
 
+	public User() {}
+
+	public User(UUID caretakerID) {
+		this.UserID = caretakerID;
+	}
+
 	/**
 	 * 
 	 * @param Password

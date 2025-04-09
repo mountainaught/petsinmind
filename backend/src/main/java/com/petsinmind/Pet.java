@@ -21,13 +21,16 @@ public class Pet {
     }
 
     // Constructor with parameters
-    public Pet(String name, String type, String size, Integer age, UUID ownerID) {
+    public Pet(UUID petID) {
+        this.petID = petID;
+    }
+
+    public Pet(String petName, String petType, String petSize, Integer petAge) {
         this.petID = UUID.randomUUID();
-        this.name = name;
-        this.type = type;
-        this.size = size;
-        this.age = age;
-        this.ownerID = ownerID;
+        this.name = petName;
+        this.type = petType;
+        this.size = petSize;
+        this.age = petAge;
     }
 
     // Getters and Setters

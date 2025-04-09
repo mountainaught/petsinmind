@@ -9,6 +9,12 @@ import java.util.UUID;
 public abstract class Customer extends User {
     private String location;
 
+    public Customer() {}
+
+    public Customer(UUID caretakerID) {
+        super.setUserID(caretakerID);
+    }
+
     private List<String> ListAppointmentIDs;
     private List<String> ListTicketIDs;
     private List<String> ListJobOfferIDs;

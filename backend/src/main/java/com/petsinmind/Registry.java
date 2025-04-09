@@ -6,10 +6,10 @@ import com.petsinmind.users.PetOwner;
 import com.petsinmind.users.User;
 
 import java.sql.*;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.time.Instant;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.util.*;
 
 public class Registry {
     private static Registry instance = null;
@@ -127,7 +127,7 @@ public class Registry {
         PreparedStatement ps = null;
         ResultSet rs = null;
 
-        ps = connection.prepareStatement("SELECT * FROM caretaker WHERE PetID = ?");
+        ps = connection.prepareStatement("SELECT * FROM pet WHERE PetID = ?");
         ps.setString(1, pet.getPetID().toString());
         rs = ps.executeQuery();
 
@@ -144,8 +144,34 @@ public class Registry {
         return null;
     }
 
-    public Appointment getAppointment(Appointment appointment) {
+    public Appointment getAppointment(Appointment appointment) throws SQLException {
+        PreparedStatement ps = null;
+        ResultSet rs = null;
 
+        ps = connection.prepareStatement("SELECT * FROM appointment WHERE AppointmentID = ?");
+        ps.setString(1, appointment.getAppointmentId().toString());
+        rs = ps.executeQuery();
+
+        if (rs.next()) {
+            appointment.setAppointmentId(UUID.fromString(rs.getString("AppointmentID")));
+
+            Caretaker ct = (Caretaker) findUser(new Caretaker(UUID.fromString(rs.getString("UserID"))) {});
+            appointment.setCaretaker(ct);
+
+            PetOwner pt = (PetOwner) findUser(new PetOwner(UUID.fromString(rs.getString("PetownerID"))));
+            appointment.setPetOwner(pt);
+
+            Array petIDsRaw = rs.getArray("PetIDList");
+            UUID[] petIDs = (UUID[]) petIDsRaw.getArray();
+            for ( UUID petID : petIDs) { appointment.addPet(getPet(new Pet(petID))); }
+
+            appointment.setStartDate(GregorianCalendar.from(ZonedDateTime.ofInstant(rs.getDate("Startdate").toInstant(), ZoneId.systemDefault())));
+            appointment.setEndDate(GregorianCalendar.from(ZonedDateTime.ofInstant(rs.getDate("Enddate").toInstant(), ZoneId.systemDefault())));
+
+            return appointment;
+        }
+
+        return null;
     }
 
     public JobOffer getJobOffer(JobOffer jobOffer) {
