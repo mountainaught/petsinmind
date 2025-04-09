@@ -3,6 +3,7 @@ package com.petsinmind.users;
 import com.petsinmind.Message;
 import com.petsinmind.Registry;
 
+import java.sql.SQLException;
 import java.util.*;
 
 // Tibet
@@ -17,7 +18,24 @@ public abstract class User {
 	private String FirstName;
 	private String LastName;
 
-	private Registry registry;
+	Registry registry;
+
+	public User() {
+		try {
+			this.registry = Registry.getInstance(); // Singleton pattern
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	public User(UUID caretakerID) {
+		this.UserID = caretakerID;
+		try {
+			this.registry = Registry.getInstance(); // Singleton pattern
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 
 	/**
 	 * Constructor for User class.

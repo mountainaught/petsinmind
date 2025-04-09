@@ -1,6 +1,7 @@
 package com.petsinmind.users;
 
 import com.petsinmind.Appointment;
+import com.petsinmind.Registry;
 import com.petsinmind.messages.TicketMessage;
 
 import java.util.ArrayList;
@@ -14,6 +15,8 @@ public abstract class Customer extends User {
     private List<UUID> ListTicketIDs;
     private List<UUID> ListJobOfferIDs;
 
+    public Customer() {}
+
     public Customer(UUID userID, String userName, String userPassword, String userEmail, String phoneNumber,
             String firstName, String lastName, String location,
             List<UUID> listAppointmentIDs, List<UUID> listTicketIDs, List<UUID> listJobOfferIDs) {
@@ -23,6 +26,10 @@ public abstract class Customer extends User {
         ListAppointmentIDs = listAppointmentIDs;
         ListTicketIDs = listTicketIDs;
         ListJobOfferIDs = listJobOfferIDs;
+    }
+
+    public Customer(UUID uuid) {
+        setUserID(uuid);
     }
 
     // getters

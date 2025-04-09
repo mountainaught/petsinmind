@@ -27,6 +27,14 @@ public class PetOwner extends Customer {
 		this.PetList = petList;
 	}
 
+	public PetOwner() {
+
+	}
+
+	public PetOwner(UUID petOwnerID) {
+		setUserID(petOwnerID);
+	}
+
 	// getters
 	public List<Pet> getPetList() {
 		return PetList;
