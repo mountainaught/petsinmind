@@ -16,7 +16,8 @@ public class Main {
             UUID id = UUID.fromString("077921c7-e55e-4f9b-87cb-9cdb546b5111");
 
             // 🔍 Set up a Caretaker object with that ID
-            Caretaker ct = new Caretaker();
+            
+            Caretaker ct = new Caretaker(id, "bob123", "pw123", "bob@gmail.com", "07412204738", "Bob", "Fischer", "somwehre", null, null, null, 20.0f, null, null);
             ct.setUserID(id);
 
             // 📥 Fetch from DB

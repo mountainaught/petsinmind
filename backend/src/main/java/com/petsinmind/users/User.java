@@ -1,8 +1,8 @@
 package com.petsinmind.users;
 
 import com.petsinmind.messages.Message;
+import com.petsinmind.Registry;
 
-import java.rmi.registry.Registry;
 import java.util.*;
 
 // Tibet
@@ -16,6 +16,8 @@ public abstract class User {
 	private String PhoneNumber;
 	private String FirstName;
 	private String LastName;
+
+	private Registry registry;
 
 
 	/**
@@ -37,6 +39,11 @@ public abstract class User {
 		this.PhoneNumber = phoneNumber;
 		this.FirstName = firstName;
 		this.LastName = lastName;
+		try {
+			this.registry = Registry.getInstance(); // Singleton pattern
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	// getters
