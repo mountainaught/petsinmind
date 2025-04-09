@@ -1,9 +1,8 @@
 package com.petsinmind.users;
 
 import com.petsinmind.Appointment;
-import com.petsinmind.Registry;
-import com.petsinmind.messages.TicketMessage;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -77,8 +76,9 @@ public abstract class Customer extends User {
     }
 
     // setters
-    public void setLocation(String location) {
+    public void setLocation(String location) throws SQLException {
         this.location = location;
+        registry.editUser(this);
     }
 
     public void setAppointmentIDs(List<UUID> listAppointmentIDs) {
@@ -103,10 +103,6 @@ public abstract class Customer extends User {
     }
 
     public boolean CreateTicket(String Title, String details) {
-        throw new UnsupportedOperationException();
-    }
-
-    public boolean SendMessage(TicketMessage message) {
         throw new UnsupportedOperationException();
     }
 }

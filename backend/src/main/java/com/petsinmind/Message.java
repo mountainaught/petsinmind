@@ -4,7 +4,7 @@ import java.util.Calendar;
 import java.util.UUID;
 
 // Falak
-public abstract class Message {
+public class Message {
     private String details;
     private UUID senderId;
     private UUID receiverId;
