@@ -330,6 +330,26 @@ public class Registry {
         return reviews;
     }
 
+    public Ticket getTicket(Ticket ticket) throws SQLException {
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+
+        ps = connection.prepareStatement("SELECT * FROM ticket WHERE TicketID = ?");
+        ps.setString(1, ticket.getTicketID().toString());
+        rs = ps.executeQuery();
+
+        if (rs.next()) {
+            ticket.setTitle(rs.getString("Title"));
+            ticket.setDetails(rs.getString("Details"));
+            ticket.setDate(dateToCalendar(rs.getDate("Date")));
+            ticket.setCustomerID(UUID.fromString(rs.getString("CustomerID")));
+            ticket.setEmployeeIDs(idListParser(rs.getArray("SystemadminIDs")));
+            ticket.setStatus(rs.getBoolean("Status"));
+            return ticket;
+        }
+        return null;
+    }
+
     public List<Ticket> getTickets(User user) throws SQLException {
         PreparedStatement ps = null;
         ResultSet rs = null;
