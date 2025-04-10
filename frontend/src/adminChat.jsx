@@ -2,19 +2,20 @@ import "./css/reset.css";
 import "./css/chat.css";
 import "./css/mobile.css";
 import React, { useState, useEffect } from "react";
+import { initialSelectionTickets } from "./admin";
 
 export default function AdminChat() {
     const [messages, setMessages] = useState([]);
-    const [contacts, setContacts] = useState([
-        { name: "Ticket #223", unread: 0 },
-        { name: "Ticket #227", unread: 0 },
-        { name: "Ticket #282", unread: 0 },
-        { name: "PIM Ticket #312", unread: 0 },
-        { name: "Ticket #413", unread: 0 },
-        { name: "Ticket #453", unread: 0 },
-    ]);
+    const [contacts, setContacts] = useState(
+        initialSelectionTickets.map((ticket) => ({
+            name: `${ticket.name} - ${ticket.ticketName}`,
+            unread: 0,
+        }))
+    );
     const [newMessage, setNewMessage] = useState("");
-    const [activeContact, setActiveContact] = useState("Ticket #223"); // Default to "Ticket #223"
+    const [activeContact, setActiveContact] = useState(
+        contacts.length > 0 ? contacts[0].name : "" // Default to the first contact
+    );
 
     // Load messages from local storage on component mount
     useEffect(() => {
@@ -93,7 +94,7 @@ export default function AdminChat() {
                 </ul>
             </div>
             <div className="chat-window">
-                    <button onClick={clearAllMessages} className="clear-all-button">Clear All</button>
+                <button onClick={clearAllMessages} className="clear-all-button">Clear All</button>
                 <div className="chat-header">
                     <h2>{activeContact}</h2>
                 </div>

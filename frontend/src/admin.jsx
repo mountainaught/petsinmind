@@ -5,6 +5,16 @@ import "./css/mobile.css";
 import { useNavigate } from 'react-router-dom';
 
 
+export const initialSelectionTickets = [
+    { id: 101, name: 'John Doe', ticketName: 'Payment Issue' },
+    { id: 102, name: 'Jane Smith', ticketName: 'Reimbursement Query' },
+    { id: 103, name: 'Bob Johnson', ticketName: 'Password Reset' },
+    { id: 104, name: 'Alice Brown', ticketName: 'Technical Support' },
+    { id: 105, name: 'Charlie Davis', ticketName: 'Account Issue' },
+    { id: 106, name: 'Eva Green', ticketName: 'Service Request' },
+    { id: 107, name: 'Frank Harris', ticketName: 'Billing Inquiry' },
+    { id: 108, name: 'Grace Lee', ticketName: 'General Query' },
+];
 export default function Admin() {
     const initialTickets = [
         { id: 342, title: "Payment" },
@@ -13,16 +23,6 @@ export default function Admin() {
         { id: 412, title: "Password" },
         { id: 418, title: "Pets" }
       ];
-    const initialSelectionTickets = [
-        { id: 101, name: 'John Doe', ticketName: 'Payment Issue' },
-        { id: 102, name: 'Jane Smith', ticketName: 'Reimbursement Query' },
-        { id: 103, name: 'Bob Johnson', ticketName: 'Password Reset' },
-        { id: 104, name: 'Alice Brown', ticketName: 'Technical Support' },
-        { id: 105, name: 'Charlie Davis', ticketName: 'Account Issue' },
-        { id: 106, name: 'Eva Green', ticketName: 'Service Request' },
-        { id: 107, name: 'Frank Harris', ticketName: 'Billing Inquiry' },
-        { id: 108, name: 'Grace Lee', ticketName: 'General Query' },
-    ];
     const [managementTickets, setManagementTickets] = useState([]);
     const [selectionTickets, setSelectionTickets] = useState(initialSelectionTickets);
     const handleSelect = (ticketId) => {
