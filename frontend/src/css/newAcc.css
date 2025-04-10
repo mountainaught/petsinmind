@@ -1,0 +1,80 @@
+@media only screen and (min-width: 768px) {
+    .details-container {
+        /* Keep or tweak as desired */
+        width: 30%;
+        /* If you need to ensure large text won't overflow:
+           min-width: 300px; */
+    }
+}
+
+.details-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-top: 5%;
+    /* Remove or replace the fixed height if it causes overflow issues. 
+       You can switch to min-height if you want:
+       min-height: 50%;
+    */
+    height: auto;
+    
+    flex-shrink: 0;
+    border-radius: 15px;
+    border: 2px solid #5A0001;
+    background: #FFF;
+}
+
+.form-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 75%;
+    font-size: 175%;
+    flex-shrink: 0;
+    padding: 3%;
+}
+
+h2 {
+    /* Reduce the font-size a bit if needed so it fits nicely in 30% width */
+    font-size: 250%;
+    /* Let text wrap onto the next line instead of forcing no wrap */
+    white-space: normal;
+    /* Force wrapping of extra-long words if needed */
+    word-wrap: break-word; 
+    word-break: break-word;
+    /* Center if you want */
+    text-align: center;
+    margin-top: 5%;
+    margin-bottom: 5%;
+}
+
+input {
+    border-radius: 15px;
+    border: 2px solid #5A0001;
+    background: #FFF;
+    height: 2rem;
+    width: 65%;
+    padding-left: 0.5rem;
+}
+
+.submit-btn {
+    margin-top: 10%;
+    margin-bottom: 5%;
+    width: 12.5rem;
+    height: 3.5rem;
+    flex-shrink: 0;
+    border-radius: 15px;
+    border: 2px solid #5A0001;
+    background: #FFF;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 175%;
+}
+
+.submit-btn:hover {
+    background-color: #5A0001;
+    color: white;
+}

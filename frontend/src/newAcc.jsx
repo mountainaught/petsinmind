@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import "./css/reset.css";
-import "./css/details.css";
+import "./css/newAcc.css";
 import { useNavigate } from 'react-router-dom';
 import { useLocation } from 'react-router-dom';
 
@@ -115,7 +115,7 @@ export default function NewAcc() {
 
     return (
         <form className="details-container" onSubmit={handleSubmit}>
-            <h2>{role === 'owner' ? 'Register as Pet Owner' : 'Register as Caretaker'}</h2>
+            <h2>{role === 'owner' ? 'Register as Pet Owner' : 'Apply as Caretaker'}</h2>
             
             {Object.entries(formData).map(([key, value]) => {
                 if (key === 'CV') return null; // No text input for CV
@@ -148,7 +148,7 @@ export default function NewAcc() {
                     />
                 </div>
             )}
-            <button type="submit" className="submit-btn">Register</button>
+            <button type="submit" className="submit-btn">Submit</button>
         </form>
     );
 }
