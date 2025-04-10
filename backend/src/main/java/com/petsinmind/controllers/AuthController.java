@@ -4,6 +4,7 @@ import com.petsinmind.Application;
 import com.petsinmind.GUI;
 import com.petsinmind.RegisterRequest;
 import com.petsinmind.Registry;
+import com.petsinmind.Ticket;
 import com.petsinmind.users.PetOwner;
 
 import jakarta.validation.Valid;
@@ -116,6 +117,27 @@ public class AuthController {
         }
     }
 
-
+    @PostMapping("/create-ticket")
+    public ResponseEntity<String> createTicket(@RequestBody Map<String, String> body) {
+        String ticketTitle = body.get("ticketTitle");
+        String ticketText = body.get("ticketText");
+        String customerID = body.get("customerID");
+    
+        try {
+            boolean result = gui.createTicket(
+                ticketTitle,
+                ticketText,
+                UUID.fromString(customerID)
+            );
+    
+            if (result) {
+                return ResponseEntity.ok("Ticket created successfully");
+            } else {
+                return ResponseEntity.badRequest().body("Failed to create ticket");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(500).body("An error occurred during ticket creation");
+        }
 
 }

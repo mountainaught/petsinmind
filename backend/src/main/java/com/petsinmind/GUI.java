@@ -91,4 +91,21 @@ public class GUI {
                 location);
         return registry.createApplication(application, cv);
     }
+
+    public boolean createTicket(String ticketTitle, String ticketText, UUID customerID) {
+        // Check if the ticket title and text are not empty     
+        if (ticketTitle == null || ticketTitle.isEmpty() || ticketText == null || ticketText.isEmpty()) {
+            return false;
+        }
+        // Create a new ticket object
+        Ticket ticket = new Ticket(ticketTitle, ticketText, customerID);
+        try {
+            // Call the registry to create a new ticket
+            return registry.createTicket(ticket);
+        } catch (Exception e) {
+            // Handle any exceptions that may occur during the ticket creation process
+            e.printStackTrace();
+            return false;
+        }
+    }
 }
