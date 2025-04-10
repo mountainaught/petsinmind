@@ -43,7 +43,14 @@ export default function Layout() {
 
                 {!isLoginPage && (
                         <div className='navbar-buttons'>
-                            <button onClick={() => navigate('/login')}>Login</button>
+                            {localStorage.getItem('homepage') ? (
+                                <button onClick={() => {
+                                    localStorage.removeItem('homepage');
+                                    navigate('/login');
+                                }}>Log Out</button>
+                            ) : (
+                                <button onClick={() => navigate('/login')}>Login</button>
+                            )}
                             <p>|</p>
                             <button onClick={handleHomeClick}>Home</button>
                             <p>|</p>
