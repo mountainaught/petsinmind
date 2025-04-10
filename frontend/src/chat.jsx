@@ -19,6 +19,15 @@ export default function Chat() {
         { name: "Meg", unread: 0 },
     ]);
 
+    const [newMessage, setNewMessage] = useState("");
+
+    const handleSendMessage = () => {
+        if (newMessage.trim() !== "") {
+            setMessages([...messages, { sender: "You", text: newMessage }]);
+            setNewMessage("");
+        }
+    };
+
     return (
         <div className="chat-container">
             <div className="sidebar">
@@ -47,8 +56,13 @@ export default function Chat() {
                     })}
                 </div>
                 <div className="chat-input">
-                    <input type="text" placeholder="Type a message..." />
-                    <button>Send</button>
+                    <input
+                        type="text"
+                        placeholder="Type a message..."
+                        value={newMessage}
+                        onChange={(e) => setNewMessage(e.target.value)}
+                    />
+                    <button onClick={handleSendMessage}>Send</button>
                 </div>
             </div>
         </div>

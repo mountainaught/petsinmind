@@ -4,6 +4,7 @@ import com.petsinmind.Application;
 import com.petsinmind.GUI;
 import com.petsinmind.RegisterRequest;
 import com.petsinmind.Registry;
+import com.petsinmind.users.PetOwner;
 
 import jakarta.validation.Valid;
 
@@ -12,8 +13,10 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.http.ResponseEntity;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.Map;
 import java.io.File;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api")
@@ -24,38 +27,55 @@ import java.io.File;
 )   
 public class AuthController {
 
-    private final GUI gui = new GUI(Registry.getInstance());
+    private final GUI gui;
+
+    public AuthController() {
+        try {
+            this.gui = new GUI(Registry.getInstance());
+        } catch (SQLException e) {
+            throw new RuntimeException("Failed to initialize GUI", e);
+        }
+    }
 
     @PostMapping("/login")
-    public String login(@RequestBody Map<String, String> body) {
+    public ResponseEntity<String> login(@RequestBody Map<String, String> body) {
         String username = body.get("username");
         String password = body.get("password");
-
-        boolean result = gui.login(username, password);
-        if (result) {
-            return "Login successful";
-        } else {
-            throw new RuntimeException("Invalid credentials");
+    
+        try {
+            boolean result = gui.login(username, password);
+            if (result) {
+                return ResponseEntity.ok("Login successful");
+            } else {
+                return ResponseEntity.status(401).body("Invalid credentials");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(500).body("An error occurred during login");
         }
     }
 
     @PostMapping("/register-owner")
     public ResponseEntity<String> registerOwner(@Valid @RequestBody RegisterRequest request) {
-        boolean result = gui.registerPetOwner(
-            request.getUsername(),
-            request.getPassword(),
-            request.getEmail(),
-            request.getPhoneNumber(),
-            request.getFirstName(),
-            request.getLastName(),
-            request.getLocation(),
-            request.getImageFile()
-        );
-
-        if (result) {
-            return ResponseEntity.ok("Owner registration successful");
-        } else {
-            return ResponseEntity.badRequest().body("Owner already exists");
+        try {
+            boolean result = gui.registerPetOwner(
+                request.getUsername(),
+                request.getPassword(),
+                request.getEmail(),
+                request.getPhoneNumber(),
+                request.getFirstName(),
+                request.getLastName(),
+                request.getLocation()
+            );
+    
+            if (result) {
+                return ResponseEntity.ok("Owner registration successful");
+            } else {
+                return ResponseEntity.badRequest().body("Owner already exists or invalid data");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(500).body("An error occurred during registration");
         }
     }
 
@@ -71,21 +91,24 @@ public class AuthController {
         @RequestParam("CV") MultipartFile cvFile
     ) {
         try {
-            // Save the CV to disk (e.g., under uploads/ directory)
+            // Save the CV to disk
             String uploadDir = "uploads";
             File uploadFolder = new File(uploadDir);
             if (!uploadFolder.exists()) uploadFolder.mkdirs();
-
+    
             String savedPath = uploadDir + "/" + username + "_cv.pdf";
             File dest = new File(savedPath);
-            cvFile.transferTo(dest); // Save uploaded file
-
-            boolean result = gui.registerCaretaker(firstName, lastName, username, password, email, phoneNumber, location, savedPath);
-
+            cvFile.transferTo(dest);
+    
+            // Delegate to GUI
+            boolean result = gui.registerCaretaker(
+                firstName, lastName, username, password, email, phoneNumber, location, savedPath
+            );
+    
             if (result) {
-                return ResponseEntity.ok("Caretaker registration successful");
+                return ResponseEntity.ok("Caretaker application submitted successfully");
             } else {
-                return ResponseEntity.badRequest().body("Caretaker already exists or registration failed");
+                return ResponseEntity.badRequest().body("Caretaker application failed");
             }
         } catch (Exception e) {
             e.printStackTrace();
