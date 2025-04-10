@@ -14,6 +14,7 @@ public class Pet {
 
     // Initial constructor
     public Pet() {
+        this.petID = UUID.randomUUID();
         this.name = null;
         this.type = null;
         this.size = null;

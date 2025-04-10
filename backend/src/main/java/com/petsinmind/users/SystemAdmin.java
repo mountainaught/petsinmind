@@ -48,6 +48,7 @@ public class SystemAdmin extends User {
 	 */
 	public void selectTicket(UUID ticketID) throws SQLException {
 		MyTicketList.add(registry.getTicket(new Ticket(ticketID)));
+		registry.editUser(this);
 	}
 
 	/**
@@ -73,7 +74,7 @@ public class SystemAdmin extends User {
 	 * 
 	 * @param userID
 	 */
-	public User findUserByID(UUID userID) throws SQLException {
+	public User findUser(UUID userID) throws SQLException {
 		User user = new User(){};
 		user.setUserID(userID);
 
@@ -106,36 +107,6 @@ public class SystemAdmin extends User {
 		registry.createUser(caretaker);
 		registry.deleteApplication(application);
 		return caretaker;
-	}
-
-
-	public boolean createCaretaker(String userName, String userPassword, String userEmail, String phoneNumber,
-			String firstName, String lastName, String location, float pay, File imageFile) {
-		try {
-			// Create a new Caretaker object
-			Caretaker caretaker = new Caretaker(
-					UUID.randomUUID(),
-					userName,
-					userPassword,
-					userEmail,
-					phoneNumber,
-					firstName,
-					lastName,
-					location,
-					null, // Ticket IDs (placeholder)
-					null, // Job Offer IDs (placeholder)
-					null, // Appointment IDs (placeholder)
-					pay,
-					null, // availability (placeholder)
-					null // reviews (placeholder)
-			);
-
-			// Use the Registry to create the caretaker account
-			return registry.createUser(caretaker);
-		} catch (Exception e) {
-			e.printStackTrace();
-			return false;
-		}
 	}
 
 }

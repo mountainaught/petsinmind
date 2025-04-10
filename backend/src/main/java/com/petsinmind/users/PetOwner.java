@@ -1,10 +1,7 @@
 package com.petsinmind.users;
-
 import com.petsinmind.*;
-
 import java.sql.SQLException;
 import java.util.Calendar;
-import java.util.HashSet;
 import java.util.List;
 import java.util.UUID;
 import java.util.ArrayList;
@@ -97,10 +94,9 @@ public class PetOwner extends Customer {
 	 * @param jobOffer
 	 * @param caretakerID
 	 */
-	public boolean acceptCaretaker(JobOffer jobOffer, UUID caretakerID) throws SQLException {
+	public void acceptCaretaker(JobOffer jobOffer, UUID caretakerID) throws SQLException {
 		Caretaker ct = (Caretaker) registry.findUser(new Caretaker(caretakerID));
-		jobOffer.addAcceptedCaretaker(ct);
-		return registry.editJobOffer(jobOffer);
+		jobOffer.acceptCaretaker(ct);
 	}
 
 	/**
@@ -108,10 +104,28 @@ public class PetOwner extends Customer {
 	 * @param jobOffer
 	 * @param caretakerID
 	 */
-	public boolean rejectCaretaker(JobOffer jobOffer, UUID caretakerID) throws SQLException {
+	public void rejectCaretaker(JobOffer jobOffer, UUID caretakerID) throws SQLException {
 		Caretaker ct = (Caretaker) registry.findUser(new Caretaker(caretakerID));
-		jobOffer.addRejectedCaretaker(ct);
-		return registry.editJobOffer(jobOffer);
+		jobOffer.rejectCaretaker(ct);
+	}
+
+	public Payment createPayment(float paymentAmount, String paymentCurrency, String paymentMethod, UUID receiverID) throws SQLException {
+		Payment payment = new Payment();
+		payment.setPaymentCurrency(paymentCurrency);
+		payment.setReceiverID(receiverID);
+		payment.setSenderID(this.getUserID());
+		payment.setPaymentDate(Calendar.getInstance());
+		payment.setPaymentMethod(paymentMethod);
+
+		if (paymentAmount != 0.0f) {
+			payment.setPaymentAmount(paymentAmount);
+		} else {
+			Caretaker ct = (Caretaker) registry.findUser(new Caretaker(receiverID));
+			payment.setPaymentAmount(ct.getPay());
+		}
+
+		registry.createPayment(payment);
+		return payment;
 	}
 
 }

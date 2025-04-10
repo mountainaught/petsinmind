@@ -1,8 +1,5 @@
 package com.petsinmind.users;
-
 import com.petsinmind.Appointment;
-import com.petsinmind.Registry;
-
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -135,7 +132,7 @@ public abstract class Customer extends User {
     }
 
     // Methods to manage appointments
-    public void AddAppointment(UUID appointmentID) {
+    public void addAppointment(UUID appointmentID) {
         ListAppointmentIDs.add(appointmentID);
         try {
             registry.editUser(this);
@@ -144,7 +141,7 @@ public abstract class Customer extends User {
         }
     }
 
-    public void CancelAppointment(Appointment appointment) {
+    public void cancelAppointment(Appointment appointment) {
         ListAppointmentIDs.remove(appointment.getAppointmentId());
         try {
             registry.editUser(this);
@@ -153,7 +150,7 @@ public abstract class Customer extends User {
         }
     }
 
-    public boolean CreateTicket(String Title, String details) {
+    public boolean createTicket(String Title, String details) {
         throw new UnsupportedOperationException();
     }
 }
