@@ -1,84 +1,318 @@
-/* admin.css */
+/***********************************************/
+/* Container for the entire admin page         */
+/***********************************************/
 .admin-container {
     display: flex;
-    justify-content: space-around;
-}
-
-.box {
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    gap: 20px;
+    padding: 20px;
+    box-sizing: border-box;
+  }
+  
+  /***********************************************/
+  /* Box styles: the gray panels, e.g. "My Ticket 
+     Management," "Ticket Selection," etc.       */
+  /***********************************************/
+  .box {
+    width: 80%;
+    /* Remove fixed height so it grows as needed */
+    /* height: 30vh; */
     background-color: #f0f0f0;
     border: 1px solid #ccc;
     border-radius: 8px;
     padding: 20px;
-    text-align: center;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    width: 20%;
-    height: 80vh;
-}
-
-.box h1{
-    font-size: 150%;
-}
-
-
-.open-tickets, .selected-tickets, .applications, .returnedData{
-    height: 100%;
-    overflow: scroll;
+    box-sizing: border-box;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
     display: flex;
-    align-items: center;
     flex-direction: column;
-}
-
-.exampleTicket, .exampleLog{
-    width: 80%;
-    height: 10%;
-    background-color: white;
+    max-width: 1200px; /* optional: keep it from getting too wide */
+  }
+  
+  .box h1 {
+    margin: 0 0 15px 0;
+    font-size: 1.5em;
+    text-align: center;
+    color: #333;
+  }
+  
+  /***********************************************/
+  /* Scrollable areas inside each box if needed  */
+  /***********************************************/
+  .open-tickets,
+  .selected-tickets,
+  .applications,
+  .returnedData {
+    width: 100%;
+    flex: 1;             /* grows to fill space */
+    overflow-y: auto;    /* vertical scroll if content exceeds box height */
+    box-sizing: border-box;
     display: flex;
+    flex-direction: column;
     align-items: center;
+    gap: 10px;           /* spacing between items */
+  }
+  
+  /***********************************************/
+  /* Ticket "card" styling for open tickets      */
+  /***********************************************/
+  .open-tickets .exampleTicket {
+    width: 80%;
+    display: grid;
+    /* 1fr = flexible text column, auto = buttons column */
+    grid-template-columns: 1fr auto;
+    grid-template-rows: auto auto;
+    column-gap: 10px;
+    row-gap: 5px;
+  
+    margin-bottom: 15px;
+    padding: 20px;
+    box-sizing: border-box;
+  
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+  
+    /* Soft drop shadow for a card-like look */
+    box-shadow: 0 2px 6px rgba(0,0,0,.1);
+  }
+  
+  /* Headline (Ticket #...) in the left column, top row */
+  .open-tickets .exampleTicket h2 {
+    grid-column: 1;
+    grid-row: 1;
+    margin: 0;
+    font-size: 1.3em;
+    font-weight: bold;
+    color: #333;
+  }
+  
+  /* Ticket detail text in the left column, second row */
+  .open-tickets .exampleTicket p {
+    grid-column: 1;
+    grid-row: 2;
+    margin: 0;
+    font-size: 1em;
+    color: #666;
+  }
+  
+  /* "Share" button in the top-right corner */
+  .open-tickets .exampleTicket button:nth-of-type(1) {
+    grid-column: 2;
+    grid-row: 1;
+    justify-self: end;
+  }
+  
+  /* "Close" button in the bottom-right corner */
+  .open-tickets .exampleTicket button:nth-of-type(2) {
+    grid-column: 2;
+    grid-row: 2;
+    justify-self: end;
+  }
+  
+  /***********************************************/
+  /* Ticket selection "card" styling             */
+  /***********************************************/
+  .selected-tickets .exampleTicket {
+    width: 80%;
+    display: grid;
+    /* 1fr = flexible text column, auto = button column */
+    grid-template-columns: 1fr auto;
+    column-gap: 10px;
+  
+    margin-bottom: 15px;
+    padding: 20px;
+    box-sizing: border-box;
+  
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    box-shadow: 0 2px 6px rgba(0,0,0,.1);
+  }
+  
+  .selected-tickets .exampleTicket h2 {
+    margin: 0;
+    font-size: 1.3em;
+    font-weight: bold;
+    color: #333;
+  }
+  
+  .selected-tickets .exampleTicket p {
+    margin: 0;
+    font-size: 1em;
+    color: #666;
+  }
+  
+  /* The "Select" button on the right */
+  .selected-tickets .exampleTicket button {
+    justify-self: end;
+    align-self: center;
+  }
+  
+  /***********************************************/
+  /* Shared styling for all .exampleTicket 
+     buttons (Share, Close, Select, etc.)        */
+  /***********************************************/
+  .exampleTicket button {
+    padding: 6px 12px;
+    margin-left: 6px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: #eee;
+    cursor: pointer;
+    font-size: 0.9em;
+    color: #333;
+  }
+  
+  .exampleTicket button:hover {
+    background-color: #ddd;
+    border-color: #bbb;
+  }
+  
+  /***********************************************/
+  /* Applications styling (the "Name ... Download 
+     CV" rows in the "Application Selection" box)*/
+  /***********************************************/
+  .exampleApp {
+    width: 80%;
+    background-color: #fff;
     margin-bottom: 10px;
-    flex-shrink: 0;
-
-}
-
-.selected-tickets .exampleTicket{
+    padding: 10px;
+    box-sizing: border-box;
+  
     display: flex;
-    flex-direction: row;
     justify-content: space-between;
-    padding-left: 5px;
-    padding-right: 5px;
-}
-
-.exampleTicket button {
-    padding: 5px;
-}
-
-.box button:hover{
+    align-items: center;
+  
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    box-shadow: 0 2px 6px rgba(0,0,0,.1);
+  }
+  
+  .exampleApp p {
+    margin: 0;
+    font-size: 1em;
+    color: #333;
+  }
+  
+  .exampleApp button {
+    padding: 6px 12px;
+    margin-left: 6px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: #eee;
+    cursor: pointer;
+    font-size: 0.9em;
+    color: #333;
+  }
+  
+  .exampleApp button:hover {
+    background-color: #ddd;
+    border-color: #bbb;
+  }
+  
+  /***********************************************/
+  /* Log styling (rows inside the "Log" box)     */
+  /***********************************************/
+  .exampleLog {
+    width: 80%;
+    background-color: #fff;
+    margin-bottom: 10px;
+    padding: 10px;
+    box-sizing: border-box;
+  
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    box-shadow: 0 2px 6px rgba(0,0,0,.1);
+  }
+  
+  .exampleLog p {
+    margin: 0;
+    font-size: 1em;
+    color: #333;
+  }
+  
+  /***********************************************/
+  /* Hover effect for any button in a .box       */
+  /***********************************************/
+  .box button:hover {
     background-color: #e0e0e0;
     cursor: pointer;
-}
-
-.exampleApp{
-    width: 80%;
-    height: 10%;
-    background-color: white;
-    display: flex;
-    align-items: center;
-    margin-bottom: 10px;
-    flex-shrink: 0;
-}
-
-.exampleApp button {
-    padding: 5px;
-}
-
-.options{
+  }
+  
+  /***********************************************/
+  /* Search/Filters area in the "Log" box        */
+  /***********************************************/
+  .options {
     display: flex;
     flex-direction: column;
     width: 100%;
-}
-
-.searchBy, .searchFor, .searchBar{
+    gap: 10px; /* spacing between search bars/buttons */
+  }
+  
+  .searchBy, .searchFor, .searchBar {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    padding-bottom: 5px;
-}
+    align-items: center;
+  }
+  
+  .searchBar input[type="text"] {
+    width: 70%;
+    padding: 6px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  
+  .searchBar button {
+    padding: 6px 12px;
+    margin-left: 6px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: #eee;
+    cursor: pointer;
+    font-size: 0.9em;
+    color: #333;
+  }
+  
+  .searchBar button:hover {
+    background-color: #ddd;
+    border-color: #bbb;
+  }
+  
+  /***********************************************/
+  /* Responsive: On smaller screens, let each 
+     section fill more width and simplify layout */
+  /***********************************************/
+  @media (max-width: 768px) {
+    .box {
+      width: 95%;
+    }
+  
+    /* Make each ticket or item fill the container width */
+    .open-tickets .exampleTicket,
+    .selected-tickets .exampleTicket,
+    .exampleApp,
+    .exampleLog {
+      width: 95%;
+    }
+  
+    /* Stack "ticket text" and "buttons" vertically 
+       to avoid overflow on small screens */
+    .open-tickets .exampleTicket,
+    .selected-tickets .exampleTicket {
+      grid-template-columns: 1fr;
+      grid-template-rows: auto auto auto;
+      row-gap: 10px;
+    }
+  
+    .exampleTicket button {
+      margin: 0;
+      justify-self: start; 
+    }
+  }

@@ -3,18 +3,18 @@ import "./css/chat.css";
 import "./css/mobile.css";
 import React, { useState, useEffect } from "react";
 
-export default function Chat() {
+export default function AdminChat() {
     const [messages, setMessages] = useState([]);
     const [contacts, setContacts] = useState([
-        { name: "Brian", unread: 0 },
-        { name: "Bianca", unread: 0 },
-        { name: "Dave", unread: 0 },
-        { name: "PIM Ticket #2312", unread: 0 },
-        { name: "Stewie", unread: 0 },
-        { name: "Meg", unread: 0 },
+        { name: "Ticket #223", unread: 0 },
+        { name: "Ticket #227", unread: 0 },
+        { name: "Ticket #282", unread: 0 },
+        { name: "PIM Ticket #312", unread: 0 },
+        { name: "Ticket #413", unread: 0 },
+        { name: "Ticket #453", unread: 0 },
     ]);
     const [newMessage, setNewMessage] = useState("");
-    const [activeContact, setActiveContact] = useState("Brian"); // Default to "Brian"
+    const [activeContact, setActiveContact] = useState("Ticket #223"); // Default to "Ticket #223"
 
     // Load messages from local storage on component mount
     useEffect(() => {
@@ -45,20 +45,11 @@ export default function Chat() {
             // Save messages to local storage
             localStorage.setItem("chatMessages", JSON.stringify(updatedMessages));
 
-            let replyText = "Yessir!";
-            if (newMessage.toLowerCase().includes('hey' || 'hello')) {
-                replyText = 'Hello! How can I help you today?';
-            } else if (newMessage.toLowerCase().includes("how are you")) {
-                replyText = "I'm doing well, thank you! How about you?";
-            } else if (newMessage.toLowerCase().includes("bye")) {
-                replyText = "STOP MESSAGING ME!";
-            }
-
             // Simulate a reply
             setTimeout(() => {
                 const replyMessages = [
                     ...updatedMessages,
-                    { sender: activeContact, recipient: "You", text: replyText },
+                    { sender: activeContact, recipient: "You", text: "HELP!!!!" },
                 ];
                 setMessages(replyMessages);
 

@@ -16,6 +16,7 @@ import FindCaretaker from './findCaretaker.jsx';
 import CaretakerHome from './caretakerHome.jsx';
 import NewAcc from './newAcc.jsx';
 import Admin from './admin.jsx';
+import AdminChat from './adminChat.jsx';
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
@@ -34,6 +35,7 @@ createRoot(document.getElementById('root')).render(
           <Route path="/caretakerHome" element={<CaretakerHome />}/>
           <Route path="/newAcc" element={<NewAcc />}/>
           <Route path="/admin" element={<Admin />}/>
+          <Route path="/admin/chat" element={<AdminChat />}/>
         </Route>
       </Routes>
     </BrowserRouter>
