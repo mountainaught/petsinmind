@@ -140,4 +140,6 @@ public class AuthController {
             return ResponseEntity.status(500).body("An error occurred during ticket creation");
         }
 
+    
+    }   
 }

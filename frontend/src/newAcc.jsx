@@ -37,7 +37,7 @@ export default function NewAcc() {
         
         if (!username.trim() || !password.trim() || !email.trim() || 
             !phoneNumber.trim() || !firstName.trim() || !lastName.trim() || 
-            !location.trim() || !CV) {
+            !location.trim() || (role=== "caretaker" && !CV)) {
             alert("Please fill in all fields");
             return false;
         }

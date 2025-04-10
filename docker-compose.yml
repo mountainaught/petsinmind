@@ -14,9 +14,9 @@ services:
     build: ./backend
     ports: ["8080:8080"]
     environment:
-      - SPRING_DATASOURCE_URL=jdbc:mysql://127.0.0.1:3306/PetsInMindDB?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
-      - SPRING_DATASOURCE_USERNAME=root
-      - SPRING_DATASOURCE_PASSWORD=root
+      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql:3306/PetsInMindDB?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
+      - SPRING_DATASOURCE_USERNAME=userQII
+      - SPRING_DATASOURCE_PASSWORD=jqV4Dn7N0l1fNPcp
       - SPRING_JPA_HIBERNATE_DDL_AUTO=update
       - SPRING_PROFILES_ACTIVE=dev
     depends_on:
@@ -30,10 +30,12 @@ services:
     environment:
       - MYSQL_ROOT_PASSWORD=vLEBM7XeCqp7F7gk
       - MYSQL_DATABASE=PetsInMindDB
+      - MYSQL_USER=userQII
+      - MYSQL_PASSWORD=jqV4Dn7N0l1fNPcp
     volumes:
       - mysql_data:/var/lib/mysql
     healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-uroot", "-proot"]
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-uuserQII", "-pjqV4Dn7N0l1fNPcp"]
       interval: 5s
       timeout: 10s
       retries: 10
@@ -45,5 +47,5 @@ volumes:
 
 networks:
   petsinmind-net:
-    external: true
+    # external: true
     driver: bridge

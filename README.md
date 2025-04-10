@@ -13,6 +13,6 @@ Brian.
 go in the root folder 
 docker-compose down
 docker-compose up --build 
-
+docker-compose ps
 different terminal front end
 npm run dev
