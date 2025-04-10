@@ -3,7 +3,7 @@ package com.petsinmind;
 import java.util.UUID;
 import java.io.File;
 
-import com.petsinmind.users.PetOwner;
+import com.petsinmind.users.*;
 
 public class GUI {
 
@@ -27,13 +27,37 @@ public class GUI {
     // Method for user login
     public boolean login(String username, String password) {
         // Check if the username and password are not empty
-        if (username == null || username.isEmpty() || password == null ||
-                password.isEmpty()) {
+        if (username == null || username.isEmpty() || password == null || password.isEmpty()) {
             return false;
         }
-        // Call the registry to authenticate the user
-        // return registry.authenticateUser(username, password);
-        return true;
+
+        try {
+            if (registry.userNameExists(username)) {
+                PetOwner user1 = new PetOwner(UUID.randomUUID(), username, password, null, null, null, null,
+                        null, null, null, null, null);
+                Caretaker user2 = new Caretaker(UUID.randomUUID(), username, password, null, null, null, null,
+                        null, null, null, null, 0.0f, null, null);
+
+                if (registry.findUser(user1) != null) {
+                    // User is a PetOwner
+                    User user = (PetOwner) registry.findUser(user1);
+                    if (user.getUserPassword().equals(password)) {
+                        return true; // Authentication successful
+                    }
+                } else if (registry.findUser(user2) != null) {
+                    // User is a Caretaker
+                    User user = (Caretaker) registry.findUser(user2);
+                    if (user.getUserPassword().equals(password)) {
+                        return true; // Authentication successful
+                    }
+                }
+            }
+        } catch (Exception e) {
+            // Handle any exceptions that may occur during the authentication process
+            e.printStackTrace();
+        }
+
+        return false; // Authentication failed
     }
 
     // Method for user registration
