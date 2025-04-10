@@ -371,13 +371,13 @@ public class Registry {
         List<Message> messages = new ArrayList<>();
 
         while (rs.next()) {
-            Message msg = new Message(rs.getString("Details"),
-                    UUID.fromString(rs.getString("SenderID")),
-                    UUID.fromString(rs.getString("ReceiverID")),
-                    UUID.fromString(rs.getString("ReferenceID")),
-                    rs.getDate("Date") != null ? Calendar.getInstance() : null);
+            // Message msg = new Message(rs.getString("Details"),
+            //         UUID.fromString(rs.getString("SenderID")),
+            //         UUID.fromString(rs.getString("ReceiverID")),
+            //         UUID.fromString(rs.getString("ReferenceID")),
+            //         rs.getDate("Date") != null ? Calendar.getInstance() : null);
 
-            messages.add(msg);
+            // messages.add(msg);
         }
         return messages;
     }
@@ -394,13 +394,13 @@ public class Registry {
         List<Message> messages = new ArrayList<>();
 
         while (rs.next()) {
-            Message msg = new Message(rs.getString("Details"),
-                    UUID.fromString(rs.getString("SenderID")),
-                    UUID.fromString(rs.getString("ReceiverID")),
-                    UUID.fromString(rs.getString("ReferenceID")),
-                    rs.getDate("Date") != null ? Calendar.getInstance() : null);
+            // Message msg = new Message(rs.getString("Details"),
+            //         UUID.fromString(rs.getString("SenderID")),
+            //         UUID.fromString(rs.getString("ReceiverID")),
+            //         UUID.fromString(rs.getString("ReferenceID")),
+            //         rs.getDate("Date") != null ? Calendar.getInstance() : null);
 
-            messages.add(msg);
+            // messages.add(msg);
         }
         return messages;
     }

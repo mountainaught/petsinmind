@@ -22,7 +22,7 @@ export default function Layout() {
     const isLoginPage = location.pathname === '/login' || location.pathname === '/register' || location.pathname === '/details';
     const notification = false; // Placeholder for notification logic
 
-    const isChat = location.pathname === '/chat';
+    const isChat = location.pathname === '/chat' || location.pathname === '/admin/chat';
 
     const handleHomeClick = () => {
             const homepage = localStorage.getItem('homepage');
@@ -43,7 +43,14 @@ export default function Layout() {
 
                 {!isLoginPage && (
                         <div className='navbar-buttons'>
-                            <button onClick={() => navigate('/login')}>Login</button>
+                            {localStorage.getItem('homepage') ? (
+                                <button onClick={() => {
+                                    localStorage.removeItem('homepage');
+                                    navigate('/login');
+                                }}>Log Out</button>
+                            ) : (
+                                <button onClick={() => navigate('/login')}>Login</button>
+                            )}
                             <p>|</p>
                             <button onClick={handleHomeClick}>Home</button>
                             <p>|</p>
