@@ -65,47 +65,37 @@ export default function BookApt() {
       
       
     return (
-        <div className='container'>
-            <div className='bookapt-container'>
-                <div className='left-container'>
-                    <input 
-                        type="text" 
-                        placeholder="Enter your location" 
-                        className="location-input" 
-                        value={location}
-                        onChange={(e) => setLocation(e.target.value)}  
-                    />
+      <div className='container'>
+        <div className='bookapt-container'>
+          <div className='left-container'>
+            <input 
+              type="text" 
+              placeholder="Enter your location" 
+              className="location-input" 
+              value={location}
+              onChange={(e) => setLocation(e.target.value)}  
+            />
 
-                    <div className='petselect'>this should contain a list of pets to be involved in the appointment</div>
-                    
+            <div className='petselect'>this should contain a list of pets to be involved in the appointment</div>
+          </div>
 
-
-
-                </div>
-
-
-
-
-
-                <div className='right-container'>
-                    <div className='service-selection'>
-                        <button className={`service-button ${walkingIsClicked ? 'active' : ''}`} onClick={() => setWalkingClicked(!walkingIsClicked)}>Walking</button>
-                        <button className={`service-button ${mindingIsClicked ? 'active' : ''}`} onClick={() => setMindingClicked(!mindingIsClicked)}>Minding</button>
-                    </div>
-                    <div className='date-picker'>
-                        <div className='date-select-container'>
-                            <label htmlFor="start-date">Start Date:</label>
-                            <input type="date" id="start-date" className="date-input" value={startDate} onChange={e => setStartDate(e.target.value)} />
-                            <label htmlFor="end-date">End Date:</label>
-                            <input type="date" id="end-date" className="date-input" value={endDate} onChange={e => setEndDate(e.target.value)} />
-                        </div>
-                        <button className='service-button'>Pick Dates</button>
-                    </div>
-                </div>
-
+          <div className='right-container'>
+            <div className='service-selection'>
+              <button className={`service-button ${walkingIsClicked ? 'active' : ''}`} onClick={() => setWalkingClicked(!walkingIsClicked)}>Walking</button>
+              <button className={`service-button ${mindingIsClicked ? 'active' : ''}`} onClick={() => setMindingClicked(!mindingIsClicked)}>Minding</button>
             </div>
-            <button onClick={(handleSubmit) => navigate('/findCaretaker')} className='findCt'>Find Caretaker</button>
-
+            <div className='date-picker'>
+              <div className='date-select-container'>
+                <label htmlFor="start-date">Start Date:</label>
+                <input type="date" id="start-date" className="date-input" value={startDate} onChange={e => setStartDate(e.target.value)} />
+                <label htmlFor="end-date">End Date:</label>
+                <input type="date" id="end-date" className="date-input" value={endDate} onChange={e => setEndDate(e.target.value)} />
+              </div>
+              <button className='service-button'>Pick Dates</button>
+            </div>
+          </div>
         </div>
+        <button onClick={handleSubmit} className='findCt'>Find Caretaker</button>
+      </div>
     );
 }

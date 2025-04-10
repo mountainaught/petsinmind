@@ -1,14 +1,14 @@
-import { StrictMode } from 'react'
-import { createRoot } from 'react-dom/client'
+import { StrictMode } from 'react';
+import { createRoot } from 'react-dom/client';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import './css/reset.css'
+import './css/reset.css';
 import './css/index.css';
-import Layout from './layout.jsx'
-import App from './App.jsx'
-import Login from './login.jsx'
-import Register from './register.jsx'
-import Details from './details.jsx'
-import Chat from './chat.jsx'
+import Layout from './layout.jsx';
+import App from './App.jsx';
+import Login from './login.jsx';
+import Register from './register.jsx';
+import Details from './details.jsx';
+import Chat from './chat.jsx';
 import BookApt from './bookApt.jsx';
 import PetOwnerHome from './petownerHome.jsx';
 import Home from './home.jsx';
