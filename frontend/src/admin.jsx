@@ -39,6 +39,29 @@ export default function Admin() {
           prevTickets.filter(ticket => ticket.id !== ticketId)
         );
       };
+
+    const [applications, setApplications] = useState([
+        { id: 1, name: 'Alice Walker' },
+        { id: 2, name: 'Brian Murphy' },
+        { id: 3, name: 'Clara Chen' },
+        { id: 4, name: 'David Patel' }
+    ]);
+
+    const handleDecision = (id, decision) => {
+        const applicant = applications.find(app => app.id === id);
+        alert(`Application for ${applicant.name} has been ${decision}.`);
+        setApplications(prev => prev.filter(app => app.id !== id));
+    };
+
+    const downloadCV = () => {
+        const link = document.createElement('a');
+        link.href = "public/homerCV.pdf";
+        link.download = "public/homerCV.pdf";
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    };
+
     return (
         <div className="admin-container">
             {/* ticket management */}
@@ -77,48 +100,20 @@ export default function Admin() {
                 )}
                 </div>
             </div>
-            
+
 
             {/* Application Selection */}
             <div className='box'>
                 <h1>Application Selection</h1>
                 <div className='applications'>
-                    <div className='exampleApp'>
-                        <p>Name</p>
-                        <button>Download cv</button>
-                        <button>approve</button>
-                        <button>reject</button>
-                    </div>
-                    <div className='exampleApp'>
-                        <p>Name</p>
-                        <button>Download cv</button>
-                        <button>approve</button>
-                        <button>reject</button>
-                    </div>
-                    <div className='exampleApp'>
-                        <p>Name</p>
-                        <button>Download cv</button>
-                        <button>approve</button>
-                        <button>reject</button>
-                    </div>
-                    <div className='exampleApp'>
-                        <p>Name</p>
-                        <button>Download cv</button>
-                        <button>approve</button>
-                        <button>reject</button>
-                    </div>
-                    <div className='exampleApp'>
-                        <p>Name</p>
-                        <button>Download cv</button>
-                        <button>approve</button>
-                        <button>reject</button>
-                    </div>
-                    <div className='exampleApp'>
-                        <p>Name</p>
-                        <button>Download cv</button>
-                        <button>approve</button>
-                        <button>reject</button>
-                    </div>
+                    {applications.map(app => (
+                        <div className="exampleApp">
+                            <p>{app.name}</p>
+                            <button onClick={downloadCV}>Download CV</button>
+                            <button onClick={() => handleDecision(app.id, 'approved')}>Approve</button>
+                            <button onClick={() => handleDecision(app.id, 'rejected')}>Reject</button>
+                        </div>
+                    ))}
                 </div>
             </div>
         </div>
