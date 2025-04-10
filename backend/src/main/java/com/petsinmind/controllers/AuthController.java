@@ -139,5 +139,6 @@ public class AuthController {
             e.printStackTrace();
             return ResponseEntity.status(500).body("An error occurred during ticket creation");
         }
+    }
 
 }

@@ -69,26 +69,50 @@ export default function Layout() {
                     {showTicketRequest && (
                     <form
                         className='help2'
-                        onSubmit={(e) => {
-                        e.preventDefault();
-                        const ticket = e.target.elements.ticket.value;
-                        console.log(ticket); // Handle ticket submission here
+                        onSubmit={async (e) => {
+                            e.preventDefault();
+                            const ticketTitle = e.target.elements.title.value;
+                            const ticketText = e.target.elements.ticket.value;
+                            const customerID = "your-customer-id"; // Replace with the actual customer ID
 
-                        setShowHelp(false);
-                        setShowTicketRequest(false);
+                            try {
+                                const response = await fetch('http://localhost:8080/api/create-ticket', {
+                                    method: 'POST',
+                                    headers: {
+                                        'Content-Type': 'application/json',
+                                    },
+                                    body: JSON.stringify({ ticketTitle, ticketText, customerID }),
+                                });
+
+                                if (response.ok) {
+                                    const result = await response.text();
+                                    console.log(result); // Handle success response
+                                    alert('Ticket created successfully!');
+                                } else {
+                                    const error = await response.text();
+                                    console.error('Failed to create ticket:', error);
+                                    alert('Failed to create ticket');
+                                }
+                            } catch (error) {
+                                console.error('Error:', error);
+                                alert('An error occurred while creating the ticket');
+                            }
+
+                            setShowHelp(false);
+                            setShowTicketRequest(false);
                         }}
                     >
                         <input
-                        name='title'
-                        type="text"
-                        placeholder='Title:'
-                        className='ticketInput'
+                            name='title'
+                            type="text"
+                            placeholder='Title:'
+                            className='ticketInput'
                         />
                         <input
-                        name='ticket'
-                        placeholder='Enter Ticket / Problem faced here:'
-                        className='ticketInput'
-                        required
+                            name='ticket'
+                            placeholder='Enter Ticket / Problem faced here:'
+                            className='ticketInput'
+                            required
                         />
                         <button type='submit' className='submitTkt'>Submit</button>
                     </form>
