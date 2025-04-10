@@ -19,6 +19,21 @@ import java.util.Map;
 import java.io.File;
 import java.util.UUID;
 
+import org.springframework.web.bind.annotation.*;
+import org.springframework.http.ResponseEntity;
+
+import com.petsinmind.Registry;
+import com.petsinmind.JobOffer;
+import com.petsinmind.Pet;
+import com.petsinmind.users.PetOwner;
+
+import java.util.UUID;
+import java.util.Map;
+import java.util.List;
+import java.util.ArrayList;
+import java.util.Calendar;
+
+
 @RestController
 @RequestMapping("/api")
 @CrossOrigin(
@@ -168,4 +183,76 @@ public class AuthController {
 
     
     }   
+
+//     @RestController
+// @RequestMapping("/api")
+// @CrossOrigin(origins = "*")
+// public class JobOfferController {
+
+//     @PostMapping("/job-offer")
+//     public ResponseEntity<?> createJobOffer(@RequestBody Map<String, Object> body) {
+//         try {
+//             UUID petOwnerID = UUID.fromString((String) body.get("petownerID"));
+//             String location = (String) body.get("location");
+//             String type = (String) body.get("type");
+
+//             List<String> petIDs = (List<String>) body.get("petIDs");
+
+//             Calendar start = Calendar.getInstance();
+//             Calendar end = Calendar.getInstance();
+//             start.setTime(java.sql.Date.valueOf((String) body.get("startDate")));
+//             end.setTime(java.sql.Date.valueOf((String) body.get("endDate")));
+
+//             PetOwner owner = new PetOwner(petOwnerID);
+//             List<Pet> pets = new ArrayList<>();
+//             Registry registry = Registry.getInstance();
+
+//             for (String id : petIDs) {
+//                 pets.add(registry.getPet(new Pet(UUID.fromString(id))));
+//             }
+
+//             JobOffer jobOffer = new JobOffer(owner, pets, location, start, end, new ArrayList<>(), new ArrayList<>(), type);
+//             jobOffer.setJobOfferID(UUID.randomUUID());
+//             registry.createJobOffer(jobOffer);
+
+//             return ResponseEntity.ok(Map.of("jobOfferID", jobOffer.getJobOfferID().toString()));
+//         } catch (Exception e) {
+//             e.printStackTrace();
+//             return ResponseEntity.status(500).body("❌ Error creating job offer: " + e.getMessage());
+//         }
+//     }
+// }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 }

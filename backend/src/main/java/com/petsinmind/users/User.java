@@ -153,8 +153,8 @@ public abstract class User {
 	 *
 	 */
 	public boolean sendMessage(String details, UUID senderID, UUID referenceID, UUID receiverID, Calendar date) throws SQLException {
-		Message msg = new Message(details, senderID, referenceID, receiverID, date);
-		registry.createMessage(msg);
+		// Message msg = new Message(details, senderID, referenceID, receiverID, date);
+		// registry.createMessage(msg);
 		return true;
 	}
 

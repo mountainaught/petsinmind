@@ -1,173 +1,147 @@
+/* ===== BookApt Styles ===== */
+
+/* Larger screens */
 @media only screen and (min-width: 768px) {
     .bookapt-container {
-        width: 70%;
+      width: 70%;
     }
-
-    .petselect{
-        width: 80%;
+  
+    /* Reduced from 40% to 2rem, so it’s not huge */
+    .bookapt-find-ct {
+      margin-top: 2rem;
     }
-
-    .left-container input{
-        width: 80%;
-        height: 100%;
-    }
-
-    .findCt{
-        margin-top: 40%;
-    }
-}
-
-
-
-.bookapt-container {
- 
-    height: 45%;
-    display: flex;
-    justify-content: space-between; 
-    align-items: center; 
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-}
-
-
-.left-container, .right-container {
-    width: 50%;
-    height: 100%;
-    display: flex;
-    justify-content: center; 
-    align-items: center; 
-    flex-direction: column; 
-    gap: 20px; /* Add spacing between elements */
-    
-}
-
-.right-container {
-    border-radius: 15px;
-    border: 2px solid #5A0001;
-    background: #FFF;
-    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
-    display: flex;
-    justify-content: space-between;
-}
-
-.service-selection{
-    display: flex;
-    justify-content: space-evenly;
-    width: 100%;
-
-}
-
-.service-button {
-    width: 45%;
-    margin-top: 15%;
-    height: 41.211px;
-    flex-shrink: 0;
-    border-radius: 15px;
-    background: #E63946;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color: white;
-    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
-}
-
-
-/* .service-button:hover {
-    background-color: #5A0001;
-    color: white;
-} */
-
-.service-button:active {
-    background-color: #5A0001;
-    color: white;
-}
-.service-button.active {
-    background-color: #5A0001;
-    color: white;
   }
-
-.date-picker{
-    display: flex;
-    justify-content: space-around;
-    width: 100%;
-    margin-bottom: 20px;
-}
-
-.date-select-container{
+  
+  /* Base Container */
+  .bookapt-container {
+    max-width: 900px;
+    width: 90%;
+    margin: auto;
+    padding: 2rem;
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 10px; /* Optional: Add spacing between items */
-    width: 45%;
-}
-
-.date-select-container input{
+    gap: 2rem;
+    font-family: 'Lilita One', cursive;
+  }
+  
+  .bookapt-form-card {
     width: 100%;
-}
-
-.left-container{
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
-    max-height: 100%;
-}
-
-
-
-
-
-
-
-.left-container input{
-
+    gap: 1.5rem;
+    align-items: center;
+  }
+  
+  .bookapt-location-input {
+    width: 80%;
+    padding: 0.75rem 1rem;
+    border: 2px solid #5A0001;
+    border-radius: 15px;
+    background: #FFF;
+    box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
+    font-size: 1rem;
+  }
+  
+  /* Pet selection container */
+  .bookapt-pet-select {
+    width: 80%;
+    padding: 1rem;
     border-radius: 15px;
     border: 2px solid #5A0001;
     background: #FFF;
-    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
-    padding: 0;
- 
-}
-
-.img-loc{
-    justify-content: flex-start;
-    align-items: flex-start;
-}
-
-.img-loc{
+    box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
     display: flex;
-    flex-direction: row;
-    width: 100%;
-}
-
-
-
-.petselect{
-    height: 100%;
-    border-radius: 15px;
-    border: 2px solid #5A0001;
-    background: #FFF;
-    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
-    
-}
-
-.findCt{
-    width: 30%;
-    height: 41.211px;
-    flex-shrink: 0;
-    border-radius: 15px;
-    background: #E63946;
+    flex-direction: column;
+    gap: 1rem;
+  }
+  
+  /* Individual pet selection row */
+  .bookapt-pet-option {
+    display: flex;
+    align-items: center;
+    font-size: 1rem;
+    font-weight: 500;
+    gap: 0.75rem;
+    cursor: pointer;
+    justify-content: flex-start;
+  }
+  
+  .bookapt-pet-option input[type="checkbox"] {
+    width: 1rem;
+    height: 1rem;
+    accent-color: #E63946;
+    border-radius: 5px;
+  }
+  
+  /* Service selection buttons */
+  .bookapt-service-selection {
     display: flex;
     justify-content: center;
-    align-items: center;
+    gap: 2rem;
+    width: 100%;
+  }
+  
+  .bookapt-service-button {
+    width: 120px;
+    height: 40px;
+    border-radius: 15px;
+    border: none;
+    font-weight: bold;
+    background: #E63946;
     color: white;
-    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
-    align-self: center;
-}
-
-.container{
+    box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
+    cursor: pointer;
+    transition: background 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .bookapt-service-button:hover {
+    background: #c32532;
+  }
+  
+  .bookapt-service-button.active {
+    background-color: #5A0001;
+    color: #fff;
+  }
+  
+  /* Date picker container */
+  .bookapt-date-picker {
+    width: 100%;
     display: flex;
     flex-direction: column;
+    gap: 1rem;
+    align-items: center;
+  }
+  
+  .bookapt-date-picker label {
+    font-weight: bold;
+  }
+  
+  .bookapt-date-picker input {
+    width: 80%;
+    padding: 0.5rem;
+    border-radius: 10px;
+    border: 2px solid #5A0001;
+  }
+  
+  /* Final CTA button */
+  .bookapt-find-ct {
+    margin-top: 1.5rem;
+    width: 200px;
+    height: 40px;
+    background: #E63946;
+    border: none;
+    border-radius: 15px;
+    color: white;
+    font-size: 1rem;
+    font-weight: bold;
+    box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
+    cursor: pointer;
 
-}
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }

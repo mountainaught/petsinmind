@@ -9,7 +9,7 @@ import Login from './login.jsx'
 import Register from './register.jsx'
 import Details from './details.jsx'
 import Chat from './chat.jsx'
-import BookApt from './bookApt.jsx';
+import BookApt from './bookapt.jsx';
 import PetOwnerHome from './petownerHome.jsx';
 import Home from './home.jsx';
 import FindCaretaker from './findCaretaker.jsx';
