@@ -115,7 +115,7 @@ export default function PetOwnerHome() {
                 </div>
             </div>
             <div className='rightButtons'>
-                <button onClick={() => navigate('/bookApt')} className='bookApt'>
+                <button onClick={() => navigate('/bookapt')} className='bookApt'>
                     Book Appointment
                 </button>
                 <button
