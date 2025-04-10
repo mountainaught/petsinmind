@@ -59,12 +59,12 @@ public class Caretaker extends Customer implements JobOfferCT {
 			throw new IllegalArgumentException("Availability must be a 7x24 boolean array.");
 		}
 	}
+
 	/**
 	 *
 	 * @param day sets avaliability for a specific day of the week (0-6)
 	 * @param hour sets avaliability for a specific hour of the day (0-23)
 	 */
-
 	public void setAvailable(int day, int hour) {
 		if (day >= 0 && day < 7 && hour >= 0 && hour < 24) {
 			availability[day][hour] = true;
@@ -93,8 +93,8 @@ public class Caretaker extends Customer implements JobOfferCT {
 		 Appointment appointment = new Appointment(offer.getJobOfferID(), this, offer.getPetOwner(), offer.getPets(),
 				offer.getStartDate(), offer.getEndDate(), offer.getType());
 
-		 super.AddAppointment(appointment.getAppointmentId());
-		 appointment.getPetOwner().AddAppointment(appointment.getAppointmentId());
+		 super.addAppointment(appointment.getAppointmentId());
+		 appointment.getPetOwner().addAppointment(appointment.getAppointmentId());
 
 		 registry.createAppointment(appointment);
 		 registry.deleteJobOffer(offer);

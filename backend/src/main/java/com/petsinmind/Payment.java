@@ -15,7 +15,7 @@ public class Payment {
 
     // Initial constructor
     public Payment() {
-        this.PaymentID = null;
+        this.PaymentID = UUID.randomUUID();
         this.PaymentMethod = null;
         this.PaymentDate = null;
         this.PaymentAmount = 0.0f;
@@ -29,13 +29,14 @@ public class Payment {
     }
 
     // Constructor with parameters
-    public Payment(UUID PaymentID, String PaymentMethod, Calendar PaymentDate, float PaymentAmount,
+    public Payment(String PaymentMethod, Calendar PaymentDate, float PaymentAmount,
             String PaymentCurrency, UUID SenderID,
             UUID ReceiverID) {
-        this.PaymentID = PaymentID;
+        this.PaymentID = UUID.randomUUID();
         this.PaymentMethod = PaymentMethod;
         this.PaymentDate = PaymentDate;
         this.PaymentAmount = PaymentAmount;
+        this.PaymentCurrency = PaymentCurrency;
         this.SenderID = SenderID;
         this.ReceiverID = ReceiverID;
     }
