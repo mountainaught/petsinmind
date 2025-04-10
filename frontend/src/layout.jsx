@@ -22,7 +22,7 @@ export default function Layout() {
     const isLoginPage = location.pathname === '/login' || location.pathname === '/register' || location.pathname === '/details';
     const notification = false; // Placeholder for notification logic
 
-    const isChat = location.pathname === '/chat';
+    const isChat = location.pathname === '/chat' || location.pathname === '/admin/chat';
 
     const handleHomeClick = () => {
             const homepage = localStorage.getItem('homepage');
