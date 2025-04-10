@@ -141,4 +141,29 @@ public class AuthController {
         }
     }
 
+    @PostMapping("/create-message") 
+    public ResponseEntity<String> createMessage(@RequestBody Map<String, String> body) {
+        String messageText = body.get("messageText");
+        String senderID = body.get("senderID");
+        String receiverID = body.get("receiverID");
+        String referenceID = body.get("referenceID");
+    
+        try {
+            boolean result = gui.createMessage(
+                messageText,
+                UUID.fromString(senderID),
+                UUID.fromString(receiverID),
+                UUID.fromString(referenceID)
+            );
+    
+            if (result) {
+                return ResponseEntity.ok("Message sent successfully");
+            } else {
+                return ResponseEntity.badRequest().body("Failed to send message");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(500).body("An error occurred during message creation");
+        }
+
 }

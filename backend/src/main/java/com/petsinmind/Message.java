@@ -11,12 +11,12 @@ public class Message {
     private UUID referenceID;
     private Calendar date;
 
-    public Message(String details, UUID senderId, UUID receiverId, UUID referenceID, Calendar date) {
+    public Message(String details, UUID senderId, UUID receiverId, UUID referenceID) {
         this.details = details;
         this.senderId = senderId;
         this.receiverId = receiverId;
         this.referenceID = referenceID;
-        this.date = date;
+        this.date = Calendar.getInstance();
     }
 
     public String getSenderIDString() {

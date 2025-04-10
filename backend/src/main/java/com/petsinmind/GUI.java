@@ -108,4 +108,21 @@ public class GUI {
             return false;
         }
     }
+
+    public boolean createMessage(String messageText, UUID senderID, UUID receiverID, UUID referenceID) {
+        // Check if the message text is not empty
+        if (messageText == null || messageText.isEmpty()) {
+            return false;
+        }
+        // Create a new message object
+        Message message = new Message(messageText, senderID, receiverID, referenceID);
+        try {
+            // Call the registry to create a new message
+            return registry.createMessage(message);
+        } catch (Exception e) {
+            // Handle any exceptions that may occur during the message creation process
+            e.printStackTrace();
+            return false;
+        }
+    }
 }
