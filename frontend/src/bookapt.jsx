@@ -1,6 +1,14 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import './css/bookapt.css';  // Import the specialized CSS for BookApt
+import { useState, useEffect } from 'react';
+import './css/reset.css';
+import './css/navbar.css';
+import './css/index.css';
+import './css/bookApt.css';
+import dog from './assets/Dog.png';
+import marker from './assets/Marker.png';
+
+
 
 export default function BookApt() {
   const [location, setLocation] = useState('');

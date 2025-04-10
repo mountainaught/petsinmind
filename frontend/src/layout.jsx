@@ -22,9 +22,16 @@ export default function Layout() {
     const isLoginPage = location.pathname === '/login' || location.pathname === '/register' || location.pathname === '/details';
     const notification = false; // Placeholder for notification logic
 
-    const isChat = location.pathname === '/chat';
+    const isChat = location.pathname === '/chat' || location.pathname === '/admin/chat';
 
-
+    const handleHomeClick = () => {
+            const homepage = localStorage.getItem('homepage');
+            if (homepage) {
+                navigate(JSON.parse(homepage)); // Parse the stored homepage and navigate
+            } else {
+                navigate('/home'); // Default to '/home' if no homepage is set
+            }
+        };
 
     return (
         <div>
@@ -36,9 +43,16 @@ export default function Layout() {
 
                 {!isLoginPage && (
                         <div className='navbar-buttons'>
-                            <button onClick={() => navigate('/login')}>Login</button>
+                            {localStorage.getItem('homepage') ? (
+                                <button onClick={() => {
+                                    localStorage.removeItem('homepage');
+                                    navigate('/login');
+                                }}>Log Out</button>
+                            ) : (
+                                <button onClick={() => navigate('/login')}>Login</button>
+                            )}
                             <p>|</p>
-                            <button onClick={() => navigate('/petownerhome')}>Home</button>
+                            <button onClick={handleHomeClick}>Home</button>
                             <p>|</p>
                             
                             <button onClick={() => setShowHelp(!showHelp)}>Help</button>
@@ -47,7 +61,7 @@ export default function Layout() {
 
                 {isLoginPage && (
                     <div className='navbar-buttons'>
-                        <button onClick={() => navigate('/petownerhome')}>Home</button>
+                        <button onClick={handleHomeClick}>Home</button>
                         <p>|</p>
                         <button onClick={() => setShowHelp(!showHelp)}>Help</button>
                         <button onClick={() => navigate('/caretakerHome')}>TempCT</button>
@@ -134,7 +148,7 @@ export default function Layout() {
 
 
             {!isChat && (
-                <button className="chatBtn" onClick={() => navigate('/chat')}>
+                <button className="chatBtn" onClick={() => navigate('/admin/chat')}>
                     <img
                         className="chatIcon"
                         src={notification ? "./src/assets/Chat_Icon_Notification.png" : "./src/assets/Chat_Icon.png"}

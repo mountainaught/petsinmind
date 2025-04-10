@@ -43,8 +43,11 @@ input {
     border: 2px solid #5A0001;
     background: #FFF;
     height: 2rem;
-    width: 65%;
+    font-size: 1rem;
+    width: 50%;
     padding-left: 0.5rem;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
 }
 
 .submit-btn{
