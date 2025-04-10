@@ -23,24 +23,52 @@ export default function Admin() {
         { id: 107, name: 'Frank Harris', ticketName: 'Billing Inquiry' },
         { id: 108, name: 'Grace Lee', ticketName: 'General Query' },
     ];
-    const [managementTickets, setManagementTickets] = useState([]);
     const [selectionTickets, setSelectionTickets] = useState(initialSelectionTickets);
+    const [showSharePopup, setShowSharePopup] = useState(false);
+    const [selectedTicketId, setSelectedTicketId] = useState(null);
     const handleSelect = (ticketId) => {
-        // Find the ticket with the given id
         const ticket = selectionTickets.find((t) => t.id === ticketId);
         if (ticket) {
-          // Add it to the management list
-          setManagementTickets((prev) => [...prev, ticket]);
-          // Remove it from the selection list
+          // Convert it to the format used by "tickets"
+          const newTicket = {
+            id: ticket.id,
+            title: ticket.ticketName,
+          };
+      
+          // Add to the open tickets (My Ticket Management)
+          setTickets((prev) => [...prev, newTicket]);
+      
+          // Remove from selection list
           setSelectionTickets((prev) => prev.filter((t) => t.id !== ticketId));
         }
-    };
+      };
     const [tickets, setTickets] = useState(initialTickets);
     const closeTicket = (ticketId) => {
         setTickets(prevTickets =>
           prevTickets.filter(ticket => ticket.id !== ticketId)
         );
       };
+    const [applications, setApplications] = useState([
+        { id: 1, name: 'Alice Walker' },
+        { id: 2, name: 'Brian Murphy' },
+        { id: 3, name: 'Clara Chen' },
+        { id: 4, name: 'David Patel' }
+    ]);
+    
+    const handleDecision = (id, decision) => {
+        const applicant = applications.find(app => app.id === id);
+        alert(`Application for ${applicant.name} has been ${decision}.`);
+        setApplications(prev => prev.filter(app => app.id !== id));
+    };
+    
+    const downloadCV = () => {
+        const link = document.createElement('a');
+        link.href = "petsinmind\frontend\public\homerCV.pdf"; 
+        link.download = "petsinmind\frontend\public\homerCV.pdf";
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    };
     return (
         <div className="admin-container">
             {/* ticket management */}
@@ -51,7 +79,8 @@ export default function Admin() {
                     <div key={ticket.id} className="exampleTicket">
                         <h2>Ticket #{ticket.id}</h2>
                         <p>{ticket.title}</p>
-                        <button onClick={() => { /* Your share logic here */ }}>
+                        <button onClick={() => { setSelectedTicketId(ticket.id);
+  setShowSharePopup(true);}}>
                         Share
                         </button>
                         <button onClick={() => closeTicket(ticket.id)}>
@@ -68,10 +97,12 @@ export default function Admin() {
                 <div className="selected-tickets">
                 {selectionTickets.length > 0 ? (
                     selectionTickets.map((ticket) => (
-                    <div key={ticket.id} className="exampleTicket">
+                        <div key={ticket.id} className="exampleTicket">
                         <h2>{ticket.name}</h2>
-                        <p>{ticket.ticketName}</p>
-                        <button onClick={() => handleSelect(ticket.id)}>Select</button>
+                        <div className="ticket-row">
+                            <p>{ticket.ticketName}</p>
+                            <button onClick={() => handleSelect(ticket.id)}>Select</button>
+                        </div>
                     </div>
                     ))
                 ) : (
@@ -79,118 +110,43 @@ export default function Admin() {
                 )}
                 </div>
             </div>
-            
+            {showSharePopup && (
+                <div className="popup-overlay">
+                    <div className="popup">
+                    <h2>Select an Admin to Share Ticket #{selectedTicketId}</h2>
+                    {["MarryPoppin", "Napoleon ", "StarDestroyer123 "].map((admin, index) => (
+                        <div key={index} className="admin-option">
+                        <p>{admin}</p>
+                        <button
+                            onClick={() => {
+                            alert(`Ticket #${selectedTicketId} has been shared with ${admin}`);
+                            setShowSharePopup(false);
+                            setSelectedTicketId(null);
+                            }}
+                        >
+                            Select
+                        </button>
+                        </div>
+                    ))}
+                    </div>
+                </div>
+            )}
 
             {/* Application Selection */}
             <div className='box'>
                 <h1>Application Selection</h1>
                 <div className='applications'>
-                    <div className='exampleApp'>
-                        <p>Name</p>
-                        <button>Download cv</button>
-                        <button>approve</button>
-                        <button>reject</button>
+                    {applications.map(app => (
+                    <div className="exampleApp">
+                        <p>{app.name}</p>
+                        <button onClick={downloadCV}>Download CV</button>
+                        <button onClick={() => handleDecision(app.id, 'approved')}>Approve</button>
+                        <button onClick={() => handleDecision(app.id, 'rejected')}>Reject</button>
                     </div>
-                    <div className='exampleApp'>
-                        <p>Name</p>
-                        <button>Download cv</button>
-                        <button>approve</button>
-                        <button>reject</button>
-                    </div>
-                    <div className='exampleApp'>
-                        <p>Name</p>
-                        <button>Download cv</button>
-                        <button>approve</button>
-                        <button>reject</button>
-                    </div>
-                    <div className='exampleApp'>
-                        <p>Name</p>
-                        <button>Download cv</button>
-                        <button>approve</button>
-                        <button>reject</button>
-                    </div>
-                    <div className='exampleApp'>
-                        <p>Name</p>
-                        <button>Download cv</button>
-                        <button>approve</button>
-                        <button>reject</button>
-                    </div>
-                    <div className='exampleApp'>
-                        <p>Name</p>
-                        <button>Download cv</button>
-                        <button>approve</button>
-                        <button>reject</button>
-                    </div>
+                    ))}
                 </div>
             </div>
-
-            {/* log */}
-            <div className='box'>
-                <h1>Log</h1>
-                <div className='options'>
-                    <div className='searchBy'>
-                        <p>Search By:</p>
-                        <button>username</button>
-                        <button>id</button>
-                    </div>
-                    <div className='searchFor'>
-                        <p>Search For:</p>
-                        <button>User</button>
-                        <button>Appointment</button>
-                        <button>Job Offer</button>
-                    </div>
-                    <div className='searchBar'>
-                        <input type="text" placeholder="Search..." />
-                        <button>Search</button>
-                    </div>
-                </div>
-                <div className='returnedData'>
-                    <div className='exampleLog'>
-                        <p>Appointment</p>
-                        <p>Username/relevant data</p>
-                    </div>
-                    <div className='exampleLog'>
-                        <p>Appointment</p>
-                        <p>Username/relevant data</p>
-                    </div>
-                    <div className='exampleLog'>
-                        <p>Appointment</p>
-                        <p>Username/relevant data</p>
-                    </div>
-                    <div className='exampleLog'>
-                        <p>Appointment</p>
-                        <p>Username/relevant data</p>
-                    </div>
-                    <div className='exampleLog'>
-                        <p>Appointment</p>
-                        <p>Username/relevant data</p>
-                    </div>
-                    <div className='exampleLog'>
-                        <p>Appointment</p>
-                        <p>Username/relevant data</p>
-                    </div>
-                    <div className='exampleLog'>
-                        <p>Appointment</p>
-                        <p>Username/relevant data</p>
-                    </div>
-                    <div className='exampleLog'>
-                        <p>Appointment</p>
-                        <p>Username/relevant data</p>
-                    </div>
-                    <div className='exampleLog'>
-                        <p>Appointment</p>
-                        <p>Username/relevant data</p>
-                    </div>
-                    <div className='exampleLog'>
-                        <p>Appointment</p>
-                        <p>Username/relevant data</p>
-                    </div>
-                    <div className='exampleLog'>
-                        <p>Appointment</p>
-                        <p>Username/relevant data</p>
-                    </div>
-                </div>
-            </div>
+            
         </div>
 
         
