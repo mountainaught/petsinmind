@@ -141,7 +141,7 @@ export default function Layout() {
 
 
             {!isChat && (
-                <button className="chatBtn" onClick={() => navigate('/chat')}>
+                <button className="chatBtn" onClick={() => navigate('/admin/chat')}>
                     <img
                         className="chatIcon"
                         src={notification ? "./src/assets/Chat_Icon_Notification.png" : "./src/assets/Chat_Icon.png"}
