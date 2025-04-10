@@ -5,7 +5,7 @@ import React, { useState, useEffect } from "react";
 
 export default function Chat() {
     const [messages, setMessages] = useState([]);
-    const [contacts] = useState([
+    const [contacts, setContacts] = useState([
         { name: "Brian", unread: 1 },
         { name: "Bianca", unread: 0 },
         { name: "Dave", unread: 0 },
@@ -24,6 +24,15 @@ export default function Chat() {
         }
     }, []);
 
+    // Reset unread count when entering a chat
+    useEffect(() => {
+        setContacts((prevContacts) =>
+            prevContacts.map((contact) =>
+                contact.name === activeContact ? { ...contact, unread: 0 } : contact
+            )
+        );
+    }, [activeContact]);
+
     const handleSendMessage = () => {
         if (newMessage.trim() !== "") {
             const updatedMessages = [
@@ -35,6 +44,27 @@ export default function Chat() {
 
             // Save messages to local storage
             localStorage.setItem("chatMessages", JSON.stringify(updatedMessages));
+
+            // Simulate a reply
+            setTimeout(() => {
+                const replyMessages = [
+                    ...updatedMessages,
+                    { sender: activeContact, recipient: "You", text: "Stop messaging me! I will block you!" },
+                ];
+                setMessages(replyMessages);
+
+                // Increment unread count for the active contact
+                setContacts((prevContacts) =>
+                    prevContacts.map((contact) =>
+                        contact.name === activeContact
+                            ? { ...contact, unread: contact.unread + 1 }
+                            : contact
+                    )
+                );
+
+                // Save the reply to local storage
+                localStorage.setItem("chatMessages", JSON.stringify(replyMessages));
+            }, 1000); // Simulate a 1-second delay for the reply
         }
     };
 
