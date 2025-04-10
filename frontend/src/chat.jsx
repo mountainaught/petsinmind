@@ -6,7 +6,7 @@ import React, { useState, useEffect } from "react";
 export default function Chat() {
     const [messages, setMessages] = useState([]);
     const [contacts, setContacts] = useState([
-        { name: "Brian", unread: 1 },
+        { name: "Brian", unread: 0 },
         { name: "Bianca", unread: 0 },
         { name: "Dave", unread: 0 },
         { name: "PIM Ticket #2312", unread: 0 },
@@ -45,11 +45,20 @@ export default function Chat() {
             // Save messages to local storage
             localStorage.setItem("chatMessages", JSON.stringify(updatedMessages));
 
+            const replyText = "That's cool!";
+            if (newMessage.toLowerCase().includes('hey' || 'hello')) {
+                replyText = 'Hello! How can I help you today?';
+            } else if (newMessage.toLowerCase().includes("how are you")) {
+                replyText = "I'm doing well, thank you! How about you?";
+            } else if (newMessage.toLowerCase().includes("bye")) {
+                replyText = "STOP MESSAGING ME!";
+            }
+
             // Simulate a reply
             setTimeout(() => {
                 const replyMessages = [
                     ...updatedMessages,
-                    { sender: activeContact, recipient: "You", text: "Stop messaging me! I will block you!" },
+                    { sender: activeContact, recipient: "You", text: replyText },
                 ];
                 setMessages(replyMessages);
 
@@ -66,6 +75,11 @@ export default function Chat() {
                 localStorage.setItem("chatMessages", JSON.stringify(replyMessages));
             }, 1000); // Simulate a 1-second delay for the reply
         }
+    };
+
+    const clearAllMessages = () => {
+        setMessages([]); // Clear the messages state
+        localStorage.removeItem("chatMessages"); // Remove messages from localStorage
     };
 
     return (
@@ -88,6 +102,7 @@ export default function Chat() {
                 </ul>
             </div>
             <div className="chat-window">
+                    <button onClick={clearAllMessages} className="clear-all-button">Clear All</button>
                 <div className="chat-header">
                     <h2>{activeContact}</h2>
                 </div>
