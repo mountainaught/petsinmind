@@ -2,8 +2,6 @@ import React, { useState } from "react";
 import "./css/reset.css";
 import "./css/admin.css";
 import "./css/mobile.css";
-import { useNavigate } from 'react-router-dom';
-
 
 export const initialSelectionTickets = [
     { id: 101, name: 'John Doe', ticketName: 'Payment Issue' },
@@ -123,76 +121,7 @@ export default function Admin() {
                     </div>
                 </div>
             </div>
-
-            {/* log */}
-            <div className='box'>
-                <h1>Log</h1>
-                <div className='options'>
-                    <div className='searchBy'>
-                        <p>Search By:</p>
-                        <button>username</button>
-                        <button>id</button>
-                    </div>
-                    <div className='searchFor'>
-                        <p>Search For:</p>
-                        <button>User</button>
-                        <button>Appointment</button>
-                        <button>Job Offer</button>
-                    </div>
-                    <div className='searchBar'>
-                        <input type="text" placeholder="Search..." />
-                        <button>Search</button>
-                    </div>
-                </div>
-                <div className='returnedData'>
-                    <div className='exampleLog'>
-                        <p>Appointment</p>
-                        <p>Username/relevant data</p>
-                    </div>
-                    <div className='exampleLog'>
-                        <p>Appointment</p>
-                        <p>Username/relevant data</p>
-                    </div>
-                    <div className='exampleLog'>
-                        <p>Appointment</p>
-                        <p>Username/relevant data</p>
-                    </div>
-                    <div className='exampleLog'>
-                        <p>Appointment</p>
-                        <p>Username/relevant data</p>
-                    </div>
-                    <div className='exampleLog'>
-                        <p>Appointment</p>
-                        <p>Username/relevant data</p>
-                    </div>
-                    <div className='exampleLog'>
-                        <p>Appointment</p>
-                        <p>Username/relevant data</p>
-                    </div>
-                    <div className='exampleLog'>
-                        <p>Appointment</p>
-                        <p>Username/relevant data</p>
-                    </div>
-                    <div className='exampleLog'>
-                        <p>Appointment</p>
-                        <p>Username/relevant data</p>
-                    </div>
-                    <div className='exampleLog'>
-                        <p>Appointment</p>
-                        <p>Username/relevant data</p>
-                    </div>
-                    <div className='exampleLog'>
-                        <p>Appointment</p>
-                        <p>Username/relevant data</p>
-                    </div>
-                    <div className='exampleLog'>
-                        <p>Appointment</p>
-                        <p>Username/relevant data</p>
-                    </div>
-                </div>
-            </div>
         </div>
-
         
     )
 }
