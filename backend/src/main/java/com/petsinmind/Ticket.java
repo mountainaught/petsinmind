@@ -19,7 +19,7 @@ public class Ticket {
 
     // Initial constructor
     public Ticket() {
-        this.TicketID = null;
+        this.TicketID = UUID.randomUUID();
         this.Title = null;
         this.Details = null;
         this.Date = null;

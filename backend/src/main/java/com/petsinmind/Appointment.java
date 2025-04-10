@@ -5,8 +5,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.UUID;
-// Dimitris
-import com.petsinmind.messages.AppointmentMessage;
 import com.petsinmind.users.Caretaker;
 import com.petsinmind.users.PetOwner;
 
@@ -141,7 +139,7 @@ public class Appointment {
      * @param Details
      * @param Rating
      */
-    public boolean addReview(String Details, int Rating) {
+    public boolean addReview(String Details, int Rating) throws SQLException {
         Review review = new Review(Details, Rating, this, this.PetOwner, this.caretaker);
         return registry.createReview(review);
     }
