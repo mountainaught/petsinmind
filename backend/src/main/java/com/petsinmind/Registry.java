@@ -17,12 +17,6 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import java.net.URL;
 import java.net.URLEncoder;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
 import java.sql.Date;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
@@ -1344,15 +1338,20 @@ public class Registry {
     }
 
     public boolean userNameExists(String userName) throws SQLException {
-        PreparedStatement ps = connection
-                .prepareStatement("SELECT * FROM (caretaker OR petowner OR systemadmin) WHERE UserName");
-        ResultSet rs = ps.executeQuery();
+        String sql = "SELECT UserName FROM caretaker WHERE UserName = ? " +
+                "UNION " +
+                "SELECT UserName FROM petowner WHERE UserName = ? " +
+                "UNION " +
+                "SELECT UserName FROM systemadmin WHERE UserName = ?";
 
-        if (rs.next()) {
-            return userName.equals(rs.getString("UserName"));
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setString(1, userName);
+            ps.setString(2, userName);
+            ps.setString(3, userName);
+            try (ResultSet rs = ps.executeQuery()) {
+                return rs.next(); // returns true if any row is found
+            }
         }
-
-        return false;
     }
 
     private String fetchGoogleApiKey() {

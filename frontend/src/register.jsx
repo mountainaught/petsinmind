@@ -30,7 +30,7 @@ export default function Register() {
                     <li>Support from our team of pet owners</li>
                     <li>Make friends with pet owners (They might book you again!)</li>
                 </ul>
-                <button className='option-btn align-options' onClick={() => navigate('/newAcc?role=caretaker')}>Register as Caretaker</button>
+                <button className='option-btn align-options' onClick={() => navigate('/newAcc?role=caretaker')}>Apply as Caretaker</button>
             </div>
         </div>
     );
