@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import "./css/reset.css";
 import "./css/details.css";
 
 export default function Details() {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState(''); // Initially empty values for username and password
+    const navigate = useNavigate();
 
     const validateForm = () => {
         if (!username.trim() || !password.trim()) {
@@ -22,24 +24,22 @@ export default function Details() {
         e.preventDefault();
         if (!validateForm()) return;
 
-        try {
-            const response = await fetch(`${process.env.REACT_APP_API_URL || 'http://localhost:8080'}/api/login`, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({ username, password })
-            });
-    
-            if (response.ok) {
-                const text = await response.text();
-                alert(text); // Success
-            } else {
-                const error = await response.text();
-                alert("Login failed: " + error);
-            }
-        } catch (err) {
-            alert("An error occurred: " + err.message);
+        const predefinedUsers = {
+            admin: { username: "admin", password: "admin123", homepage: "/admin"},
+            caretaker: { username: "caretaker", password: "caretaker123", homepage: "/caretakerHome"},
+            petowner: { username: "petowner", password: "petowner123", homepage: "/petownerhome"}
+        };
+
+        const user = Object.values(predefinedUsers).find(
+            (u) => u.username === username && u.password === password
+        );
+
+        if (user) {
+            alert("Login successful!");
+            localStorage.setItem("homepage", JSON.stringify(user.homepage)); // Store relevant homepage in localStorage
+            navigate(user.homepage); // Redirect to the relevant homepage
+        } else {
+            alert("Invalid username or password");
         }
     };
 
