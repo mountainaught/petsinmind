@@ -24,7 +24,14 @@ export default function Layout() {
 
     const isChat = location.pathname === '/chat';
 
-
+    const handleHomeClick = () => {
+            const homepage = localStorage.getItem('homepage');
+            if (homepage) {
+                navigate(JSON.parse(homepage)); // Parse the stored homepage and navigate
+            } else {
+                navigate('/home'); // Default to '/home' if no homepage is set
+            }
+        };
 
     return (
         <div>
@@ -38,7 +45,7 @@ export default function Layout() {
                         <div className='navbar-buttons'>
                             <button onClick={() => navigate('/login')}>Login</button>
                             <p>|</p>
-                            <button onClick={() => navigate('/petownerhome')}>Home</button>
+                            <button onClick={handleHomeClick}>Home</button>
                             <p>|</p>
                             
                             <button onClick={() => setShowHelp(!showHelp)}>Help</button>
@@ -47,7 +54,7 @@ export default function Layout() {
 
                 {isLoginPage && (
                     <div className='navbar-buttons'>
-                        <button onClick={() => navigate('/petownerhome')}>Home</button>
+                        <button onClick={handleHomeClick}>Home</button>
                         <p>|</p>
                         <button onClick={() => setShowHelp(!showHelp)}>Help</button>
                         <button onClick={() => navigate('/caretakerHome')}>TempCT</button>
