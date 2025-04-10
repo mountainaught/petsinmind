@@ -78,7 +78,7 @@ public class Registry {
                 .compile("^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$")
                 .matcher(user.getUserID().toString()).matches())
                         ? new String[] { "UserID", user.getUserID().toString() }
-                        : new String[] { "UserEmail", user.getUserEmail() };
+                        : new String[] { "UserName", user.getUserName() };
 
         if (user.getClass() == Caretaker.class) {
             ps = connection.prepareStatement("SELECT * FROM caretaker WHERE ? = ?");
